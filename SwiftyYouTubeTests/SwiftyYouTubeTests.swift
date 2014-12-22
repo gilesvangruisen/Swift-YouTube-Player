@@ -15,8 +15,6 @@ class SwiftyYouTubeTests: XCTestCase {
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        var player = VideoPlayerView(frame: CGRectZero)
     }
     
     override func tearDown() {

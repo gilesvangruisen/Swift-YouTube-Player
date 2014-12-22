@@ -14,6 +14,14 @@ public class VideoPlayerView: UIView {
 
     var webView: UIWebView!
 
+
+    // MARK: Various methods for initialization
+
+    override public init() {
+        super.init()
+        buildWebView(playerParameters())
+    }
+
     override public init(frame: CGRect) {
         super.init(frame: frame)
         buildWebView(playerParameters())
@@ -26,16 +34,23 @@ public class VideoPlayerView: UIView {
 
     override public func layoutSubviews() {
         super.layoutSubviews()
+
+        // Remove web view in case it's within view hierarchy, reset frame, add as subview
         webView.removeFromSuperview()
         webView.frame = bounds
         addSubview(webView)
     }
+
+
+    // MARK: Web view initialization
 
     private func buildWebView(parameters: [String: AnyObject]) {
         webView = UIWebView()
         webView.allowsInlineMediaPlayback = true
         webView.mediaPlaybackRequiresUserAction = false
     }
+
+    // MARK: Player controls
 
     public func loadPlayerWithVideoID(videoID: String) {
         var playerParams = playerParameters()
@@ -44,7 +59,17 @@ public class VideoPlayerView: UIView {
         loadWebViewWithParameters(playerParams)
     }
 
-    func loadWebViewWithParameters(parameters: PlayerParameters) {
+    public func play() {
+        let result = webView.stringByEvaluatingJavaScriptFromString("player.playVideo();")
+        println(result)
+    }
+
+
+
+
+    // MARK: Player setup
+
+    private func loadWebViewWithParameters(parameters: PlayerParameters) {
 
         // Get HTML from player file in bundle
         let rawHTMLString = htmlStringWithFilePath(playerHTMLPath())!
@@ -59,18 +84,8 @@ public class VideoPlayerView: UIView {
         webView.loadHTMLString(htmlString, baseURL: NSURL(string: "about:blank"))
     }
 
-    // MARK: Player controls
-
-    public func play() {
-        let result = webView.stringByEvaluatingJavaScriptFromString("player.playVideo();")
-        println(result)
-    }
-
-    // MARK: Player setup
-
     private func playerHTMLPath() -> String {
-        let path = NSBundle(forClass: self.classForCoder).pathForResource("YTPlayer", ofType: "html")
-        return path!
+        return NSBundle(forClass: self.classForCoder).pathForResource("YTPlayer", ofType: "html")!
     }
 
     private func htmlStringWithFilePath(path: String) -> String? {
@@ -89,21 +104,35 @@ public class VideoPlayerView: UIView {
         return htmlString!
     }
 
-    func playerParameters() -> [String: AnyObject] {
+
+    // MARK: Player parameters and defaults
+
+    private func playerParameters() -> PlayerParameters {
+
+        // Fetch default playerVars
+        var playerVars = defaultPlayerVars()
+
         return [
             "height": "100%",
             "width": "100%",
-            "videoId": "eUkSTnUK_T0",
             "events": playerCallbacks(),
-            "playerVars": [
-                "playsinline": 1,
-                "controls": 0,
-                "autoplay": 1
-            ]
+            "playerVars": playerVars
         ]
     }
 
-    func playerCallbacks() -> AnyObject {
+    private func defaultPlayerVars() -> PlayerParameters {
+        return [
+            "playsinline": 1,
+            "controls": 0,
+            "autoplay": 1,
+            "disablekb": 1,
+            "rel": 0,
+            "modestbranding": 1,
+            "showinfo": 0
+        ]
+    }
+
+    private func playerCallbacks() -> PlayerParameters {
         return [
             "onReady": "onReady",
             "onStateChange": "onStateChange",
@@ -112,7 +141,7 @@ public class VideoPlayerView: UIView {
         ]
     }
 
-    func serializedJSON(object: AnyObject) -> String? {
+    private func serializedJSON(object: AnyObject) -> String? {
 
         // Empty error
         var error: NSError?
