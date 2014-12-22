@@ -94,7 +94,12 @@ public class VideoPlayerView: UIView {
             "height": "100%",
             "width": "100%",
             "videoId": "eUkSTnUK_T0",
-            "events": playerCallbacks()
+            "events": playerCallbacks(),
+            "playerVars": [
+                "playsinline": 1,
+                "controls": 0,
+                "autoplay": 1
+            ]
         ]
     }
 
