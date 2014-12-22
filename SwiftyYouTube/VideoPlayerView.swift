@@ -70,6 +70,12 @@ public class VideoPlayerView: UIView, UIWebViewDelegate {
     // False until YouTubeIframeAPIReady
     public var ready = false
 
+    /** The current state of the video player */
+    public var playerState = VideoPlayerState.Unstarted
+
+    /** The current playback quality of the video player */
+    public var playbackQuality = VideoPlaybackQuality.Small
+
     public var delegate: VideoPlayerViewDelegate?
 
     // MARK: Various methods for initialization
@@ -118,10 +124,29 @@ public class VideoPlayerView: UIView, UIWebViewDelegate {
     }
 
     public func play() {
-        let result = webView.stringByEvaluatingJavaScriptFromString("player.playVideo();")
-        println(result)
+        evaluatePlayerCommand("playVideo()")
     }
 
+    public func pause() {
+        evaluatePlayerCommand("pauseVideo()")
+    }
+
+    public func stop() {
+        evaluatePlayerCommand("stopVideo()")
+    }
+
+    public func clear() {
+        evaluatePlayerCommand("clearVideo()")
+    }
+
+    public func seekTo(seconds: Float, seekAhead: Bool) {
+        evaluatePlayerCommand("seekTo(\(seconds), \(seekAhead))")
+    }
+
+    private func evaluatePlayerCommand(command: String) {
+        let fullCommand = "player." + command + ";"
+        webView.stringByEvaluatingJavaScriptFromString(fullCommand)
+    }
 
     // MARK: Player setup
 
@@ -223,33 +248,39 @@ public class VideoPlayerView: UIView, UIWebViewDelegate {
         // Grab the last component of the queryString as string
         let data: String? = eventURL.queryStringComponents()["data"] as? String
 
-        // Check event type and handle accordingly
-        switch VideoPlayerEvents(rawValue: eventURL.host!)! {
-            case .YouTubeIframeAPIReady:
-                ready = true
-                break
+        if let host = eventURL.host {
+            if let event = VideoPlayerEvents(rawValue: host) {
+                // Check event type and handle accordingly
+                switch event {
+                    case .YouTubeIframeAPIReady:
+                        ready = true
+                        break
 
-            case .Ready:
-                delegate?.videoPlayerReady(self)
+                    case .Ready:
+                        delegate?.videoPlayerReady(self)
 
-                break
+                        break
 
-            case .StateChange:
-                if let newState = VideoPlayerState(rawValue: data!) {
-                     delegate?.videoPlayerStateChanged(self, playerState: newState)
+                    case .StateChange:
+                        if let newState = VideoPlayerState(rawValue: data!) {
+                            playerState = newState
+                            delegate?.videoPlayerStateChanged(self, playerState: newState)
+                        }
+
+                        break
+
+                    case .PlaybackQualityChange:
+                        if let newQuality = VideoPlaybackQuality(rawValue: data!) {
+                            playbackQuality = newQuality
+                            delegate?.videoPlayerQualityChanged(self, playbackQuality: newQuality)
+                        }
+
+                        break
+
+                    default:
+                        break
                 }
-
-                break
-
-            case .PlaybackQualityChange:
-                if let newQuality = VideoPlaybackQuality(rawValue: data!) {
-                    delegate?.videoPlayerQualityChanged(self, playbackQuality: newQuality)
-                }
-
-                break
-
-            default:
-                break
+            }
         }
     }
 
