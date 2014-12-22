@@ -17,10 +17,3 @@ DerivedData
 .idea/
 *.hmap
 *.xccheckout
-
-#CocoaPods
-Pods
-
-Wolf/Publinks/
-Wolf/MyPlayground.playground/*
-
