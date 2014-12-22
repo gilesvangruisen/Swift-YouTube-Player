@@ -20,6 +20,10 @@ override func viewDidLoad() {
     playerView.loadPlayerWithVideoID("wQg3bXrVLtg")
 }
 
+@IBAction func playVideo(sender: UIButton) {
+    playerView.play()
+}
+
 ```
 
 ## Controlling VideoPlayerView
