@@ -10,8 +10,8 @@
 		502AE8651A475FD500306AD1 /* SwiftyYouTube.h in Headers */ = {isa = PBXBuildFile; fileRef = 502AE8641A475FD500306AD1 /* SwiftyYouTube.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		502AE86B1A475FD500306AD1 /* SwiftyYouTube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502AE85F1A475FD500306AD1 /* SwiftyYouTube.framework */; };
 		502AE8721A475FD500306AD1 /* SwiftyYouTubeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE8711A475FD500306AD1 /* SwiftyYouTubeTests.swift */; };
-		502AE87E1A47602100306AD1 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE87D1A47602100306AD1 /* VideoPlayerView.swift */; };
 		502AE8801A47639600306AD1 /* YTPlayer.html in Resources */ = {isa = PBXBuildFile; fileRef = 502AE87F1A47639600306AD1 /* YTPlayer.html */; };
+		502AE88B1A47735800306AD1 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE87D1A47602100306AD1 /* VideoPlayerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -216,7 +216,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				502AE87E1A47602100306AD1 /* VideoPlayerView.swift in Sources */,
+				502AE88B1A47735800306AD1 /* VideoPlayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,6 +406,7 @@
 				502AE8771A475FD500306AD1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		502AE8781A475FD500306AD1 /* Build configuration list for PBXNativeTarget "SwiftyYouTubeTests" */ = {
 			isa = XCConfigurationList;
@@ -414,6 +415,7 @@
 				502AE87A1A475FD500306AD1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
