@@ -8,9 +8,9 @@
 
 import UIKit
 import XCTest
-import SwiftyYouTube
+import YouTubePlayer
 
-class SwiftyYouTubeTests: XCTestCase {
+class YouTubePlayerTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

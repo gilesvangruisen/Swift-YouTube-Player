@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		502AE8651A475FD500306AD1 /* SwiftyYouTube.h in Headers */ = {isa = PBXBuildFile; fileRef = 502AE8641A475FD500306AD1 /* SwiftyYouTube.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		502AE86B1A475FD500306AD1 /* SwiftyYouTube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502AE85F1A475FD500306AD1 /* SwiftyYouTube.framework */; };
+		502AE8651A475FD500306AD1 /* YouTubePlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 502AE8641A475FD500306AD1 /* YouTubePlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		502AE86B1A475FD500306AD1 /* YouTubePlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502AE85F1A475FD500306AD1 /* YouTubePlayer.framework */; };
 		502AE8721A475FD500306AD1 /* SwiftyYouTubeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE8711A475FD500306AD1 /* SwiftyYouTubeTests.swift */; };
 		502AE8801A47639600306AD1 /* YTPlayer.html in Resources */ = {isa = PBXBuildFile; fileRef = 502AE87F1A47639600306AD1 /* YTPlayer.html */; };
 		502AE88B1A47735800306AD1 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE87D1A47602100306AD1 /* VideoPlayerView.swift */; };
@@ -25,10 +25,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		502AE85F1A475FD500306AD1 /* SwiftyYouTube.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyYouTube.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		502AE85F1A475FD500306AD1 /* YouTubePlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YouTubePlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		502AE8631A475FD500306AD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		502AE8641A475FD500306AD1 /* SwiftyYouTube.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftyYouTube.h; sourceTree = "<group>"; };
-		502AE86A1A475FD500306AD1 /* SwiftyYouTubeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftyYouTubeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		502AE8641A475FD500306AD1 /* YouTubePlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YouTubePlayer.h; sourceTree = "<group>"; };
+		502AE86A1A475FD500306AD1 /* YouTubePlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YouTubePlayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		502AE8701A475FD500306AD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		502AE8711A475FD500306AD1 /* SwiftyYouTubeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyYouTubeTests.swift; sourceTree = "<group>"; };
 		502AE87D1A47602100306AD1 /* VideoPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
@@ -47,7 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				502AE86B1A475FD500306AD1 /* SwiftyYouTube.framework in Frameworks */,
+				502AE86B1A475FD500306AD1 /* YouTubePlayer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,8 +66,8 @@
 		502AE8601A475FD500306AD1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				502AE85F1A475FD500306AD1 /* SwiftyYouTube.framework */,
-				502AE86A1A475FD500306AD1 /* SwiftyYouTubeTests.xctest */,
+				502AE85F1A475FD500306AD1 /* YouTubePlayer.framework */,
+				502AE86A1A475FD500306AD1 /* YouTubePlayerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -75,7 +75,7 @@
 		502AE8611A475FD500306AD1 /* SwiftyYouTube */ = {
 			isa = PBXGroup;
 			children = (
-				502AE8641A475FD500306AD1 /* SwiftyYouTube.h */,
+				502AE8641A475FD500306AD1 /* YouTubePlayer.h */,
 				502AE87D1A47602100306AD1 /* VideoPlayerView.swift */,
 				502AE87F1A47639600306AD1 /* YTPlayer.html */,
 				502AE8621A475FD500306AD1 /* Supporting Files */,
@@ -115,16 +115,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				502AE8651A475FD500306AD1 /* SwiftyYouTube.h in Headers */,
+				502AE8651A475FD500306AD1 /* YouTubePlayer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		502AE85E1A475FD500306AD1 /* SwiftyYouTube */ = {
+		502AE85E1A475FD500306AD1 /* YouTubePlayer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 502AE8751A475FD500306AD1 /* Build configuration list for PBXNativeTarget "SwiftyYouTube" */;
+			buildConfigurationList = 502AE8751A475FD500306AD1 /* Build configuration list for PBXNativeTarget "YouTubePlayer" */;
 			buildPhases = (
 				502AE85C1A475FD500306AD1 /* Headers */,
 				502AE85B1A475FD500306AD1 /* Frameworks */,
@@ -135,14 +135,14 @@
 			);
 			dependencies = (
 			);
-			name = SwiftyYouTube;
+			name = YouTubePlayer;
 			productName = SwiftyYouTube;
-			productReference = 502AE85F1A475FD500306AD1 /* SwiftyYouTube.framework */;
+			productReference = 502AE85F1A475FD500306AD1 /* YouTubePlayer.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		502AE8691A475FD500306AD1 /* SwiftyYouTubeTests */ = {
+		502AE8691A475FD500306AD1 /* YouTubePlayerTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 502AE8781A475FD500306AD1 /* Build configuration list for PBXNativeTarget "SwiftyYouTubeTests" */;
+			buildConfigurationList = 502AE8781A475FD500306AD1 /* Build configuration list for PBXNativeTarget "YouTubePlayerTests" */;
 			buildPhases = (
 				502AE8661A475FD500306AD1 /* Sources */,
 				502AE8671A475FD500306AD1 /* Frameworks */,
@@ -153,9 +153,9 @@
 			dependencies = (
 				502AE86D1A475FD500306AD1 /* PBXTargetDependency */,
 			);
-			name = SwiftyYouTubeTests;
+			name = YouTubePlayerTests;
 			productName = SwiftyYouTubeTests;
-			productReference = 502AE86A1A475FD500306AD1 /* SwiftyYouTubeTests.xctest */;
+			productReference = 502AE86A1A475FD500306AD1 /* YouTubePlayerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -175,7 +175,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 502AE8591A475FD500306AD1 /* Build configuration list for PBXProject "SwiftyYouTube" */;
+			buildConfigurationList = 502AE8591A475FD500306AD1 /* Build configuration list for PBXProject "YouTubePlayer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -187,8 +187,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				502AE85E1A475FD500306AD1 /* SwiftyYouTube */,
-				502AE8691A475FD500306AD1 /* SwiftyYouTubeTests */,
+				502AE85E1A475FD500306AD1 /* YouTubePlayer */,
+				502AE8691A475FD500306AD1 /* YouTubePlayerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -233,7 +233,7 @@
 /* Begin PBXTargetDependency section */
 		502AE86D1A475FD500306AD1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 502AE85E1A475FD500306AD1 /* SwiftyYouTube */;
+			target = 502AE85E1A475FD500306AD1 /* YouTubePlayer */;
 			targetProxy = 502AE86C1A475FD500306AD1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -336,7 +336,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = YouTubePlayer;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -354,7 +354,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = YouTubePlayer;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -372,7 +372,7 @@
 				);
 				INFOPLIST_FILE = SwiftyYouTubeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = YouTubePlayerTests;
 			};
 			name = Debug;
 		};
@@ -385,14 +385,14 @@
 				);
 				INFOPLIST_FILE = SwiftyYouTubeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = YouTubePlayerTests;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		502AE8591A475FD500306AD1 /* Build configuration list for PBXProject "SwiftyYouTube" */ = {
+		502AE8591A475FD500306AD1 /* Build configuration list for PBXProject "YouTubePlayer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				502AE8731A475FD500306AD1 /* Debug */,
@@ -401,7 +401,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		502AE8751A475FD500306AD1 /* Build configuration list for PBXNativeTarget "SwiftyYouTube" */ = {
+		502AE8751A475FD500306AD1 /* Build configuration list for PBXNativeTarget "YouTubePlayer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				502AE8761A475FD500306AD1 /* Debug */,
@@ -410,7 +410,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		502AE8781A475FD500306AD1 /* Build configuration list for PBXNativeTarget "SwiftyYouTubeTests" */ = {
+		502AE8781A475FD500306AD1 /* Build configuration list for PBXNativeTarget "YouTubePlayerTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				502AE8791A475FD500306AD1 /* Debug */,

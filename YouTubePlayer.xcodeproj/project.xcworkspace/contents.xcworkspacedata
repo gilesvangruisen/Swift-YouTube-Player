@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:SwiftyYouTube.xcodeproj">
+      location = "self:YouTubePlayer.xcodeproj">
    </FileRef>
 </Workspace>
