@@ -1,6 +1,6 @@
-# SwiftyYouTube
+# Swift YouTube Player
 
-Embed and control YouTube videos in your iOS applications!
+Swift library for embedding and controlling YouTube videos in your iOS applications!
 
 ## VideoPlayerView
 
@@ -11,6 +11,7 @@ Behind the scenes, it's using a `UIWebView` and [YouTube's iFrame API](https://d
 ## Example
 
 ``` Swift
+import YouTubePlayer
 
 @IBOutlet var playerView = VideoPlayerView()
 
