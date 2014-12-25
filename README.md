@@ -1,6 +1,6 @@
-# Swift YouTube Player
+# Swift-YouTube-Player
 
-Swift library for embedding and controlling YouTube videos in your iOS applications!
+Embed and control YouTube videos in your iOS applications!
 
 ## VideoPlayerView
 
@@ -13,18 +13,20 @@ Behind the scenes, it's using a `UIWebView` and [YouTube's iFrame API](https://d
 ``` Swift
 import YouTubePlayer
 
-@IBOutlet var playerView = VideoPlayerView()
+class MyViewController {
 
-override func viewDidLoad() {
-    super.viewDidLoad()
+    @IBOutlet var playerView = VideoPlayerView()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
     
-    playerView.loadPlayerWithVideoID("wQg3bXrVLtg")
-}
+        playerView.loadPlayerWithVideoID("wQg3bXrVLtg")
+    }
 
-@IBAction func playVideo(sender: UIButton) {
-    playerView.play()
+    @IBAction func playVideo(sender: UIButton) {
+        playerView.play()
+    }
 }
-
 ```
 
 ## Controlling VideoPlayerView
@@ -47,6 +49,3 @@ YouTube's iFrame player emits certain events based on the lifecycle of the playe
 * `func videoPlayerQualityChanged(videoPlayer: VideoPlayerView, playbackQuality: VideoPlaybackQuality)`
 
 Unfortunately due to the way Swift protocols work, these are all required delegate methods. Setting a delegate on an instance of `VideoPlayerView` is optional, but any delegate must conform to `VideoPlayerViewDelegate` and therefore must implement every one of the above methods. I wish there were a better way around this, but declaring the protocol as an `@objc` protocol means I wouldn't be able to use enum values as arguments, because Swift enums are incompatible with Objective-C enumerations. Feel free to file an issue if you know of some solution that lets us have optional delegate methods as well as the ability to pass Swift enums to these delegate methods.
-
-
-
