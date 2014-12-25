@@ -33,10 +33,10 @@ public enum YouTubePlaybackQuality: String {
     case HighResolution = "highres"
 }
 
-public protocol YouTubePlayerViewDelegate {
-    func playerReady(videoPlayer: YouTubePlayerView)
-    func playerStateChanged(videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState)
-    func playerQualityChanged(videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality)
+public protocol YouTubePlayerDelegate {
+    func playerReady(videoPlayer: YouTubePlayer)
+    func playerStateChanged(videoPlayer: YouTubePlayer, playerState: YouTubePlayerState)
+    func playerQualityChanged(videoPlayer: YouTubePlayer, playbackQuality: YouTubePlaybackQuality)
 }
 
 private extension NSURL {
@@ -61,7 +61,7 @@ private extension NSURL {
     }
 }
 
-public class YouTubePlayerView: UIView, UIWebViewDelegate {
+public class YouTubePlayer: UIView, UIWebViewDelegate {
 
     typealias PlayerParameters = [String: AnyObject]
 
@@ -76,7 +76,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     /** The current playback quality of the video player */
     public var playbackQuality = YouTubePlaybackQuality.Small
 
-    public var delegate: YouTubePlayerViewDelegate?
+    public var delegate: YouTubePlayerDelegate?
 
     // MARK: Various methods for initialization
 
