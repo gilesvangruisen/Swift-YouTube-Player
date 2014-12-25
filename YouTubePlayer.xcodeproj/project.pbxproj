@@ -26,13 +26,13 @@
 
 /* Begin PBXFileReference section */
 		502AE85F1A475FD500306AD1 /* YouTubePlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YouTubePlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		502AE8631A475FD500306AD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../YouTubePlayer/Info.plist; sourceTree = "<group>"; };
-		502AE8641A475FD500306AD1 /* YouTubePlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = YouTubePlayer.h; path = ../YouTubePlayer/YouTubePlayer.h; sourceTree = "<group>"; };
+		502AE8631A475FD500306AD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = YouTubePlayer/Info.plist; sourceTree = "<group>"; };
+		502AE8641A475FD500306AD1 /* YouTubePlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = YouTubePlayer.h; path = YouTubePlayer/YouTubePlayer.h; sourceTree = "<group>"; };
 		502AE86A1A475FD500306AD1 /* YouTubePlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YouTubePlayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		502AE8701A475FD500306AD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		502AE8711A475FD500306AD1 /* YouTubePlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = YouTubePlayerTests.swift; path = ../YouTubePlayerTests/YouTubePlayerTests.swift; sourceTree = "<group>"; };
-		502AE87D1A47602100306AD1 /* VideoPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoPlayerView.swift; path = ../YouTubePlayer/VideoPlayerView.swift; sourceTree = "<group>"; };
-		502AE87F1A47639600306AD1 /* YTPlayer.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = YTPlayer.html; path = ../YouTubePlayer/YTPlayer.html; sourceTree = "<group>"; };
+		502AE8701A475FD500306AD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = YouTubePlayerTests/Info.plist; sourceTree = "<group>"; };
+		502AE8711A475FD500306AD1 /* YouTubePlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = YouTubePlayerTests.swift; path = YouTubePlayerTests/YouTubePlayerTests.swift; sourceTree = "<group>"; };
+		502AE87D1A47602100306AD1 /* VideoPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoPlayerView.swift; path = YouTubePlayer/VideoPlayerView.swift; sourceTree = "<group>"; };
+		502AE87F1A47639600306AD1 /* YTPlayer.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = YTPlayer.html; path = YouTubePlayer/YTPlayer.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -332,7 +332,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = YouTubePlayer/Info.plist;
+				INFOPLIST_FILE = "$(SOURCE_ROOT)/YouTubePlayer/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -350,7 +350,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = YouTubePlayer/Info.plist;
+				INFOPLIST_FILE = "$(SOURCE_ROOT)/YouTubePlayer/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -370,7 +370,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = YouTubePlayerTests/Info.plist;
+				INFOPLIST_FILE = "$(SOURCE_ROOT)/YouTubePlayerTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = YouTubePlayerTests;
 			};
@@ -383,7 +383,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = YouTubePlayerTests/Info.plist;
+				INFOPLIST_FILE = "$(SOURCE_ROOT)/YouTubePlayerTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = YouTubePlayerTests;
 			};
