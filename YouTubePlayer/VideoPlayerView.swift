@@ -8,7 +8,7 @@
 
 import UIKit
 
-public enum VideoPlayerState: String {
+public enum YouTubePlayerState: String {
     case Unstarted = "-1"
     case Ended = "0"
     case Playing = "1"
@@ -17,14 +17,14 @@ public enum VideoPlayerState: String {
     case Queued = "4"
 }
 
-public enum VideoPlayerEvents: String {
+public enum YouTubePlayerEvents: String {
     case YouTubeIframeAPIReady = "onYouTubeIframeAPIReady"
     case Ready = "onReady"
     case StateChange = "onStateChange"
     case PlaybackQualityChange = "onPlaybackQualityChange"
 }
 
-public enum VideoPlaybackQuality: String {
+public enum YouTubePlaybackQuality: String {
     case Small = "small"
     case Medium = "medium"
     case Large = "large"
@@ -33,10 +33,10 @@ public enum VideoPlaybackQuality: String {
     case HighResolution = "highres"
 }
 
-public protocol VideoPlayerViewDelegate {
-    func videoPlayerReady(videoPlayer: VideoPlayerView)
-    func videoPlayerStateChanged(videoPlayer: VideoPlayerView, playerState: VideoPlayerState)
-    func videoPlayerQualityChanged(videoPlayer: VideoPlayerView, playbackQuality: VideoPlaybackQuality)
+public protocol YouTubePlayerViewDelegate {
+    func playerReady(videoPlayer: YouTubePlayerView)
+    func playerStateChanged(videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState)
+    func playerQualityChanged(videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality)
 }
 
 private extension NSURL {
@@ -61,7 +61,7 @@ private extension NSURL {
     }
 }
 
-public class VideoPlayerView: UIView, UIWebViewDelegate {
+public class YouTubePlayerView: UIView, UIWebViewDelegate {
 
     typealias PlayerParameters = [String: AnyObject]
 
@@ -71,12 +71,12 @@ public class VideoPlayerView: UIView, UIWebViewDelegate {
     public var ready = false
 
     /** The current state of the video player */
-    public var playerState = VideoPlayerState.Unstarted
+    public var playerState = YouTubePlayerState.Unstarted
 
     /** The current playback quality of the video player */
-    public var playbackQuality = VideoPlaybackQuality.Small
+    public var playbackQuality = YouTubePlaybackQuality.Small
 
-    public var delegate: VideoPlayerViewDelegate?
+    public var delegate: YouTubePlayerViewDelegate?
 
     // MARK: Various methods for initialization
 
@@ -249,7 +249,7 @@ public class VideoPlayerView: UIView, UIWebViewDelegate {
         let data: String? = eventURL.queryStringComponents()["data"] as? String
 
         if let host = eventURL.host {
-            if let event = VideoPlayerEvents(rawValue: host) {
+            if let event = YouTubePlayerEvents(rawValue: host) {
                 // Check event type and handle accordingly
                 switch event {
                     case .YouTubeIframeAPIReady:
@@ -257,22 +257,22 @@ public class VideoPlayerView: UIView, UIWebViewDelegate {
                         break
 
                     case .Ready:
-                        delegate?.videoPlayerReady(self)
+                        delegate?.playerReady(self)
 
                         break
 
                     case .StateChange:
-                        if let newState = VideoPlayerState(rawValue: data!) {
+                        if let newState = YouTubePlayerState(rawValue: data!) {
                             playerState = newState
-                            delegate?.videoPlayerStateChanged(self, playerState: newState)
+                            delegate?.playerStateChanged(self, playerState: newState)
                         }
 
                         break
 
                     case .PlaybackQualityChange:
-                        if let newQuality = VideoPlaybackQuality(rawValue: data!) {
+                        if let newQuality = YouTubePlaybackQuality(rawValue: data!) {
                             playbackQuality = newQuality
-                            delegate?.videoPlayerQualityChanged(self, playbackQuality: newQuality)
+                            delegate?.playerQualityChanged(self, playbackQuality: newQuality)
                         }
 
                         break
