@@ -1,6 +1,6 @@
 //
-//  SwiftyYouTubeTests.swift
-//  SwiftyYouTubeTests
+//  YouTubePlayerTests.swift
+//  YouTubePlayerTests
 //
 //  Created by Giles Van Gruisen on 12/21/14.
 //  Copyright (c) 2014 Giles Van Gruisen. All rights reserved.

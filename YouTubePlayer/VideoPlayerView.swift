@@ -1,6 +1,6 @@
 //
 //  VideoPlayerView.swift
-//  SwiftyYouTube
+//  YouTubePlayer
 //
 //  Created by Giles Van Gruisen on 12/21/14.
 //  Copyright (c) 2014 Giles Van Gruisen. All rights reserved.
