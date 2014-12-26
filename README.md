@@ -9,11 +9,10 @@ Embed and control YouTube videos in your iOS applications! Neato, right? Let's s
 import YouTubePlayer
 ```
 
-Build and lay out the view however you wish, whether in IB:
+Build and lay out the view however you wish, whether in IB w/ an outlet or programmatically.
 ```Swift
 @IBOutlet var videoPlayer: YouTubePlayer!
 ```
-…or programmatically:
 ```Swift
 // init YouTubePlayer w/ playerFrame rect (assume playerFrame declared)
 var videoPlayer = YouTubePlayer(frame: playerFrame)
