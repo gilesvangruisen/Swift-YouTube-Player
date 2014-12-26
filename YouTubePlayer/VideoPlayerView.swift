@@ -72,8 +72,8 @@ public class YouTubePlayer: UIView, UIWebViewDelegate {
 
     var webView: UIWebView!
 
-    // False until YouTubeIframeAPIReady
-    public var ready = false
+    /** The readiness of the player */
+    private(set) public var ready = false
 
     /** The current state of the video player */
     public var playerState = YouTubePlayerState.Unstarted
