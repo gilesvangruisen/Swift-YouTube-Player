@@ -1,32 +1,33 @@
-# Swift-YouTube-Player
+# YouTubePlayer
 
-Embed and control YouTube videos in your iOS applications!
-
-## VideoPlayerView
-
-`VideoPlayerView` inherits from `UIView` so you can initialize and configure it however you wish, including in IB. To load a video, call `loadPlayerWithVideoID(videoID: String)`, passing the ID of the video. If you only have a URL, e.g. `https://www.youtube.com/watch?v=nfWlot6h_JM`, the video ID is the bit after `?v=`, in this case, `nfWlot6h_JM`. I'll be updating the library soon to be able to load videos from a YouTube URL.
-
-Behind the scenes, it's using a `UIWebView` and [YouTube's iFrame API](https://developers.google.com/youtube/iframe_api_reference) to load, play, and control videos.
+Embed and control YouTube videos in your iOS applications! Neato, right? Let's see how it works.
 
 ## Example
 
-``` Swift
+```Swift
+// Import Swift module
 import YouTubePlayer
+```
 
-class MyViewController {
+Build and lay out the view however you wish, whether in IB:
+```Swift
+@IBOutlet var videoPlayer: YouTubePlayer!
+```
+…or programmatically:
+```Swift
+// init YouTubePlayer w/ playerFrame rect (assume playerFrame declared)
+var videoPlayer = YouTubePlayer(frame: playerFrame)
+```
 
-    @IBOutlet var playerView = VideoPlayerView()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    
-        playerView.loadPlayerWithVideoID("wQg3bXrVLtg")
-    }
-
-    @IBAction func playVideo(sender: UIButton) {
-        playerView.play()
-    }
-}
+Give the player a video to load, whether from ID or URL.
+```Swift
+// Load video from YouTube ID
+videoPlayer.loadVideoID("nfWlot6h_JM")
+```
+```Swift
+// Load video from YouTube URL
+let myVideoURL = NSURL(string: "https://www.youtube.com/watch?v=wQg3bXrVLtg")
+videoPlayer.loadVideoURL(myVideoURL!)
 ```
 
 ## Controlling VideoPlayerView
