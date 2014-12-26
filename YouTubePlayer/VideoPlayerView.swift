@@ -61,6 +61,11 @@ private extension NSURL {
     }
 }
 
+public func videoIDFromYouTubeURL(videoURL: NSURL) -> String? {
+    return videoURL.queryStringComponents()["v"] as String?
+}
+
+/** Embed and control YouTube videos */
 public class YouTubePlayer: UIView, UIWebViewDelegate {
 
     typealias PlayerParameters = [String: AnyObject]
@@ -116,7 +121,13 @@ public class YouTubePlayer: UIView, UIWebViewDelegate {
 
     // MARK: Player controls
 
-    public func loadPlayerWithVideoID(videoID: String) {
+    public func loadVideo(videoURL: NSURL) {
+        if let videoID = videoIDFromYouTubeURL(videoURL) {
+            loadVideo(videoID)
+        }
+    }
+
+    public func loadVideo(videoID: String) {
         var playerParams = playerParameters()
         playerParams["videoId"] = videoID
 
