@@ -121,13 +121,13 @@ public class YouTubePlayer: UIView, UIWebViewDelegate {
 
     // MARK: Player controls
 
-    public func loadVideo(videoURL: NSURL) {
+    public func loadVideoURL(videoURL: NSURL) {
         if let videoID = videoIDFromYouTubeURL(videoURL) {
-            loadVideo(videoID)
+            loadVideoID(videoID)
         }
     }
 
-    public func loadVideo(videoID: String) {
+    public func loadVideoID(videoID: String) {
         var playerParams = playerParameters()
         playerParams["videoId"] = videoID
 
