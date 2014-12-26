@@ -30,9 +30,9 @@ let myVideoURL = NSURL(string: "https://www.youtube.com/watch?v=wQg3bXrVLtg")
 videoPlayer.loadVideoURL(myVideoURL!)
 ```
 
-## Controlling VideoPlayerView
+## Controlling YouTubePlayer
 
-Each `VideoPlayerView` has controls for loading, playing, pausing, stopping, clearing, and seeking videos. They are:
+Each `YouTubePlayer` has controls for loading, playing, pausing, stopping, clearing, and seeking videos. They are:
 
 * `func loadVideoURL(videoURL: NSURL)`
 * `func loadVideoID(videoID: String)`
