@@ -34,9 +34,9 @@ public enum YouTubePlaybackQuality: String {
 }
 
 public protocol YouTubePlayerDelegate {
-    func playerReady(videoPlayer: YouTubePlayer)
-    func playerStateChanged(videoPlayer: YouTubePlayer, playerState: YouTubePlayerState)
-    func playerQualityChanged(videoPlayer: YouTubePlayer, playbackQuality: YouTubePlaybackQuality)
+    func playerReady(videoPlayer: YouTubePlayerView)
+    func playerStateChanged(videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState)
+    func playerQualityChanged(videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality)
 }
 
 private extension NSURL {
@@ -66,7 +66,7 @@ public func videoIDFromYouTubeURL(videoURL: NSURL) -> String? {
 }
 
 /** Embed and control YouTube videos */
-public class YouTubePlayer: UIView, UIWebViewDelegate {
+public class YouTubePlayerView: UIView, UIWebViewDelegate {
 
     public typealias YouTubePlayerParameters = [String: AnyObject]
 
