@@ -68,19 +68,23 @@ public func videoIDFromYouTubeURL(videoURL: NSURL) -> String? {
 /** Embed and control YouTube videos */
 public class YouTubePlayer: UIView, UIWebViewDelegate {
 
-    typealias PlayerParameters = [String: AnyObject]
+    public typealias YouTubePlayerParameters = [String: AnyObject]
 
-    var webView: UIWebView!
+    private var webView: UIWebView!
 
     /** The readiness of the player */
     private(set) public var ready = false
 
     /** The current state of the video player */
-    public var playerState = YouTubePlayerState.Unstarted
+    private(set) public var playerState = YouTubePlayerState.Unstarted
 
     /** The current playback quality of the video player */
-    public var playbackQuality = YouTubePlaybackQuality.Small
+    private(set) public var playbackQuality = YouTubePlaybackQuality.Small
 
+    /** Used to configure the player */
+    public var playerVars = YouTubePlayerParameters()
+
+    /** Used to respond to player events */
     public var delegate: YouTubePlayerDelegate?
 
     // MARK: Various methods for initialization
@@ -161,7 +165,7 @@ public class YouTubePlayer: UIView, UIWebViewDelegate {
 
     // MARK: Player setup
 
-    private func loadWebViewWithParameters(parameters: PlayerParameters) {
+    private func loadWebViewWithParameters(parameters: YouTubePlayerParameters) {
 
         // Get HTML from player file in bundle
         let rawHTMLString = htmlStringWithFilePath(playerHTMLPath())!
@@ -199,10 +203,7 @@ public class YouTubePlayer: UIView, UIWebViewDelegate {
 
     // MARK: Player parameters and defaults
 
-    private func playerParameters() -> PlayerParameters {
-
-        // Fetch default playerVars
-        var playerVars = defaultPlayerVars()
+    private func playerParameters() -> YouTubePlayerParameters {
 
         return [
             "height": "100%",
@@ -212,19 +213,7 @@ public class YouTubePlayer: UIView, UIWebViewDelegate {
         ]
     }
 
-    private func defaultPlayerVars() -> PlayerParameters {
-        return [
-            "playsinline": 1,
-            "controls": 0,
-            "autoplay": 1,
-            "disablekb": 1,
-            "rel": 0,
-            "modestbranding": 1,
-            "showinfo": 0
-        ]
-    }
-
-    private func playerCallbacks() -> PlayerParameters {
+    private func playerCallbacks() -> YouTubePlayerParameters {
         return [
             "onReady": "onReady",
             "onStateChange": "onStateChange",
