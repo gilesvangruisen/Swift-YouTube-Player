@@ -47,7 +47,7 @@ In the meantime, you can also the `YouTubePlayerDelegate` method `playerReady(vi
 
 ## Responding to events
 
-YouTube's iFrame player emits certain events based on the lifecycle of the player. The `YouTubePlayerDelegate` outlines these methods that get called during a player's lifecycle. They are:
+[YouTube's iFrame player](https://developers.google.com/youtube/iframe_api_reference) emits certain events based on the lifecycle of the player. The `YouTubePlayerDelegate` outlines these methods that get called during a player's lifecycle. They are:
 
 * `func playerReady(videoPlayer: YouTubePlayerView)`
 * `func playerStateChanged(videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState)`
