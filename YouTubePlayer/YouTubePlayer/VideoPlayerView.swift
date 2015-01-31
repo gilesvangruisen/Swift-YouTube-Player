@@ -138,6 +138,13 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
         loadWebViewWithParameters(playerParams)
     }
 
+    public func loadPlaylistID(playlistID: String) {
+        var playerParams = playerParameters()
+        playerParams["playlistId"] = playlistID
+
+        loadWebViewWithParameters(playerParams)
+    }
+
     public func play() {
         evaluatePlayerCommand("playVideo()")
     }
