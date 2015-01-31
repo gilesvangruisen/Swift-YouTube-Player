@@ -139,10 +139,10 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     }
 
     public func loadPlaylistID(playlistID: String) {
-        var playerParams = playerParameters()
-        playerParams["playlistId"] = playlistID
+        playerVars["listType"] = "playlist"
+        playerVars["list"] = playlistID
 
-        loadWebViewWithParameters(playerParams)
+        loadWebViewWithParameters(playerParameters())
     }
 
     public func play() {

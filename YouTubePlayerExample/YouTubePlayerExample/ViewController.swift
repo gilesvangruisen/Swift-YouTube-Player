@@ -11,9 +11,51 @@ import YouTubePlayer
 
 class ViewController: UIViewController {
 
+    @IBOutlet var playerView: YouTubePlayerView!
+    @IBOutlet var playButton: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+    }
+
+    @IBAction func play(sender: UIButton) {
+        if playerView.ready {
+            if playerView.playerState != YouTubePlayerState.Playing {
+                playerView.play()
+                playButton.setTitle("Pause", forState: .Normal)
+            } else {
+                playerView.pause()
+                playButton.setTitle("Play", forState: .Normal)
+            }
+        }
+    }
+
+    @IBAction func prev(sender: UIButton) {
+
+    }
+
+    @IBAction func next(sender: UIButton) {
+
+    }
+
+    @IBAction func loadVideo(sender: UIButton) {
+        playerView.loadVideoID("wQg3bXrVLtg")
+    }
+
+    @IBAction func loadPlaylist(sender: UIButton) {
+        playerView.loadPlaylistID("PLDj3dknzoPvMYvf3skevfJb3zV3qt1_Fp")
+    }
+
+    func showAlert(message: String) {
+        self.presentViewController(alertWithMessage(message), animated: true, completion: nil)
+    }
+
+    func alertWithMessage(message: String) -> UIAlertController {
+        let alertController =  UIAlertController(title: "", message: message, preferredStyle: .Alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+
+        return alertController
     }
 
     override func didReceiveMemoryWarning() {
