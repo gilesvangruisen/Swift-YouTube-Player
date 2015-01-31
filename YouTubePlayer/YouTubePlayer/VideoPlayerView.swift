@@ -140,6 +140,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     }
 
     public func loadPlaylistID(playlistID: String) {
+        // No videoId necessary when listType = playlist, list = [playlist Id]
         playerVars["listType"] = "playlist"
         playerVars["list"] = playlistID
 
