@@ -32,11 +32,11 @@ class ViewController: UIViewController {
     }
 
     @IBAction func prev(sender: UIButton) {
-
+        playerView.previousVideo()
     }
 
     @IBAction func next(sender: UIButton) {
-
+        playerView.nextVideo()
     }
 
     @IBAction func loadVideo(sender: UIButton) {
@@ -44,7 +44,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func loadPlaylist(sender: UIButton) {
-        playerView.loadPlaylistID("PLDj3dknzoPvMYvf3skevfJb3zV3qt1_Fp")
+        playerView.loadPlaylistID("RDe-ORhEE9VVg")
     }
 
     func showAlert(message: String) {
