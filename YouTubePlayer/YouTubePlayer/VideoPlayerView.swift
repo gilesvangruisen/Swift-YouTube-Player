@@ -123,7 +123,8 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
         webView.delegate = self
     }
 
-    // MARK: Player controls
+
+    // MARK: Load player
 
     public func loadVideoURL(videoURL: NSURL) {
         if let videoID = videoIDFromYouTubeURL(videoURL) {
@@ -137,6 +138,17 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
 
         loadWebViewWithParameters(playerParams)
     }
+
+    public func loadPlaylistID(playlistID: String) {
+        // No videoId necessary when listType = playlist, list = [playlist Id]
+        playerVars["listType"] = "playlist"
+        playerVars["list"] = playlistID
+
+        loadWebViewWithParameters(playerParameters())
+    }
+
+
+    // MARK: Player controls
 
     public func play() {
         evaluatePlayerCommand("playVideo()")
@@ -158,10 +170,21 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
         evaluatePlayerCommand("seekTo(\(seconds), \(seekAhead))")
     }
 
+    // MARK: Playlist controls
+
+    public func previousVideo() {
+        evaluatePlayerCommand("previousVideo()")
+    }
+
+    public func nextVideo() {
+        evaluatePlayerCommand("nextVideo()")
+    }
+
     private func evaluatePlayerCommand(command: String) {
         let fullCommand = "player." + command + ";"
         webView.stringByEvaluatingJavaScriptFromString(fullCommand)
     }
+
 
     // MARK: Player setup
 
