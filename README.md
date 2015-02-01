@@ -31,15 +31,18 @@ videoPlayer.loadVideoURL(myVideoURL!)
 
 ## Controlling YouTubePlayerView
 
-Each `YouTubePlayerView` has controls for loading, playing, pausing, stopping, clearing, and seeking videos. They are:
+Each `YouTubePlayerView` has methods for controlling the player (play, pause, seek, change video, etc.) They are:
 
 * `func loadVideoURL(videoURL: NSURL)`
 * `func loadVideoID(videoID: String)`
+* `func loadPlaylistID(playlistID: String)`
 * `func play()`
 * `func pause()`
 * `func stop()`
 * `func clear()`
 * `func seekTo(seconds: Float, seekAhead: Bool)`
+* `func previousVideo()`
+* `func nextVideo()`
 
 Please note that calls to all but the first two methods will result in a JavaScript runtime error if they are called before the player is ready. The player will not be ready until shortly after a call to either `loadVideoURL(videoURL: NSURL)` or `loadVideoID(videoID: String)`. You can check the readiness of the player at any time by checking its `ready: Bool` property. These functions run asynchronously, so it is not guaranteed that a call to a play function will be safe if it immediately follows a call to a load function. I plan to update the library soon to add completion handlers to be called when the player is ready.
 
