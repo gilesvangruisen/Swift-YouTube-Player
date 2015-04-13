@@ -40,6 +40,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func loadVideo(sender: UIButton) {
+        playerView.playerVars = ["playsinline": "1"]
         playerView.loadVideoID("wQg3bXrVLtg")
     }
 
