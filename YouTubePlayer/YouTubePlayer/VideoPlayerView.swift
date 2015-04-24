@@ -62,7 +62,7 @@ private extension NSURL {
 }
 
 public func videoIDFromYouTubeURL(videoURL: NSURL) -> String? {
-    return videoURL.queryStringComponents()["v"] as String?
+    return videoURL.queryStringComponents()["v"] as! String?
 }
 
 /** Embed and control YouTube videos */
@@ -220,7 +220,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
             println("Lookup error: no HTML file found for path, \(path)")
         }
 
-        return htmlString!
+        return htmlString! as! String
     }
 
 
