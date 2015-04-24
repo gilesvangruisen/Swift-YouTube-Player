@@ -220,7 +220,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
             println("Lookup error: no HTML file found for path, \(path)")
         }
 
-        return htmlString! as! String
+        return htmlString! as? String
     }
 
 
