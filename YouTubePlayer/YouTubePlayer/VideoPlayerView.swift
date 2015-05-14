@@ -62,7 +62,7 @@ private extension NSURL {
 }
 
 public func videoIDFromYouTubeURL(videoURL: NSURL) -> String? {
-    return videoURL.queryStringComponents()["v"] as String?
+    return videoURL.queryStringComponents()["v"] as! String?
 }
 
 /** Embed and control YouTube videos */
@@ -89,8 +89,8 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
 
     // MARK: Various methods for initialization
 
-    override public init() {
-        super.init()
+    convenience public init() {
+        self.init()
         buildWebView(playerParameters())
     }
 
@@ -220,7 +220,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
             println("Lookup error: no HTML file found for path, \(path)")
         }
 
-        return htmlString!
+        return htmlString! as String
     }
 
 
@@ -260,7 +260,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
         }
 
         // Success, return JSON string
-        return NSString(data: jsonData!, encoding: NSUTF8StringEncoding)
+        return NSString(data: jsonData!, encoding: NSUTF8StringEncoding) as? String
     }
 
 
@@ -315,7 +315,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
         let url = request.URL
 
         // Check if ytplayer event and, if so, pass to handleJSEvent
-        if url.scheme == "ytplayer" { handleJSEvent(url) }
+        if url!.scheme == "ytplayer" { handleJSEvent(url!) }
 
         return true
     }
