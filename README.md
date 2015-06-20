@@ -2,6 +2,29 @@
 
 Embed and control YouTube videos in your iOS applications! Neato, right? Let's see how it works.
 
+## Installation
+
+### Carthage
+
+Add this to your Cartfile:
+
+```
+github "gilesvangruisen/Swift-YouTube-Player"
+```
+
+…and then run `carthage update`
+
+### Cocoapods
+
+Ensure you are opting into using frameworks with `use_frameworks!`. Then add the following to your Podfile:
+
+```
+pod 'YouTubePlayer'
+```
+
+…and then run `pod install`.
+
+
 ## Example
 
 ```Swift
