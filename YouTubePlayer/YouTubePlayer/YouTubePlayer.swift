@@ -62,7 +62,7 @@ private extension NSURL {
 }
 
 public func videoIDFromYouTubeURL(videoURL: NSURL) -> String? {
-    return videoURL.queryStringComponents()["v"] as String?
+    return videoURL.queryStringComponents()["v"] as? String
 }
 
 /** Embed and control YouTube videos */
@@ -87,15 +87,13 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     /** Used to respond to player events */
     public var delegate: YouTubePlayerDelegate?
 
-    // MARK: Various methods for initialization
 
-    override public init() {
-        super.init()
-        buildWebView(playerParameters())
-    }
+    // MARK: Various methods for initialization
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
+
+        printLog("initframe")
         buildWebView(playerParameters())
     }
 
@@ -217,10 +215,10 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
 
         // Check for error
         if let error = error {
-            println("Lookup error: no HTML file found for path, \(path)")
+            printLog("Lookup error: no HTML file found for path, \(path)")
         }
 
-        return htmlString!
+        return htmlString! as String
     }
 
 
@@ -255,12 +253,12 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
 
         // Check for error and return nil
         if let error = error {
-            println("Error parsing JSON")
+            printLog("Error parsing JSON")
             return nil
         }
 
         // Success, return JSON string
-        return NSString(data: jsonData!, encoding: NSUTF8StringEncoding)
+        return NSString(data: jsonData!, encoding: NSUTF8StringEncoding) as? String
     }
 
 
@@ -271,38 +269,37 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
         // Grab the last component of the queryString as string
         let data: String? = eventURL.queryStringComponents()["data"] as? String
 
-        if let host = eventURL.host {
-            if let event = YouTubePlayerEvents(rawValue: host) {
-                // Check event type and handle accordingly
-                switch event {
-                    case .YouTubeIframeAPIReady:
-                        ready = true
-                        break
+        if let host = eventURL.host, let event = YouTubePlayerEvents(rawValue: host) {
 
-                    case .Ready:
-                        delegate?.playerReady(self)
+            // Check event type and handle accordingly
+            switch event {
+                case .YouTubeIframeAPIReady:
+                    ready = true
+                    break
 
-                        break
+                case .Ready:
+                    delegate?.playerReady(self)
 
-                    case .StateChange:
-                        if let newState = YouTubePlayerState(rawValue: data!) {
-                            playerState = newState
-                            delegate?.playerStateChanged(self, playerState: newState)
-                        }
+                    break
 
-                        break
+                case .StateChange:
+                    if let newState = YouTubePlayerState(rawValue: data!) {
+                        playerState = newState
+                        delegate?.playerStateChanged(self, playerState: newState)
+                    }
 
-                    case .PlaybackQualityChange:
-                        if let newQuality = YouTubePlaybackQuality(rawValue: data!) {
-                            playbackQuality = newQuality
-                            delegate?.playerQualityChanged(self, playbackQuality: newQuality)
-                        }
+                    break
 
-                        break
+                case .PlaybackQualityChange:
+                    if let newQuality = YouTubePlaybackQuality(rawValue: data!) {
+                        playbackQuality = newQuality
+                        delegate?.playerQualityChanged(self, playbackQuality: newQuality)
+                    }
 
-                    default:
-                        break
-                }
+                    break
+
+                default:
+                    break
             }
         }
     }
@@ -315,8 +312,12 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
         let url = request.URL
 
         // Check if ytplayer event and, if so, pass to handleJSEvent
-        if url.scheme == "ytplayer" { handleJSEvent(url) }
+        if let url = url where url.scheme == "ytplayer" { handleJSEvent(url) }
 
         return true
     }
+}
+
+private func printLog(str: String) {
+    println("[YouTubePlayer] \(str)")
 }
