@@ -119,6 +119,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
         webView.allowsInlineMediaPlayback = true
         webView.mediaPlaybackRequiresUserAction = false
         webView.delegate = self
+        webView.scrollView.scrollEnabled = false
     }
 
 
