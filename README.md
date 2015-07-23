@@ -14,6 +14,12 @@ github "gilesvangruisen/Swift-YouTube-Player"
 
 …and then run `carthage update`
 
+Don't forget to:
+* add `YouTubePlayer.framework` to the `Link binary with libraries` build phase
+* add `YouTubePlayer.framework` as an input file to the `carthage copy-frameworks` run script phase
+
+See [Carthage](http://github.com/carthage/carthage) for more information about using Carthage as a dependency manager.
+
 ### Cocoapods
 
 Ensure you are opting into using frameworks with `use_frameworks!`. Then add the following to your Podfile:
