@@ -100,8 +100,8 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
         buildWebView(playerParameters())
     }
 
-    required public init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
         buildWebView(playerParameters())
     }
 
@@ -211,16 +211,20 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
 
     private func htmlStringWithFilePath(path: String) -> String? {
 
-        do{
-        // Get HTML string from path
-            let htmlString = try String(contentsOfFile: path, encoding: NSUTF8StringEncoding)
-            return htmlString
-        }catch{
-            // Catch for error
-            printLog("Lookup error: no HTML file found for path, \(path)")
+        do {
+
+            // Get HTML string from path
+            let htmlString = try NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding)
+
+            return htmlString as String
+
+        } catch _ {
+
+            // Error fetching HTML
+            printLog("Lookup error: no HTML file found for path")
+
             return nil
         }
-
     }
 
 
@@ -247,14 +251,19 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
 
     private func serializedJSON(object: AnyObject) -> String? {
 
-        do{
-            // Serialize json into NSData
+        do {
+            // Serialize to JSON string
             let jsonData = try NSJSONSerialization.dataWithJSONObject(object, options: NSJSONWritingOptions.PrettyPrinted)
-            // Success, return JSON string
-            return String(data: jsonData, encoding: NSUTF8StringEncoding)
-        }catch{
-            // Catch error and return nil
+
+            // Succeeded
+            return NSString(data: jsonData, encoding: NSUTF8StringEncoding) as? String
+
+        } catch let jsonError {
+
+            // JSON serialization failed
+            print(jsonError)
             printLog("Error parsing JSON")
+
             return nil
         }
     }
@@ -313,6 +322,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     }
 }
 
-private func printLog(str: String) {
-    print("[YouTubePlayer] \(str)")
+private func printLog(strings: CustomStringConvertible...) {
+    let toPrint = ["[YouTubePlayer]"] + strings
+    print(toPrint, separator: " ", terminator: "\n")
 }
