@@ -98,6 +98,7 @@
 		50BB8ADA1A7D914C00216B49 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Giles Van Gruisen";
 				TargetAttributes = {
@@ -285,6 +286,7 @@
 				50BB8B031A7D914C00216B49 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

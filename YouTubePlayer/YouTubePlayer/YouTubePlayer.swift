@@ -63,7 +63,7 @@ private extension NSURL {
 
 public func videoIDFromYouTubeURL(videoURL: NSURL) -> String? {
     if let host = videoURL.host, pathComponents = videoURL.pathComponents where pathComponents.count > 1 && host.hasSuffix("youtu.be") {
-        return pathComponents[1] as? String
+        return pathComponents[1]
     }
     return videoURL.queryStringComponents()["v"] as? String
 }
@@ -100,7 +100,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
         buildWebView(playerParameters())
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         buildWebView(playerParameters())
     }
@@ -199,7 +199,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
         let jsonParameters = serializedJSON(parameters)!
 
         // Replace %@ in rawHTMLString with jsonParameters string
-        let htmlString = rawHTMLString.stringByReplacingOccurrencesOfString("%@", withString: jsonParameters, options: nil, range: nil)
+        let htmlString = rawHTMLString.stringByReplacingOccurrencesOfString("%@", withString: jsonParameters)
 
         // Load HTML in web view
         webView.loadHTMLString(htmlString, baseURL: NSURL(string: "about:blank"))
@@ -211,18 +211,20 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
 
     private func htmlStringWithFilePath(path: String) -> String? {
 
-        // Error optional for error handling
-        var error: NSError?
+        do {
 
-        // Get HTML string from path
-        let htmlString = NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: &error)
+            // Get HTML string from path
+            let htmlString = try NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding)
 
-        // Check for error
-        if let error = error {
-            printLog("Lookup error: no HTML file found for path, \(path)")
+            return htmlString as String
+
+        } catch _ {
+
+            // Error fetching HTML
+            printLog("Lookup error: no HTML file found for path")
+
+            return nil
         }
-
-        return htmlString! as String
     }
 
 
@@ -249,20 +251,21 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
 
     private func serializedJSON(object: AnyObject) -> String? {
 
-        // Empty error
-        var error: NSError?
+        do {
+            // Serialize to JSON string
+            let jsonData = try NSJSONSerialization.dataWithJSONObject(object, options: NSJSONWritingOptions.PrettyPrinted)
 
-        // Serialize json into NSData
-        let jsonData = NSJSONSerialization.dataWithJSONObject(object, options: NSJSONWritingOptions.PrettyPrinted, error: &error)
+            // Succeeded
+            return NSString(data: jsonData, encoding: NSUTF8StringEncoding) as? String
 
-        // Check for error and return nil
-        if let error = error {
+        } catch let jsonError {
+
+            // JSON serialization failed
+            print(jsonError)
             printLog("Error parsing JSON")
+
             return nil
         }
-
-        // Success, return JSON string
-        return NSString(data: jsonData!, encoding: NSUTF8StringEncoding) as? String
     }
 
 
@@ -301,9 +304,6 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
                     }
 
                     break
-
-                default:
-                    break
             }
         }
     }
@@ -322,6 +322,8 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     }
 }
 
-private func printLog(str: String) {
-    println("[YouTubePlayer] \(str)")
+private func printLog(strings: CustomStringConvertible...) {
+
+    let toPrint = ["[YouTubePlayer]"] + strings
+    print(toPrint, separator: " ", terminator: "\n")
 }
