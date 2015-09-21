@@ -87,17 +87,3 @@ In the meantime, you can also the `YouTubePlayerDelegate` method `playerReady(vi
 
 *Side note:* unfortunately, due to the way Swift protocols work, these are all required delegate methods. Setting a delegate on an instance of `YouTubePlayer` is optional, but any delegate must conform to `YouTubePlayerDelegate` and therefore must implement every one of the above methods. I wish there were a better way around this, but declaring the protocol as an `@objc` protocol means I wouldn't be able to use enum values as arguments, because Swift enums are incompatible with Objective-C enumerations. Feel free to file an issue if you know of some solution that lets us have optional delegate methods as well as the ability to pass Swift enums to these delegate methods.
 
-## Troubleshooting
-
-If you are having problems with the following line:
-
-`return NSBundle(forClass: self.classForCoder).pathForResource("YTPlayer", ofType: "html")!`
-
-then the pod failed to include Y`TPlayer.html` in the resources of the project. The steps to fix this are as follows:
-
-* Click on `Pods` project
-* Click on `YouTubePlayer` under TARGETS
-* Click on `Build Phases`
-* Click on the **plus sign** (add build phase)
-* Add a `Copy Files` build phase
-* Set `Destination` to `Resources` and add the `YTPlayer.html` file
