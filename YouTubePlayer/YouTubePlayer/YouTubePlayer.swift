@@ -323,7 +323,6 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
 }
 
 private func printLog(strings: CustomStringConvertible...) {
-
     let toPrint = ["[YouTubePlayer]"] + strings
     print(toPrint, separator: " ", terminator: "\n")
 }
