@@ -95,8 +95,6 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
-
-        printLog("initframe")
         buildWebView(playerParameters())
     }
 
