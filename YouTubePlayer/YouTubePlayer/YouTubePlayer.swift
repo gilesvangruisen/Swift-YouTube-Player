@@ -169,6 +169,14 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     public func seekTo(seconds: Float, seekAhead: Bool) {
         evaluatePlayerCommand("seekTo(\(seconds), \(seekAhead))")
     }
+    
+    public func getDuration() -> String? {
+        return queryPlayerCommand("getDuration()")
+    }
+    
+    public func getCurrentTime() -> String? {
+        return queryPlayerCommand("getCurrentTime()")
+    }
 
     // MARK: Playlist controls
 
@@ -181,8 +189,15 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     }
 
     private func evaluatePlayerCommand(command: String) {
+        queryPlayerCommand(command)
+        
         let fullCommand = "player." + command + ";"
         webView.stringByEvaluatingJavaScriptFromString(fullCommand)
+    }
+    
+    private func queryPlayerCommand(command: String) -> String? {
+        let fullCommand = "player." + command + ";"
+        return webView.stringByEvaluatingJavaScriptFromString(fullCommand)
     }
 
 

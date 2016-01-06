@@ -14,6 +14,10 @@ class ViewController: UIViewController {
     @IBOutlet var playerView: YouTubePlayerView!
     @IBOutlet var playButton: UIButton!
 
+    @IBOutlet var currentTimeButton: UIButton!
+    
+    @IBOutlet var durationButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -50,6 +54,17 @@ class ViewController: UIViewController {
 
     @IBAction func loadPlaylist(sender: UIButton) {
         playerView.loadPlaylistID("RDe-ORhEE9VVg")
+    }
+    
+    @IBAction func currentTime(sender: UIButton) {
+        
+        let title = String(format: "Current Time %@", playerView.getCurrentTime() ?? "0")
+        currentTimeButton.setTitle(title, forState: .Normal)
+    }
+    
+    @IBAction func duration(sender: UIButton) {
+        let title = String(format: "Duration %@", playerView.getDuration() ?? "0")
+        durationButton.setTitle(title, forState: .Normal)
     }
 
     func showAlert(message: String) {
