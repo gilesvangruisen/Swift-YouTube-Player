@@ -190,9 +190,6 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
 
     private func evaluatePlayerCommand(command: String) {
         queryPlayerCommand(command)
-        
-        let fullCommand = "player." + command + ";"
-        webView.stringByEvaluatingJavaScriptFromString(fullCommand)
     }
     
     private func queryPlayerCommand(command: String) -> String? {
