@@ -13,9 +13,7 @@ class ViewController: UIViewController {
 
     @IBOutlet var playerView: YouTubePlayerView!
     @IBOutlet var playButton: UIButton!
-
     @IBOutlet var currentTimeButton: UIButton!
-    
     @IBOutlet var durationButton: UIButton!
     
     override func viewDidLoad() {
