@@ -55,7 +55,6 @@ class ViewController: UIViewController {
     }
     
     @IBAction func currentTime(sender: UIButton) {
-        
         let title = String(format: "Current Time %@", playerView.getCurrentTime() ?? "0")
         currentTimeButton.setTitle(title, forState: .Normal)
     }
