@@ -203,7 +203,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     }
 
     private func playerHTMLPath() -> String {
-        return NSBundle(forClass: self.classForCoder).pathForResource("YTPlayer", ofType: "html")!
+        return NSBundle.mainBundle().pathForResource("YTPlayer", ofType: "html")!
     }
 
     private func htmlStringWithFilePath(path: String) -> String? {
