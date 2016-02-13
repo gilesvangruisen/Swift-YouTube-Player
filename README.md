@@ -1,18 +1,41 @@
 # YouTubePlayer
 
-Embed and control YouTube videos in your iOS applications! Using CocoaPods.  Here is how to get started.
+Embed and control YouTube videos in your iOS applications! Neato, right? Let's see how it works.
 
-## CocoaPods Podfile
-Add the following line to you Podfile.  When you are done make sure to run "pod install"
-```cocoapods
-pod 'Swift-YouTube-Player', '~> 0.2'
+## Installation
+
+### Carthage
+
+Add this to your Cartfile:
+
 ```
-That is it!  Simply import the module and use.
+github "gilesvangruisen/Swift-YouTube-Player"
+```
 
-## Swift file
+…and then run `carthage update`
+
+Don't forget to:
+* add `YouTubePlayer.framework` to the `Link binary with libraries` build phase
+* add `YouTubePlayer.framework` as an input file to the `carthage copy-frameworks` run script phase (only necesasry if you're building for iOS)
+
+See [Carthage](http://github.com/carthage/carthage) for more information about using Carthage as a dependency manager.
+
+### CocoaPods
+
+Ensure you are opting into using frameworks with `use_frameworks!`. Then add the following to your Podfile:
+
+```
+pod 'YouTubePlayer'
+```
+
+…and then run `pod install`.
+
+
+## Example
+
 ```Swift
 // Import Swift module
-import Swift_YouTube_Player
+import YouTubePlayer
 ```
 
 Build and lay out the view however you wish, whether in IB w/ an outlet or programmatically.
@@ -49,6 +72,8 @@ Each `YouTubePlayerView` has methods for controlling the player (play, pause, se
 * `func seekTo(seconds: Float, seekAhead: Bool)`
 * `func previousVideo()`
 * `func nextVideo()`
+* `func getCurrentTime()`
+* `func getDuration()`
 
 Please note that calls to all but the first two methods will result in a JavaScript runtime error if they are called before the player is ready. The player will not be ready until shortly after a call to either `loadVideoURL(videoURL: NSURL)` or `loadVideoID(videoID: String)`. You can check the readiness of the player at any time by checking its `ready: Bool` property. These functions run asynchronously, so it is not guaranteed that a call to a play function will be safe if it immediately follows a call to a load function. I plan to update the library soon to add completion handlers to be called when the player is ready.
 
@@ -63,3 +88,4 @@ In the meantime, you can also the `YouTubePlayerDelegate` method `playerReady(vi
 * `func playerQualityChanged(videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality)`
 
 *Side note:* unfortunately, due to the way Swift protocols work, these are all required delegate methods. Setting a delegate on an instance of `YouTubePlayer` is optional, but any delegate must conform to `YouTubePlayerDelegate` and therefore must implement every one of the above methods. I wish there were a better way around this, but declaring the protocol as an `@objc` protocol means I wouldn't be able to use enum values as arguments, because Swift enums are incompatible with Objective-C enumerations. Feel free to file an issue if you know of some solution that lets us have optional delegate methods as well as the ability to pass Swift enums to these delegate methods.
+
