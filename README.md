@@ -1,8 +1,8 @@
 # YouTubePlayer
 
-Embed and control YouTube videos in your iOS applications! Using Cocoapods.  Here is how to get started.
+Embed and control YouTube videos in your iOS applications! Using CocoaPods.  Here is how to get started.
 
-## Cocoapods Podfile
+## CocoaPods Podfile
 Add the following line to you Podfile.  When you are done make sure to run "pod install"
 ```cocoapods
 pod 'Swift-YouTube-Player', '~> 0.2'
