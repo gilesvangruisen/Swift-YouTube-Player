@@ -207,8 +207,16 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
         // Replace %@ in rawHTMLString with jsonParameters string
         let htmlString = rawHTMLString.stringByReplacingOccurrencesOfString("%@", withString: jsonParameters)
 
+        let baseURL: NSURL
+        if let origin = parameters["origin"],
+            let originURL = NSURL(origin) {
+                baseURL = originURL
+        } else {
+            baseURL = NSURL(string: "about:blank")
+        }
+        
         // Load HTML in web view
-        webView.loadHTMLString(htmlString, baseURL: NSURL(string: "about:blank"))
+        webView.loadHTMLString(htmlString, baseURL: baseURL)
     }
 
     private func playerHTMLPath() -> String {
