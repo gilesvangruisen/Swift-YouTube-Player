@@ -39,6 +39,15 @@ public protocol YouTubePlayerDelegate {
     func playerQualityChanged(videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality)
 }
 
+// Make delegate methods optional by providing default implementations
+public extension YouTubePlayerDelegate {
+    
+    func playerReady(videoPlayer: YouTubePlayerView) {}
+    func playerStateChanged(videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {}
+    func playerQualityChanged(videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality) {}
+    
+}
+
 private extension NSURL {
     func queryStringComponents() -> [String: AnyObject] {
 
