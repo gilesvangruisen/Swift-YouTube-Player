@@ -39,8 +39,7 @@ public protocol YouTubePlayerDelegate {
     func playerQualityChanged(videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality)
 }
 
-// By extending a protocol and giving it default implementations for some of its functions,
-// one can make 100% Swift optional protocol functions!
+// Make delegate methods optional by providing default implementations
 public extension YouTubePlayerDelegate {
     
     func playerReady(videoPlayer: YouTubePlayerView) {}
