@@ -33,7 +33,7 @@ public enum YouTubePlaybackQuality: String {
     case HighResolution = "highres"
 }
 
-public protocol YouTubePlayerDelegate {
+public protocol YouTubePlayerDelegate: class {
     func playerReady(videoPlayer: YouTubePlayerView)
     func playerStateChanged(videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState)
     func playerQualityChanged(videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality)
@@ -97,7 +97,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     public var playerVars = YouTubePlayerParameters()
 
     /** Used to respond to player events */
-    public var delegate: YouTubePlayerDelegate?
+    public weak var delegate: YouTubePlayerDelegate?
 
 
     // MARK: Various methods for initialization
