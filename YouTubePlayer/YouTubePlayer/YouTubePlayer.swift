@@ -22,6 +22,7 @@ public enum YouTubePlayerEvents: String {
     case Ready = "onReady"
     case StateChange = "onStateChange"
     case PlaybackQualityChange = "onPlaybackQualityChange"
+    case Error = "onError"
 }
 
 public enum YouTubePlaybackQuality: String {
@@ -33,10 +34,27 @@ public enum YouTubePlaybackQuality: String {
     case HighResolution = "highres"
 }
 
+private enum YouTubePlayerErrorCodes: String {
+    case InvalidParameter = "2"
+    case HTML5 = "5"
+    case VideoNotFound = "100"
+    case NotEmbeddable = "101"
+    case CannotFindVideo = "105"
+    case SameAsNotEmbeddable = "150"
+}
+
+public enum YouTubePlayerError {
+    case InvalidParameter
+    case HTML5
+    case VideoNotFound
+    case NotEmbeddable
+}
+
 public protocol YouTubePlayerDelegate {
     func playerReady(videoPlayer: YouTubePlayerView)
     func playerStateChanged(videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState)
     func playerQualityChanged(videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality)
+    func playerReceivedError(videoPlayer: YouTubePlayerView, error: YouTubePlayerError)
 }
 
 // Make delegate methods optional by providing default implementations
@@ -45,6 +63,7 @@ public extension YouTubePlayerDelegate {
     func playerReady(videoPlayer: YouTubePlayerView) {}
     func playerStateChanged(videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {}
     func playerQualityChanged(videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality) {}
+    func playerReceivedError(videoPlayer: YouTubePlayerView, error: YouTubePlayerError) {}
     
 }
 
@@ -318,6 +337,28 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
                         delegate?.playerQualityChanged(self, playbackQuality: newQuality)
                     }
 
+                    break
+                
+                case .Error:
+                    if let errorCode = YouTubePlayerErrorCodes(rawValue: data!) {
+                        let error: YouTubePlayerError
+                        switch errorCode {
+                        case .CannotFindVideo:
+                            fallthrough
+                        case .VideoNotFound:
+                            error = .VideoNotFound
+                        case .HTML5:
+                            error = .HTML5
+                        case .InvalidParameter:
+                            error = .InvalidParameter
+                        case .NotEmbeddable:
+                            fallthrough
+                        case .SameAsNotEmbeddable:
+                            error = .NotEmbeddable
+                        }
+                        delegate?.playerReceivedError(self, error: error)
+                    }
+                    
                     break
             }
         }
