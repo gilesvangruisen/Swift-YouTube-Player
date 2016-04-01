@@ -199,12 +199,18 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
         evaluatePlayerCommand("seekTo(\(seconds), \(seekAhead))")
     }
     
-    public func getDuration() -> String? {
-        return evaluatePlayerCommand("getDuration()")
+    public func getDuration() -> NSTimeInterval? {
+        if let duration = evaluatePlayerCommand("getDuration()") {
+            return NSTimeInterval(duration)
+        }
+        return nil
     }
     
-    public func getCurrentTime() -> String? {
-        return evaluatePlayerCommand("getCurrentTime()")
+    public func getCurrentTime() -> NSTimeInterval? {
+        if let currentTime = evaluatePlayerCommand("getCurrentTime()") {
+            return NSTimeInterval(currentTime)
+        }
+        return nil
     }
 
     // MARK: Playlist controls
