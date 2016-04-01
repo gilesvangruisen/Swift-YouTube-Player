@@ -23,6 +23,7 @@ public enum YouTubePlayerEvents: String {
     case StateChange = "onStateChange"
     case PlaybackQualityChange = "onPlaybackQualityChange"
     case Error = "onError"
+    case PlayTime = "onPlayTime"
 }
 
 public enum YouTubePlaybackQuality: String {
@@ -52,18 +53,20 @@ public enum YouTubePlayerError {
 
 public protocol YouTubePlayerDelegate: class {
     func playerReady(videoPlayer: YouTubePlayerView)
-    func playerStateChanged(videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState)
-    func playerQualityChanged(videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality)
-    func playerReceivedError(videoPlayer: YouTubePlayerView, error: YouTubePlayerError)
+    func player(videoPlayer: YouTubePlayerView, stateChanged state: YouTubePlayerState)
+    func player(videoPlayer: YouTubePlayerView, playbackQualityChanged quality: YouTubePlaybackQuality)
+    func player(videoPlayer: YouTubePlayerView, receivedError error: YouTubePlayerError)
+    func player(videoPlayer: YouTubePlayerView, didPlayTime time: NSTimeInterval)
 }
 
 // Make delegate methods optional by providing default implementations
 public extension YouTubePlayerDelegate {
     
     func playerReady(videoPlayer: YouTubePlayerView) {}
-    func playerStateChanged(videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {}
-    func playerQualityChanged(videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality) {}
-    func playerReceivedError(videoPlayer: YouTubePlayerView, error: YouTubePlayerError) {}
+    func player(videoPlayer: YouTubePlayerView, stateChanged state: YouTubePlayerState) {}
+    func player(videoPlayer: YouTubePlayerView, playbackQualityChanged quality: YouTubePlaybackQuality) {}
+    func player(videoPlayer: YouTubePlayerView, receivedError error: YouTubePlayerError) {}
+    func player(videoPlayer: YouTubePlayerView, didPlayTime time: NSTimeInterval) {}
     
 }
 
@@ -321,61 +324,58 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     // MARK: JS Event Handling
 
     private func handleJSEvent(eventURL: NSURL) {
-
+        
         // Grab the last component of the queryString as string
+        guard let host = eventURL.host else { return }
+        guard let event = YouTubePlayerEvents(rawValue: host) else { return }
+        
         let data: String? = eventURL.queryStringComponents()["data"] as? String
-
-        if let host = eventURL.host, let event = YouTubePlayerEvents(rawValue: host) {
-
-            // Check event type and handle accordingly
-            switch event {
-                case .YouTubeIframeAPIReady:
-                    ready = true
-                    break
-
-                case .Ready:
-                    delegate?.playerReady(self)
-
-                    break
-
-                case .StateChange:
-                    if let newState = YouTubePlayerState(rawValue: data!) {
-                        playerState = newState
-                        delegate?.playerStateChanged(self, playerState: newState)
-                    }
-
-                    break
-
-                case .PlaybackQualityChange:
-                    if let newQuality = YouTubePlaybackQuality(rawValue: data!) {
-                        playbackQuality = newQuality
-                        delegate?.playerQualityChanged(self, playbackQuality: newQuality)
-                    }
-
-                    break
-                
-                case .Error:
-                    if let errorCode = YouTubePlayerErrorCodes(rawValue: data!) {
-                        let error: YouTubePlayerError
-                        switch errorCode {
-                        case .CannotFindVideo:
-                            fallthrough
-                        case .VideoNotFound:
-                            error = .VideoNotFound
-                        case .HTML5:
-                            error = .HTML5
-                        case .InvalidParameter:
-                            error = .InvalidParameter
-                        case .NotEmbeddable:
-                            fallthrough
-                        case .SameAsNotEmbeddable:
-                            error = .NotEmbeddable
-                        }
-                        delegate?.playerReceivedError(self, error: error)
-                    }
-                    
-                    break
+        
+        // Check event type and handle accordingly
+        switch event {
+        case .YouTubeIframeAPIReady:
+            ready = true
+            
+        case .Ready:
+            delegate?.playerReady(self)
+            
+        case .StateChange:
+            if let data = data, let newState = YouTubePlayerState(rawValue: data) {
+                playerState = newState
+                delegate?.player(self, stateChanged: newState)
             }
+            
+        case .PlaybackQualityChange:
+            if let data = data, let newQuality = YouTubePlaybackQuality(rawValue: data) {
+                playbackQuality = newQuality
+                delegate?.player(self, playbackQualityChanged: newQuality)
+            }
+            
+        case .Error:
+            if let data = data, let errorCode = YouTubePlayerErrorCodes(rawValue: data) {
+                let error: YouTubePlayerError
+                switch errorCode {
+                case .CannotFindVideo:
+                    fallthrough
+                case .VideoNotFound:
+                    error = .VideoNotFound
+                case .HTML5:
+                    error = .HTML5
+                case .InvalidParameter:
+                    error = .InvalidParameter
+                case .NotEmbeddable:
+                    fallthrough
+                case .SameAsNotEmbeddable:
+                    error = .NotEmbeddable
+                }
+                delegate?.player(self, receivedError: error)
+            }
+            
+        case .PlayTime:
+            if let data = data, let time = NSTimeInterval(data) {
+                delegate?.player(self, didPlayTime: time)
+            }
+            
         }
     }
 
