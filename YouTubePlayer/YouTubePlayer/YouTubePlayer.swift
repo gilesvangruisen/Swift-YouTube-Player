@@ -197,6 +197,12 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     public func clear() {
         evaluatePlayerCommand("clearVideo()")
     }
+    
+    public var shuffle: Bool = false {
+        didSet {
+            evaluatePlayerCommand("setShuffle(\(shuffle ? "true" : "false"))")
+        }
+    }
 
     public func seekTo(seconds: Float, seekAhead: Bool) {
         evaluatePlayerCommand("seekTo(\(seconds), \(seekAhead))")
