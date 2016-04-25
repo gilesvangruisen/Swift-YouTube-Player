@@ -221,7 +221,25 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
         }
         return nil
     }
-
+    
+    public func getVideoUrl() -> NSURL? {
+        if let videoUrl = evaluatePlayerCommand("getVideoUrl()") {
+            return NSURL(string: videoUrl)
+        }
+        return nil
+    }
+    
+    public func getVideoId() -> String? {
+        if let videoUrl = getVideoUrl() {
+            return videoUrl.queryStringComponents()["v"] as? String
+        }
+        return nil
+    }
+    
+    public func videoEmbedCode() -> String? {
+        return evaluatePlayerCommand("getVideoEmbedCode()")
+    }
+    
     // MARK: Playlist controls
 
     public func previousVideo() {
