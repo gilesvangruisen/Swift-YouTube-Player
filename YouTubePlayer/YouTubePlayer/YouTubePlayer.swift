@@ -104,7 +104,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
 
     public typealias YouTubePlayerParameters = [String: AnyObject]
 
-    private var webView: UIWebView!
+    public private(set) var webView: UIWebView!
 
     /** The readiness of the player */
     private(set) public var ready = false
