@@ -22,6 +22,8 @@ public enum YouTubePlayerEvents: String {
     case Ready = "onReady"
     case StateChange = "onStateChange"
     case PlaybackQualityChange = "onPlaybackQualityChange"
+    case Error = "onError"
+    case PlayTime = "onPlayTime"
 }
 
 public enum YouTubePlaybackQuality: String {
@@ -33,18 +35,38 @@ public enum YouTubePlaybackQuality: String {
     case HighResolution = "highres"
 }
 
-public protocol YouTubePlayerDelegate {
+private enum YouTubePlayerErrorCodes: String {
+    case InvalidParameter = "2"
+    case HTML5 = "5"
+    case VideoNotFound = "100"
+    case NotEmbeddable = "101"
+    case CannotFindVideo = "105"
+    case SameAsNotEmbeddable = "150"
+}
+
+public enum YouTubePlayerError {
+    case InvalidParameter
+    case HTML5
+    case VideoNotFound
+    case NotEmbeddable
+}
+
+public protocol YouTubePlayerDelegate: class {
     func playerReady(videoPlayer: YouTubePlayerView)
-    func playerStateChanged(videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState)
-    func playerQualityChanged(videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality)
+    func player(videoPlayer: YouTubePlayerView, stateChanged state: YouTubePlayerState)
+    func player(videoPlayer: YouTubePlayerView, playbackQualityChanged quality: YouTubePlaybackQuality)
+    func player(videoPlayer: YouTubePlayerView, receivedError error: YouTubePlayerError)
+    func player(videoPlayer: YouTubePlayerView, didPlayTime time: NSTimeInterval)
 }
 
 // Make delegate methods optional by providing default implementations
 public extension YouTubePlayerDelegate {
     
     func playerReady(videoPlayer: YouTubePlayerView) {}
-    func playerStateChanged(videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {}
-    func playerQualityChanged(videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality) {}
+    func player(videoPlayer: YouTubePlayerView, stateChanged state: YouTubePlayerState) {}
+    func player(videoPlayer: YouTubePlayerView, playbackQualityChanged quality: YouTubePlaybackQuality) {}
+    func player(videoPlayer: YouTubePlayerView, receivedError error: YouTubePlayerError) {}
+    func player(videoPlayer: YouTubePlayerView, didPlayTime time: NSTimeInterval) {}
     
 }
 
@@ -82,7 +104,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
 
     public typealias YouTubePlayerParameters = [String: AnyObject]
 
-    private var webView: UIWebView!
+    public private(set) var webView: UIWebView!
 
     /** The readiness of the player */
     private(set) public var ready = false
@@ -97,7 +119,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     public var playerVars = YouTubePlayerParameters()
 
     /** Used to respond to player events */
-    public var delegate: YouTubePlayerDelegate?
+    public weak var delegate: YouTubePlayerDelegate?
 
 
     // MARK: Various methods for initialization
@@ -129,6 +151,7 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
         webView.allowsInlineMediaPlayback = true
         webView.mediaPlaybackRequiresUserAction = false
         webView.delegate = self
+        webView.opaque = false
         webView.scrollView.scrollEnabled = false
     }
 
@@ -174,19 +197,49 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     public func clear() {
         evaluatePlayerCommand("clearVideo()")
     }
+    
+    public var shuffle: Bool = false {
+        didSet {
+            evaluatePlayerCommand("setShuffle(\(shuffle ? "true" : "false"))")
+        }
+    }
 
     public func seekTo(seconds: Float, seekAhead: Bool) {
         evaluatePlayerCommand("seekTo(\(seconds), \(seekAhead))")
     }
     
-    public func getDuration() -> String? {
-        return evaluatePlayerCommand("getDuration()")
+    public func getDuration() -> NSTimeInterval? {
+        if let duration = evaluatePlayerCommand("getDuration()") {
+            return NSTimeInterval(duration)
+        }
+        return nil
     }
     
-    public func getCurrentTime() -> String? {
-        return evaluatePlayerCommand("getCurrentTime()")
+    public func getCurrentTime() -> NSTimeInterval? {
+        if let currentTime = evaluatePlayerCommand("getCurrentTime()") {
+            return NSTimeInterval(currentTime)
+        }
+        return nil
     }
-
+    
+    public func getVideoUrl() -> NSURL? {
+        if let videoUrl = evaluatePlayerCommand("getVideoUrl()") {
+            return NSURL(string: videoUrl)
+        }
+        return nil
+    }
+    
+    public func getVideoId() -> String? {
+        if let videoUrl = getVideoUrl() {
+            return videoUrl.queryStringComponents()["v"] as? String
+        }
+        return nil
+    }
+    
+    public func videoEmbedCode() -> String? {
+        return evaluatePlayerCommand("getVideoEmbedCode()")
+    }
+    
     // MARK: Playlist controls
 
     public func previousVideo() {
@@ -215,9 +268,17 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
 
         // Replace %@ in rawHTMLString with jsonParameters string
         let htmlString = rawHTMLString.stringByReplacingOccurrencesOfString("%@", withString: jsonParameters)
-
+        
+        let baseURL: NSURL?
+        if  let playerVars = parameters["playerVars"] as? YouTubePlayerParameters,
+            let origin = playerVars["origin"] as? String,
+            let originURL = NSURL(string: origin) {
+                baseURL = originURL
+        } else {
+            baseURL = NSURL(string: "about:blank")
+        }
         // Load HTML in web view
-        webView.loadHTMLString(htmlString, baseURL: NSURL(string: "about:blank"))
+        webView.loadHTMLString(htmlString, baseURL: baseURL)
     }
 
     private func playerHTMLPath() -> String {
@@ -287,39 +348,58 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     // MARK: JS Event Handling
 
     private func handleJSEvent(eventURL: NSURL) {
-
+        
         // Grab the last component of the queryString as string
+        guard let host = eventURL.host else { return }
+        guard let event = YouTubePlayerEvents(rawValue: host) else { return }
+        
         let data: String? = eventURL.queryStringComponents()["data"] as? String
-
-        if let host = eventURL.host, let event = YouTubePlayerEvents(rawValue: host) {
-
-            // Check event type and handle accordingly
-            switch event {
-                case .YouTubeIframeAPIReady:
-                    ready = true
-                    break
-
-                case .Ready:
-                    delegate?.playerReady(self)
-
-                    break
-
-                case .StateChange:
-                    if let newState = YouTubePlayerState(rawValue: data!) {
-                        playerState = newState
-                        delegate?.playerStateChanged(self, playerState: newState)
-                    }
-
-                    break
-
-                case .PlaybackQualityChange:
-                    if let newQuality = YouTubePlaybackQuality(rawValue: data!) {
-                        playbackQuality = newQuality
-                        delegate?.playerQualityChanged(self, playbackQuality: newQuality)
-                    }
-
-                    break
+        
+        // Check event type and handle accordingly
+        switch event {
+        case .YouTubeIframeAPIReady:
+            ready = true
+            
+        case .Ready:
+            delegate?.playerReady(self)
+            
+        case .StateChange:
+            if let data = data, let newState = YouTubePlayerState(rawValue: data) {
+                playerState = newState
+                delegate?.player(self, stateChanged: newState)
             }
+            
+        case .PlaybackQualityChange:
+            if let data = data, let newQuality = YouTubePlaybackQuality(rawValue: data) {
+                playbackQuality = newQuality
+                delegate?.player(self, playbackQualityChanged: newQuality)
+            }
+            
+        case .Error:
+            if let data = data, let errorCode = YouTubePlayerErrorCodes(rawValue: data) {
+                let error: YouTubePlayerError
+                switch errorCode {
+                case .CannotFindVideo:
+                    fallthrough
+                case .VideoNotFound:
+                    error = .VideoNotFound
+                case .HTML5:
+                    error = .HTML5
+                case .InvalidParameter:
+                    error = .InvalidParameter
+                case .NotEmbeddable:
+                    fallthrough
+                case .SameAsNotEmbeddable:
+                    error = .NotEmbeddable
+                }
+                delegate?.player(self, receivedError: error)
+            }
+            
+        case .PlayTime:
+            if let data = data, let time = NSTimeInterval(data) {
+                delegate?.player(self, didPlayTime: time)
+            }
+            
         }
     }
 

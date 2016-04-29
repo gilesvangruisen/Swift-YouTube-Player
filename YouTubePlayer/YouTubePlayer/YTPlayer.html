@@ -27,23 +27,31 @@
         <script>
             var player;
             YT.ready(function() {
-                     player = new YT.Player('player', %@);
-                     window.location.href = 'ytplayer://onYouTubeIframeAPIReady';
-                     });
-                     function onReady(event) {
-                         window.location.href = 'ytplayer://onReady?data=' + event.data;
-                     }
+                player = new YT.Player('player', %@);
+                window.location.href = 'ytplayer://onYouTubeIframeAPIReady';
 
-        function onStateChange(event) {
-            window.location.href = 'ytplayer://onStateChange?data=' + event.data;
-        }
-
-        function onPlaybackQualityChange(event) {
-            window.location.href = 'ytplayer://onPlaybackQualityChange?data=' + event.data;
-        }
-        function onPlayerError(event) {
-            window.location.href = 'ytplayer://onError?data=' + event.data;
-        }
+                // this will transmit playTime frequently while playng
+                function getCurrentTime() {
+                    var state = player.getPlayerState();
+                    if (state == YT.PlayerState.PLAYING) {
+                        time = player.getCurrentTime()
+                        window.location.href = 'ytplayer://onPlayTime?data=' + time;
+                    }
+                }
+                window.setInterval(getCurrentTime, 500);
+            });
+            function onReady(event) {
+                window.location.href = 'ytplayer://onReady?data=' + event.data;
+            }
+            function onStateChange(event) {
+                window.location.href = 'ytplayer://onStateChange?data=' + event.data;
+            }
+            function onPlaybackQualityChange(event) {
+                window.location.href = 'ytplayer://onPlaybackQualityChange?data=' + event.data;
+            }
+            function onPlayerError(event) {
+                window.location.href = 'ytplayer://onError?data=' + event.data;
+            }
         </script>
     </body>
 </html>
