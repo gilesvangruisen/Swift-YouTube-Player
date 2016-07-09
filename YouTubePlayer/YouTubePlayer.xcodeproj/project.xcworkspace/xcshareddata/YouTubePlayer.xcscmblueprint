@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "365CB2E3EF4883F2F8B5BBE74CA13F19257DB9D9",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "C8A3DACD8CEC65F509F80DDE14E671DE76C792A5" : 0,
+    "365CB2E3EF4883F2F8B5BBE74CA13F19257DB9D9" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "6568F302-C52F-42BF-93EF-5A2169D7EAB3",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "C8A3DACD8CEC65F509F80DDE14E671DE76C792A5" : "",
+    "365CB2E3EF4883F2F8B5BBE74CA13F19257DB9D9" : "Swift-YouTube-Player\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "YouTubePlayer",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "YouTubePlayer\/YouTubePlayer.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/LaserPatrick\/Swift-YouTube-Player.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "365CB2E3EF4883F2F8B5BBE74CA13F19257DB9D9"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/git.laser-group.com\/iOSUtils.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C8A3DACD8CEC65F509F80DDE14E671DE76C792A5"
+    }
+  ]
+}
