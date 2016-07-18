@@ -5,9 +5,22 @@
 //  Created by Giles Van Gruisen on 12/21/14.
 //  Copyright (c) 2014 Giles Van Gruisen. All rights reserved.
 //
+//  Updated for OSX/macOS by Justin Kaufman (JUSTINMKAUFMAN) on 7/6/16.
+//
 
+#if os(iOS)
+    
 import UIKit
 
+#elseif os(OSX)
+
+import Cocoa
+import Foundation
+import WebKit
+
+#endif
+
+    
 public enum YouTubePlayerState: String {
     case Unstarted = "-1"
     case Ended = "0"
@@ -80,12 +93,35 @@ public func videoIDFromYouTubeURL(videoURL: NSURL) -> String? {
 }
 
 /** Embed and control YouTube videos */
-public class YouTubePlayerView: UIView, UIWebViewDelegate {
+
+/** These are the classes required for iOS (default) */
+var playerClasses = [UIView, UIWebViewDelegate]
+
+#if os(OSX)
+    
+    /** These are the different classes required for macOS */
+    playerClasses = [NSView, WKNavigationDelegate, WKScriptMessageHandler, WKUIDelegate]
+    
+#endif
+    
+public class YouTubePlayerView: playerClasses {
 
     public typealias YouTubePlayerParameters = [String: AnyObject]
+    
+    #if os(iOS)
 
-    private var webView: UIWebView!
+        private var webView: UIWebView!
 
+    #elseif os(OSX)
+    
+        public var contentController: WKUserContentController?
+    
+        public var webView: WKWebView?
+    
+        public var webConfig: WKWebViewConfiguration?
+    
+    #endif
+    
     /** The readiness of the player */
     private(set) public var ready = false
 
@@ -114,24 +150,63 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
         buildWebView(playerParameters())
     }
 
-    override public func layoutSubviews() {
-        super.layoutSubviews()
+    
+    #if os(iOS)
+    
+        override public func layoutSubviews() {
+            super.layoutSubviews()
 
-        // Remove web view in case it's within view hierarchy, reset frame, add as subview
-        webView.removeFromSuperview()
-        webView.frame = bounds
-        addSubview(webView)
+            // Remove web view in case it's within view hierarchy, reset frame, add as subview
+            webView.removeFromSuperview()
+            webView.frame = bounds
+            addSubview(webView)
     }
-
+    
+    #elseif os(OSX)
+    
+        override public func resizeSubviewsWithOldSize(oldSize: NSSize) {
+        
+            super.resizeSubviewsWithOldSize(oldSize)
+        
+            webView?.removeFromSuperview()
+        
+            webView!.frame = bounds
+        
+            addSubview(webView!)
+        
+        }
+    
+        override public func layout() {
+        
+            super.layout()
+        
+        }
+    
+    #endif
+    
 
     // MARK: Web view initialization
 
     private func buildWebView(parameters: [String: AnyObject]) {
-        webView = UIWebView()
-        webView.allowsInlineMediaPlayback = true
-        webView.mediaPlaybackRequiresUserAction = false
-        webView.delegate = self
-        webView.scrollView.scrollEnabled = false
+        
+        #if os(iOS)
+        
+            webView = UIWebView()
+            webView.allowsInlineMediaPlayback = true
+            webView.mediaPlaybackRequiresUserAction = false
+            webView.delegate = self
+            webView.scrollView.scrollEnabled = false
+        
+        #elseif os(OSX)
+        
+            contentController = WKUserContentController()
+            webConfig = WKWebViewConfiguration()
+            webConfig!.userContentController = contentController!
+            self.webView = WKWebView(frame: CGRectZero, configuration: webConfig!)
+            self.webView?.navigationDelegate = self
+            
+        #endif
+        
     }
 
 
@@ -201,7 +276,12 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     
     private func evaluatePlayerCommand(command: String) -> String? {
         let fullCommand = "player." + command + ";"
-        return webView.stringByEvaluatingJavaScriptFromString(fullCommand)
+        
+        #if os(iOS)
+            return webView.stringByEvaluatingJavaScriptFromString(fullCommand)
+        #elseif os(OSX)
+            return webView!.stringByEvaluatingJavaScriptFromString(fullCommand)
+        #endif
     }
 
 
@@ -326,20 +406,169 @@ public class YouTubePlayerView: UIView, UIWebViewDelegate {
     }
 
 
-    // MARK: UIWebViewDelegate
+    #if os(iOS)
+    
+        // MARK: UIWebViewDelegate
 
-    public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
 
-        let url = request.URL
+            let url = request.URL
 
-        // Check if ytplayer event and, if so, pass to handleJSEvent
-        if let url = url where url.scheme == "ytplayer" { handleJSEvent(url) }
+            // Check if ytplayer event and, if so, pass to handleJSEvent
+            if let url = url where url.scheme == "ytplayer" { handleJSEvent(url) }
 
-        return true
-    }
+            return true
+        }
+    
+    #elseif os(OSX)
+    
+        public func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
+        
+            let action = navigationAction
+        
+            let actionUrl: NSURL = action.request.URL!
+            
+            if actionUrl.scheme == "ytplayer" {
+            
+                self.handleJSEvent(actionUrl)
+            
+                decisionHandler(.Cancel)
+            
+            }
+            
+            else {
+            
+                decisionHandler(.Allow)
+            
+            }
+        
+        }
+    
+        public func getStringFromCommand(command: String, arguments: [String]) -> String {
+        
+            let task = NSTask()
+        
+            task.launchPath = command
+        
+            task.arguments = arguments
+        
+            let pipe = NSPipe()
+        
+            task.standardOutput = pipe
+        
+            task.launch()
+        
+            let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        
+            let output: String = String(data: data, encoding: NSUTF8StringEncoding)!
+        
+            return output
+        
+        }
+    
+        public func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
+        
+            if message.name == "player" {
+            
+                let data = message.body as! NSDictionary
+            
+                var string = getStringFromCommand(data["command"] as! String, arguments: data["arguments"] as! [String])
+            
+                string = string.stringByReplacingOccurrencesOfString("\n", withString: "\\n")
+            
+                string = string.stringByReplacingOccurrencesOfString("\r", withString: "\\r")
+            
+                let callbackString = "window.callbacksFromOS[\"" + (data["callbackFunction"] as! String) + "\"](\"" + string + "\")"
+            
+                webView?.evaluateJavaScript(callbackString, completionHandler: nil)
+            
+            }
+        
+        }
+    
+    #endif
+    
 }
 
 private func printLog(strings: CustomStringConvertible...) {
     let toPrint = ["[YouTubePlayer]"] + strings
     print(toPrint, separator: " ", terminator: "\n")
 }
+
+#if os(OSX)
+
+    // The method for evaluating JavaScript on macOS runs async with
+    // a completion handler. This makes it unsuitable as a drop-in
+    // replacement for the equivalent iOS method (which runs sync).
+
+    // The following extension uses the method in the macOS framework,
+    // with additional code to wait for the return value to make it
+    // compatible with the iOS method. 
+
+    // Thanks to a SO post (apologies, but I seem to have lost track
+    // of the post URL) for pointing me in the right direction on this.
+    
+    extension WKWebView {
+        
+        func stringByEvaluatingJavaScriptFromString(script: String) -> String {
+            
+            var resultString: String = ""
+            
+            var finished: Bool = false
+            
+            self.evaluateJavaScript(script, completionHandler: {(result: AnyObject?, error: NSError?) -> Void in
+                
+                if error == nil {
+                    
+                    if result != nil {
+                        
+                        // Handle adding optional string
+                        if let strResult = result as? NSString {
+                            
+                            resultString = strResult as String
+                            
+                        }
+                            
+                        else {
+                            
+                            if let numResult = result as? NSNumber {
+                                
+                                resultString = numResult.stringValue
+                                
+                            }
+                                
+                            else{
+                                
+                                resultString = "\(result)"
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }
+                    
+                else {
+                    
+                    // Handle javascript data return error
+                    
+                }
+                
+                finished = true
+                
+            })
+            
+            while !finished {
+                
+                NSRunLoop.currentRunLoop().runMode(NSDefaultRunLoopMode, beforeDate: NSDate.distantFuture())
+                
+            }
+            return resultString
+        }
+        
+    }
+    
+#endif
+
+
