@@ -61,7 +61,9 @@ private extension NSURL {
 
                 // Pull key, val from from pair parts (separated by =) and set dict[key] = value
                 let components = pair.componentsSeparatedByString("=")
-                dict[components[0]] = components[1]
+                if (components.count > 1) {
+                    dict[components[0]] = components[1]
+                }
             }
 
         }
