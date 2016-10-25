@@ -17,44 +17,60 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        //for triggering playerReady events
+        playerView.delegate = playerView
     }
 
-    @IBAction func play(sender: UIButton) {
+    @IBAction func play(_ sender: UIButton) {
         if playerView.ready {
             if playerView.playerState != YouTubePlayerState.Playing {
                 playerView.play()
-                playButton.setTitle("Pause", forState: .Normal)
+                playButton.setTitle("Pause", for: UIControlState())
             } else {
                 playerView.pause()
-                playButton.setTitle("Play", forState: .Normal)
+                playButton.setTitle("Play", for: UIControlState())
             }
         }
     }
 
-    @IBAction func prev(sender: UIButton) {
+    @IBAction func prev(_ sender: UIButton) {
         playerView.previousVideo()
     }
 
-    @IBAction func next(sender: UIButton) {
+    @IBAction func next(_ sender: UIButton) {
         playerView.nextVideo()
     }
 
-    @IBAction func loadVideo(sender: UIButton) {
-        playerView.playerVars = ["playsinline": "1"]
-        playerView.loadVideoID("wQg3bXrVLtg")
+    @IBAction func loadVideo(_ sender: UIButton) {
+        
+        //remove any subview related with loading spinner if it existed.
+        playerView.removeActivityIndicatorView()
+        
+        //show loading spinner
+        playerView.showActivityIndicatorView()
+        
+        playerView.playerVars = ["playsinline": "1" as AnyObject]
+        playerView.loadVideoID("KvtT3UyhibQ")
     }
 
-    @IBAction func loadPlaylist(sender: UIButton) {
+    @IBAction func loadPlaylist(_ sender: UIButton) {
+        
+        //remove any subview related with loading spinner if it existed.
+        playerView.removeActivityIndicatorView()
+        //show loading spinner
+        playerView.showActivityIndicatorView()
+        
         playerView.loadPlaylistID("RDe-ORhEE9VVg")
     }
 
-    func showAlert(message: String) {
-        self.presentViewController(alertWithMessage(message), animated: true, completion: nil)
+    func showAlert(_ message: String) {
+        self.present(alertWithMessage(message), animated: true, completion: nil)
     }
 
-    func alertWithMessage(message: String) -> UIAlertController {
-        let alertController =  UIAlertController(title: "", message: message, preferredStyle: .Alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+    func alertWithMessage(_ message: String) -> UIAlertController {
+        let alertController =  UIAlertController(title: "", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
 
         return alertController
     }

@@ -66,7 +66,83 @@ public func videoIDFromYouTubeURL(_ videoURL: URL) -> String? {
 }
 
 /** Embed and control YouTube videos */
-open class YouTubePlayerView: UIView, UIWebViewDelegate {
+open class YouTubePlayerView: UIView, UIWebViewDelegate,YouTubePlayerDelegate {
+    
+    struct Keys{
+        
+        //trigger "Can not load" after some seconds
+        static let timerTimeInterval : TimeInterval = 40.0
+        
+        //Activity Indicator's container and loading view settings
+        static let actIndicatorContainerColor : String = "000000"
+        static let actIndicatorLoadingViewFrameWidth : CGFloat = 70.0
+        static let actIndicatorLoadingViewFrameHeight : CGFloat = 70.0
+        static let actIndicatorLoadingViewBackGroundColor : String = "929292"
+        
+        //Activity Indicator settings
+        static let actIndicatorFrameWidth : CGFloat = 40.0
+        static let actIndicatorFrameHeigth : CGFloat = 40.0
+        static let actIndicatorColor : String = "616161"
+        
+        //Warning Label settings
+        static let warningLabelFrameWidthRatio : CGFloat = 1.8
+        static let warningLabelFrameHeightRatio: CGFloat = 2.0
+        static let warningLabelText: String = "CAN NOT LOAD VIDEO, PLEASE TRY AGAIN LATER!"
+        static let warningLabelTextColor: String = "A9ABB3"
+        static let warningLabelTextFontType: String = "Avenir Next Condensed Ultra Light"
+        static let warningLabelTextFontSize: CGFloat = 20.0
+    }
+    
+    var actInd: UIActivityIndicatorView = UIActivityIndicatorView()
+    
+    //Activity indicator background view
+    var container: UIView = UIView()
+    
+    //Activity indicator loading view
+    var loadingView: UIView = UIView()
+    
+    //Load timer, it allows Warning Label (Can not load) to be presented after some seconds.
+    public var timer: Timer!
+    
+    //configure and show loading spinner
+    public func showActivityIndicatorView(){
+        
+        let container: UIView = UIView()
+        container.frame = webView.frame
+        container.center = webView.center
+        container.backgroundColor = UIColor(colorCode: Keys.actIndicatorContainerColor, alpha: 1.0)
+        container.tag = 1453
+        
+        loadingView.frame = CGRect(x: 0, y: 0, width: Keys.actIndicatorLoadingViewFrameWidth, height: Keys.actIndicatorLoadingViewFrameHeight)
+        loadingView.center = webView.center
+        loadingView.backgroundColor = UIColor(colorCode: Keys.actIndicatorLoadingViewBackGroundColor, alpha: 1.0)
+        loadingView.clipsToBounds = true
+        loadingView.layer.cornerRadius = loadingView.frame.height/2
+        loadingView.tag = 1454
+        
+        actInd.frame = CGRect(x: 0, y: 0, width: Keys.actIndicatorLoadingViewFrameWidth
+            , height: Keys.actIndicatorLoadingViewFrameHeight)
+        actInd.center = CGPoint(x: loadingView.frame.size.width/2, y: loadingView.frame.size.height/2)
+        actInd.hidesWhenStopped = true
+        actInd.activityIndicatorViewStyle =
+            UIActivityIndicatorViewStyle.white
+        actInd.color = UIColor(colorCode: Keys.actIndicatorColor, alpha: 1.0)
+        actInd.tag = 1455
+        
+        loadingView.addSubview(actInd)
+        container.addSubview(loadingView)
+        self.webView.addSubview(container)
+        
+        actInd.startAnimating()
+    }
+    
+    //stop activity indicator and remove related subviews
+    public func removeActivityIndicatorView(){
+        actInd.stopAnimating()
+        self.viewWithTag(1455)?.removeFromSuperview()
+        self.viewWithTag(1454)?.removeFromSuperview()
+        self.viewWithTag(1453)?.removeFromSuperview()
+    }
 
     public typealias YouTubePlayerParameters = [String: AnyObject]
 
@@ -101,6 +177,16 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
         super.init(coder: aDecoder)!
         buildWebView(playerParameters())
     }
+    
+    public func playerReady(_ videoPlayer: YouTubePlayerView){
+        
+        removeActivityIndicatorView()
+    }
+    
+    public func playerQualityChanged(_ videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality) {}
+    
+    
+    public func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {}
 
     override open func layoutSubviews() {
         super.layoutSubviews()
@@ -117,6 +203,7 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     fileprivate func buildWebView(_ parameters: [String: AnyObject]) {
         webView = UIWebView()
         webView.allowsInlineMediaPlayback = true
+        webView.backgroundColor = UIColor.black
         webView.mediaPlaybackRequiresUserAction = false
         webView.delegate = self
         webView.scrollView.isScrollEnabled = false
@@ -126,12 +213,14 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     // MARK: Load player
 
     open func loadVideoURL(_ videoURL: URL) {
+        
         if let videoID = videoIDFromYouTubeURL(videoURL) {
             loadVideoID(videoID)
         }
     }
 
     open func loadVideoID(_ videoID: String) {
+        
         var playerParams = playerParameters()
         playerParams["videoId"] = videoID as AnyObject?
 
@@ -139,6 +228,7 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     }
 
     open func loadPlaylistID(_ playlistID: String) {
+        
         // No videoId necessary when listType = playlist, list = [playlist Id]
         playerVars["listType"] = "playlist" as AnyObject?
         playerVars["list"] = playlistID as AnyObject?
@@ -189,6 +279,13 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
 
     fileprivate func loadWebViewWithParameters(_ parameters: YouTubePlayerParameters) {
 
+        //prevent timer duplicate initilisation
+        if timer != nil {
+            if timer.isValid{
+                timer.invalidate()
+            }
+        }
+    
         // Get HTML from player file in bundle
         let rawHTMLString = htmlStringWithFilePath(playerHTMLPath())!
 
@@ -203,7 +300,7 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     }
 
     fileprivate func playerHTMLPath() -> String {
-        return Bundle.main.path(forResource: "YTPlayer", ofType: "html")!
+         return Bundle(for: self.classForCoder).path(forResource: "YTPlayer", ofType: "html")!
     }
 
     fileprivate func htmlStringWithFilePath(_ path: String) -> String? {
@@ -306,14 +403,56 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     open func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
 
         let url = request.url
-
-        // Check if ytplayer event and, if so, pass to handleJSEvent
-        if let url = url , url.scheme == "ytplayer" { handleJSEvent(url) }
-
+        
+        // Check if ytplayer event, wait some time (timeTimeInterval) and, if so, pass to handleJSEvent and if not show can not load label
+        if url!.scheme == "ytplayer" {
+            if timer.isValid{
+                timer.invalidate()
+            }
+            handleJSEvent(url!)
+        }else if url?.absoluteString == "about:blank"{
+            timer = Timer.scheduledTimer(timeInterval: Keys.timerTimeInterval, target: self, selector: Selector("update"), userInfo: nil, repeats: false)
+        }
         return true
+    }
+    
+    //show can not load warning if can not load in timerTimeInterval seconds
+    func update(){
+        actInd.stopAnimating()
+        
+        self.viewWithTag(1455)?.removeFromSuperview()
+        self.viewWithTag(1454)?.removeFromSuperview()
+        
+        let label = UILabel(frame:CGRect(x: 0, y: 0, width: (self.viewWithTag(1453)?.frame.width)! / Keys.warningLabelFrameWidthRatio, height:((self.viewWithTag(1453)?.frame.height)! / Keys.warningLabelFrameHeightRatio)))
+        label.center = (self.viewWithTag(1453)?.center)!
+        label.font = UIFont(name: Keys.warningLabelTextFontType, size: Keys.warningLabelTextFontSize)
+        label.textAlignment = NSTextAlignment.center
+        label.textColor = UIColor(colorCode: Keys.warningLabelTextColor, alpha: 1.0)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.text = Keys.warningLabelText
+        label.adjustsFontSizeToFitWidth = true
+        label.tag = 1456
+        self.viewWithTag(1453)?.addSubview(label)
     }
 }
 
 private func printLog(_ str: String) {
     print(" [YouTubePlayer] \(str)")
+}
+
+//input UIColor with colorCode
+extension UIColor {
+    convenience init(colorCode: String, alpha: Float = 1.0){
+        let scanner = Scanner(string:colorCode)
+        var color:UInt32 = 0;
+        scanner.scanHexInt32(&color)
+        
+        let mask = 0x000000FF
+        let r = CGFloat(Float(Int(color >> 16) & mask)/255.0)
+        let g = CGFloat(Float(Int(color >> 8) & mask)/255.0)
+        let b = CGFloat(Float(Int(color) & mask)/255.0)
+        
+        self.init(red: r, green: g, blue: b, alpha: CGFloat(alpha))
+    }
 }
