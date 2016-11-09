@@ -21,27 +21,27 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-    @IBAction func play(sender: UIButton) {
+    @IBAction func play(_ sender: UIButton) {
         if playerView.ready {
             if playerView.playerState != YouTubePlayerState.Playing {
                 playerView.play()
-                playButton.setTitle("Pause", forState: .Normal)
+                playButton.setTitle("Pause", for: UIControlState())
             } else {
                 playerView.pause()
-                playButton.setTitle("Play", forState: .Normal)
+                playButton.setTitle("Play", for: UIControlState())
             }
         }
     }
 
-    @IBAction func prev(sender: UIButton) {
+    @IBAction func prev(_ sender: UIButton) {
         playerView.previousVideo()
     }
 
-    @IBAction func next(sender: UIButton) {
+    @IBAction func next(_ sender: UIButton) {
         playerView.nextVideo()
     }
 
-    @IBAction func loadVideo(sender: UIButton) {
+    @IBAction func loadVideo(_ sender: UIButton) {
         playerView.playerVars = [
             "playsinline": "1",
             "controls": "0",
@@ -50,27 +50,27 @@ class ViewController: UIViewController {
         playerView.loadVideoID("wQg3bXrVLtg")
     }
 
-    @IBAction func loadPlaylist(sender: UIButton) {
+    @IBAction func loadPlaylist(_ sender: UIButton) {
         playerView.loadPlaylistID("RDe-ORhEE9VVg")
     }
     
-    @IBAction func currentTime(sender: UIButton) {
+    @IBAction func currentTime(_ sender: UIButton) {
         let title = String(format: "Current Time %@", playerView.getCurrentTime() ?? "0")
         currentTimeButton.setTitle(title, forState: .Normal)
     }
     
-    @IBAction func duration(sender: UIButton) {
+    @IBAction func duration(_ sender: UIButton) {
         let title = String(format: "Duration %@", playerView.getDuration() ?? "0")
         durationButton.setTitle(title, forState: .Normal)
     }
 
-    func showAlert(message: String) {
-        self.presentViewController(alertWithMessage(message), animated: true, completion: nil)
+    func showAlert(_ message: String) {
+        self.present(alertWithMessage(message), animated: true, completion: nil)
     }
 
-    func alertWithMessage(message: String) -> UIAlertController {
-        let alertController =  UIAlertController(title: "", message: message, preferredStyle: .Alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+    func alertWithMessage(_ message: String) -> UIAlertController {
+        let alertController =  UIAlertController(title: "", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
 
         return alertController
     }
