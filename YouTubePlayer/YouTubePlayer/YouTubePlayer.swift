@@ -73,7 +73,7 @@ private extension NSURL {
 }
 
 public func videoIDFromYouTubeURL(videoURL: NSURL) -> String? {
-    if let host = videoURL.host, pathComponents = videoURL.pathComponents where pathComponents.count > 1 && host.hasSuffix("youtu.be") {
+    if let host = videoURL.host, let pathComponents = videoURL.pathComponents where pathComponents.count > 1 && host.hasSuffix("youtu.be") {
         return pathComponents[1]
     }
     return videoURL.queryStringComponents()["v"] as? String
