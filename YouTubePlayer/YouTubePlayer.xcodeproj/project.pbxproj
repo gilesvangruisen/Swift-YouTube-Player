@@ -107,6 +107,7 @@
 				TargetAttributes = {
 					502AE85E1A475FD500306AD1 = {
 						CreatedOnToolsVersion = 6.1;
+						LastSwiftMigration = 0810;
 					};
 				};
 			};
@@ -252,6 +253,7 @@
 				PRODUCT_NAME = YouTubePlayer;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -270,6 +272,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gilesvangruisen.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = YouTubePlayer;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
