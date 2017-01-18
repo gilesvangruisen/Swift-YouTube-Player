@@ -102,7 +102,9 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     /** Used to respond to player events */
     open weak var delegate: YouTubePlayerDelegate?
 
-
+    /** Video ID */
+    open var videoID:String?
+    
     // MARK: Various methods for initialization
 
     override public init(frame: CGRect) {
@@ -145,6 +147,7 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     }
 
     open func loadVideoID(_ videoID: String) {
+        self.videoID = videoID
         var playerParams = playerParameters()
         playerParams["videoId"] = videoID as Any?
 
