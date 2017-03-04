@@ -128,6 +128,8 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     
     fileprivate func buildWebView(_ parameters: [String: AnyObject]) {
         webView = UIWebView()
+        webView.isOpaque = false
+        webView.backgroundColor = UIColor.clear
         webView.allowsInlineMediaPlayback = true
         webView.mediaPlaybackRequiresUserAction = false
         webView.delegate = self
