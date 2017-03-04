@@ -233,7 +233,7 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     }
     
     fileprivate func playerHTMLPath() -> String {
-        return Bundle(for: self.classForCoder).path(forResource: "YTPlayer", ofType: "html")!
+        return Bundle(for: YouTubePlayerView.self).path(forResource: "YTPlayer", ofType: "html")!
     }
     
     fileprivate func htmlStringWithFilePath(_ path: String) -> String? {
