@@ -97,7 +97,11 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     
     /** Used to configure the player */
     open var playerVars = YouTubePlayerParameters()
-    
+
+    /** Option to sepcify your domain. More info check: https://developers.google.com/youtube/player_parameters#Manual_IFrame_Embeds.
+     This is also a solution how to get access some videos restricted on mobile: http://stackoverflow.com/a/31060173/1545278 */
+    open var originURL: URL?
+
     /** Used to respond to player events */
     open weak var delegate: YouTubePlayerDelegate?
     
@@ -229,7 +233,7 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
         let htmlString = rawHTMLString.replacingOccurrences(of: "%@", with: jsonParameters)
         
         // Load HTML in web view
-        webView.loadHTMLString(htmlString, baseURL: URL(string: "about:blank"))
+        webView.loadHTMLString(htmlString, baseURL: (originURL != nil) ? originURL : URL(string: "about:blank"))
     }
     
     fileprivate func playerHTMLPath() -> String {
