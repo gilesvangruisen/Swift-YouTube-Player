@@ -47,7 +47,8 @@ class ViewController: UIViewController {
             "controls": "0",
             "showinfo": "0"
         ]
-        playerView.loadVideoID("wQg3bXrVLtg")
+        playerView.videoRestricted = true
+        playerView.loadVideoID("y_5OAlm84Go")
     }
 
     @IBAction func loadPlaylist(_ sender: UIButton) {
@@ -56,12 +57,12 @@ class ViewController: UIViewController {
     
     @IBAction func currentTime(_ sender: UIButton) {
         let title = String(format: "Current Time %@", playerView.getCurrentTime() ?? "0")
-        currentTimeButton.setTitle(title, forState: .Normal)
+        currentTimeButton.setTitle(title, for: .normal)
     }
     
     @IBAction func duration(_ sender: UIButton) {
         let title = String(format: "Duration %@", playerView.getDuration() ?? "0")
-        durationButton.setTitle(title, forState: .Normal)
+        durationButton.setTitle(title, for: .normal)
     }
 
     func showAlert(_ message: String) {

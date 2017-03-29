@@ -105,6 +105,11 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     /** Video ID */
     open var videoID:String?
     
+    /** Restricted */
+    /** Set to true if you try play video and get error that
+        its restricted to play only on youtube website */
+    open var videoRestricted:Bool = false
+    
     // MARK: Various methods for initialization
 
     override public init(frame: CGRect) {
@@ -223,7 +228,13 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
         let htmlString = rawHTMLString.replacingOccurrences(of: "%@", with: jsonParameters)
 
         // Load HTML in web view
-        webView.loadHTMLString(htmlString, baseURL: URL(string: "about:blank"))
+        if videoRestricted {
+            if let videoID = videoID {
+                webView.loadHTMLString(htmlString, baseURL: URL(string: "https://www.youtube.com/embed/\(videoID)"))
+            }
+        } else {
+            webView.loadHTMLString(htmlString, baseURL: URL(string: "about:blank"))
+        }
     }
 
     fileprivate func playerHTMLPath() -> String {

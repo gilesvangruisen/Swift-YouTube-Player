@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07F13CBD1E8BBB6A00A95E84 /* YouTubePlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07F13CBC1E8BBB6A00A95E84 /* YouTubePlayer.framework */; };
 		50BB8AE81A7D914C00216B49 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BB8AE71A7D914C00216B49 /* AppDelegate.swift */; };
 		50BB8AEA1A7D914C00216B49 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BB8AE91A7D914C00216B49 /* ViewController.swift */; };
 		50BB8AED1A7D914C00216B49 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50BB8AEB1A7D914C00216B49 /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		07F13CBC1E8BBB6A00A95E84 /* YouTubePlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YouTubePlayer.framework; path = "../../../../Library/Developer/Xcode/DerivedData/YouTubePlayer-dvaqefiigdjmpngouiqwygreblil/Build/Products/Debug-iphonesimulator/YouTubePlayer.framework"; sourceTree = "<group>"; };
 		50BB8AE21A7D914C00216B49 /* YouTubePlayerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouTubePlayerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50BB8AE61A7D914C00216B49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50BB8AE71A7D914C00216B49 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -29,17 +31,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07F13CBD1E8BBB6A00A95E84 /* YouTubePlayer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		07F13CBB1E8BBB6A00A95E84 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				07F13CBC1E8BBB6A00A95E84 /* YouTubePlayer.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		50BB8AD91A7D914C00216B49 = {
 			isa = PBXGroup;
 			children = (
 				50BB8AE41A7D914C00216B49 /* YouTubePlayerExample */,
 				50BB8AE31A7D914C00216B49 /* Products */,
+				07F13CBB1E8BBB6A00A95E84 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
