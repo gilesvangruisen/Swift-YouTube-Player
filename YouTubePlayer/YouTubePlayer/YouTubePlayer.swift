@@ -8,6 +8,13 @@
 
 import UIKit
 
+public enum VideoControlsState: String {
+    case DoNotDisplay = "0"
+    case DisplayImmediately = "1"
+    case DisplayAfterInitiatesVideoPlayback = "2"
+    case Unknown
+}
+
 public enum YouTubePlayerState: String {
     case Unstarted = "-1"
     case Ended = "0"
@@ -97,7 +104,11 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     
     /** Used to configure the player */
     open var playerVars = YouTubePlayerParameters()
-    
+
+    /** Option to sepcify your domain. More info check: https://developers.google.com/youtube/player_parameters#Manual_IFrame_Embeds.
+     This is also a solution how to get access some videos restricted on mobile: http://stackoverflow.com/a/31060173/1545278 */
+    open var originURL: URL?
+
     /** Used to respond to player events */
     open weak var delegate: YouTubePlayerDelegate?
     
@@ -130,7 +141,7 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
         webView = UIWebView()
         webView.isOpaque = false
         webView.backgroundColor = UIColor.clear
-        webView.allowsInlineMediaPlayback = true
+        webView.allowsInlineMediaPlayback = false
         webView.mediaPlaybackRequiresUserAction = false
         webView.delegate = self
         webView.scrollView.isScrollEnabled = false
@@ -162,6 +173,57 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     
     
     // MARK: Player controls
+    
+    /// by default, the youtube player will not play inline on iPhone until iOS10
+    /// setting this to true will force it to play inline
+    open var playInline : Bool {
+        get {
+            if let playsinline = playerVars["playsinline"] as? String {
+                return playsinline == "1"
+            }
+            return false
+        }
+        set {
+            playerVars["playsinline"] = "\(newValue ? 1 : 0)" as AnyObject
+            webView.allowsInlineMediaPlayback = newValue
+        }
+    }
+    
+    open var showRelatedVideos : Bool {
+        get {
+            if let rel = playerVars["rel"] as? String {
+                return rel == "1"
+            }
+            return false
+        }
+        set {
+            playerVars["rel"] = "\(newValue ? 1 : 0)" as AnyObject
+        }
+    }
+    
+    open var controls: VideoControlsState {
+        get {
+            if let controls = playerVars["controls"] as? String {
+                return VideoControlsState(rawValue: controls) ?? .Unknown
+            }
+            return .DisplayImmediately // This is the default
+        }
+        set {
+            playerVars["controls"] = newValue.rawValue as AnyObject
+        }
+    }
+    
+    open var showInfo : Bool {
+        get {
+            if let rel = playerVars["showinfo"] as? String {
+                return rel == "1"
+            }
+            return false
+        }
+        set {
+            playerVars["showinfo"] = "\(newValue ? 1 : 0)" as AnyObject
+        }
+    }
     
     open func mute() {
         evaluatePlayerCommand("mute()")
@@ -209,7 +271,7 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
         evaluatePlayerCommand("nextVideo()")
     }
     
-    fileprivate func evaluatePlayerCommand(_ command: String) -> String? {
+    @discardableResult fileprivate func evaluatePlayerCommand(_ command: String) -> String? {
         let fullCommand = "player." + command + ";"
         return webView.stringByEvaluatingJavaScript(from: fullCommand)
     }
@@ -229,7 +291,7 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
         let htmlString = rawHTMLString.replacingOccurrences(of: "%@", with: jsonParameters)
         
         // Load HTML in web view
-        webView.loadHTMLString(htmlString, baseURL: URL(string: "about:blank"))
+        webView.loadHTMLString(htmlString, baseURL: (originURL != nil) ? originURL : URL(string: "about:blank"))
     }
     
     fileprivate func playerHTMLPath() -> String {
