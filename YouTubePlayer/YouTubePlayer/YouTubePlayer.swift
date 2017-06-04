@@ -83,6 +83,7 @@ public func videoIDFromYouTubeURL(_ videoURL: URL) -> String? {
 open class YouTubePlayerView: UIView, UIWebViewDelegate {
     
     public typealias YouTubePlayerParameters = [String: AnyObject]
+    public var baseURL = "about:blank"
     
     fileprivate var webView: UIWebView!
     
@@ -229,7 +230,7 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
         let htmlString = rawHTMLString.replacingOccurrences(of: "%@", with: jsonParameters)
         
         // Load HTML in web view
-        webView.loadHTMLString(htmlString, baseURL: URL(string: "about:blank"))
+        webView.loadHTMLString(htmlString, baseURL: URL(string: baseURL))
     }
     
     fileprivate func playerHTMLPath() -> String {
