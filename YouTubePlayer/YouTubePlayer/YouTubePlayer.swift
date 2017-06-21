@@ -75,6 +75,8 @@ private extension URL {
 public func videoIDFromYouTubeURL(_ videoURL: URL) -> String? {
     if videoURL.pathComponents.count > 1 && (videoURL.host?.hasSuffix("youtu.be"))! {
         return videoURL.pathComponents[1]
+    } else if videoURL.pathComponents.contains("embed") {
+        return videoURL.pathComponents.last
     }
     return videoURL.queryStringComponents()["v"] as? String
 }
