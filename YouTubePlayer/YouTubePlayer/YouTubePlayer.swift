@@ -75,6 +75,8 @@ private extension URL {
 public func videoIDFromYouTubeURL(_ videoURL: URL) -> String? {
     if videoURL.pathComponents.count > 1 && (videoURL.host?.hasSuffix("youtu.be"))! {
         return videoURL.pathComponents[1]
+    } else if videoURL.pathComponents.contains("embed") {
+        return videoURL.pathComponents.last
     }
     return videoURL.queryStringComponents()["v"] as? String
 }
@@ -83,6 +85,7 @@ public func videoIDFromYouTubeURL(_ videoURL: URL) -> String? {
 open class YouTubePlayerView: UIView, UIWebViewDelegate {
     
     public typealias YouTubePlayerParameters = [String: AnyObject]
+    public var baseURL = "https://www.youtube.com/"
     
     fileprivate var webView: UIWebView!
     
@@ -229,7 +232,7 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
         let htmlString = rawHTMLString.replacingOccurrences(of: "%@", with: jsonParameters)
         
         // Load HTML in web view
-        webView.loadHTMLString(htmlString, baseURL: URL(string: "https://www.youtube.com/"))
+        webView.loadHTMLString(htmlString, baseURL: URL(string: baseURL))
     }
     
     fileprivate func playerHTMLPath() -> String {
