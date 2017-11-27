@@ -25,10 +25,10 @@ class ViewController: UIViewController {
         if playerView.ready {
             if playerView.playerState != YouTubePlayerState.Playing {
                 playerView.play()
-                playButton.setTitle("Pause", forState: .Normal)
+                playButton.setTitle("Pause", for: .normal)
             } else {
                 playerView.pause()
-                playButton.setTitle("Play", forState: .Normal)
+                playButton.setTitle("Play", for: .normal)
             }
         }
     }
@@ -43,9 +43,9 @@ class ViewController: UIViewController {
 
     @IBAction func loadVideo(sender: UIButton) {
         playerView.playerVars = [
-            "playsinline": "1",
-            "controls": "0",
-            "showinfo": "0"
+            "playsinline": "1" as AnyObject,
+            "controls": "0" as AnyObject,
+            "showinfo": "0" as AnyObject
         ]
         playerView.loadVideoID("wQg3bXrVLtg")
     }
@@ -56,21 +56,21 @@ class ViewController: UIViewController {
     
     @IBAction func currentTime(sender: UIButton) {
         let title = String(format: "Current Time %@", playerView.getCurrentTime() ?? "0")
-        currentTimeButton.setTitle(title, forState: .Normal)
+        currentTimeButton.setTitle(title, for: .normal)
     }
     
     @IBAction func duration(sender: UIButton) {
         let title = String(format: "Duration %@", playerView.getDuration() ?? "0")
-        durationButton.setTitle(title, forState: .Normal)
+        durationButton.setTitle(title, for: .normal)
     }
 
     func showAlert(message: String) {
-        self.presentViewController(alertWithMessage(message), animated: true, completion: nil)
+        self.present(alertWithMessage(message: message), animated: true, completion: nil)
     }
 
     func alertWithMessage(message: String) -> UIAlertController {
-        let alertController =  UIAlertController(title: "", message: message, preferredStyle: .Alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+        let alertController =  UIAlertController(title: "", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
 
         return alertController
     }
