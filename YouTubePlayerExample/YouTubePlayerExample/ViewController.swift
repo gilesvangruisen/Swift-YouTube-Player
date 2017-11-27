@@ -47,11 +47,11 @@ class ViewController: UIViewController {
             "controls": "0" as AnyObject,
             "showinfo": "0" as AnyObject
         ]
-        playerView.loadVideoID("wQg3bXrVLtg")
+        playerView.loadVideoID("9bZkp7q19f0")
     }
 
     @IBAction func loadPlaylist(sender: UIButton) {
-        playerView.loadPlaylistID("RDe-ORhEE9VVg")
+        playerView.loadPlaylistID("PLu8-5UhSJGkIs4Hazj-yjcwloIWz6gMMX")
     }
     
     @IBAction func currentTime(sender: UIButton) {
