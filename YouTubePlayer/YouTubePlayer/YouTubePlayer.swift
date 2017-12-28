@@ -167,31 +167,31 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     // MARK: Player controls
     
     open func mute() {
-        evaluatePlayerCommand("mute()")
+        _ = evaluatePlayerCommand("mute()")
     }
     
     open func unMute() {
-        evaluatePlayerCommand("unMute()")
+        _ = evaluatePlayerCommand("unMute()")
     }
     
     open func play() {
-        evaluatePlayerCommand("playVideo()")
+        _ = evaluatePlayerCommand("playVideo()")
     }
     
     open func pause() {
-        evaluatePlayerCommand("pauseVideo()")
+        _ = evaluatePlayerCommand("pauseVideo()")
     }
     
     open func stop() {
-        evaluatePlayerCommand("stopVideo()")
+        _ = evaluatePlayerCommand("stopVideo()")
     }
     
     open func clear() {
-        evaluatePlayerCommand("clearVideo()")
+        _ = evaluatePlayerCommand("clearVideo()")
     }
     
     open func seekTo(_ seconds: Float, seekAhead: Bool) {
-        evaluatePlayerCommand("seekTo(\(seconds), \(seekAhead))")
+        _ = evaluatePlayerCommand("seekTo(\(seconds), \(seekAhead))")
     }
     
     open func getDuration() -> String? {
@@ -205,11 +205,11 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     // MARK: Playlist controls
     
     open func previousVideo() {
-        evaluatePlayerCommand("previousVideo()")
+        _ = evaluatePlayerCommand("previousVideo()")
     }
     
     open func nextVideo() {
-        evaluatePlayerCommand("nextVideo()")
+        _ = evaluatePlayerCommand("nextVideo()")
     }
     
     @discardableResult fileprivate func evaluatePlayerCommand(_ command: String) -> String? {
