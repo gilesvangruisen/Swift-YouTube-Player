@@ -347,7 +347,20 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
         
         // Check if ytplayer event and, if so, pass to handleJSEvent
         if let url = url, url.scheme == "ytplayer" { handleJSEvent(url) }
-        
+       
+        // Open the video in youtube app
+        if let url = url {
+            if url.absoluteString.contains("watch?v=") {
+                guard let appUrl = URL(string: url.absoluteString.replacingOccurrences(of: "https", with: "youtube")) else { return false }
+                //Check if the youtube app is available or open the link in Safari
+                if UIApplication.shared.canOpenURL(appUrl) {
+                    UIApplication.shared.openURL(appUrl) // Youtube app
+                } else if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.openURL(url) // Safari
+                }
+                return false
+            }
+        }
         return true
     }
 }
