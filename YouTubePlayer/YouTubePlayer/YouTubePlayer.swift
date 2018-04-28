@@ -110,12 +110,12 @@ open class YouTubePlayerView: UIView {
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
-        buildWebView(playerParameters())
+        buildWebView()
     }
     
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        buildWebView(playerParameters())
+        buildWebView()
     }
     
     override open func layoutSubviews() {
@@ -130,7 +130,7 @@ open class YouTubePlayerView: UIView {
     
     // MARK: Web view initialization
     
-    fileprivate func buildWebView(_ parameters: [String: AnyObject]) {
+    fileprivate func buildWebView {
         let configs = WKWebViewConfiguration()
         configs.userContentController = wkUController
         configs.allowsInlineMediaPlayback = true
