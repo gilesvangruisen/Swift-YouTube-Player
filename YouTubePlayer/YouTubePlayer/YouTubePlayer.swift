@@ -8,43 +8,43 @@
 
 import UIKit
 
-public enum YouTubePlayerState: String {
-    case Unstarted = "-1"
-    case Ended = "0"
-    case Playing = "1"
-    case Paused = "2"
-    case Buffering = "3"
-    case Queued = "4"
+public enum PlayerState: String {
+    case unstarted = "-1"
+    case ended = "0"
+    case playing = "1"
+    case paused = "2"
+    case buffering = "3"
+    case queued = "4"
 }
 
-public enum YouTubePlayerEvents: String {
-    case YouTubeIframeAPIReady = "onYouTubeIframeAPIReady"
-    case Ready = "onReady"
-    case StateChange = "onStateChange"
-    case PlaybackQualityChange = "onPlaybackQualityChange"
+public enum PlayerEvents: String {
+    case iframeAPIReady = "onYouTubeIframeAPIReady"
+    case ready = "onReady"
+    case stateChange = "onStateChange"
+    case playbackQualityChange = "onPlaybackQualityChange"
 }
 
-public enum YouTubePlaybackQuality: String {
-    case Small = "small"
-    case Medium = "medium"
-    case Large = "large"
-    case HD720 = "hd720"
-    case HD1080 = "hd1080"
-    case HighResolution = "highres"
+public enum PlaybackQuality: String {
+    case small = "small"
+    case medium = "medium"
+    case large = "large"
+    case hD720 = "hd720"
+    case hD1080 = "hd1080"
+    case highResolution = "highres"
 }
 
 public protocol YouTubePlayerDelegate: class {
     func playerReady(_ videoPlayer: YouTubePlayerView)
-    func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState)
-    func playerQualityChanged(_ videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality)
+    func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: PlayerState)
+    func playerQualityChanged(_ videoPlayer: YouTubePlayerView, playbackQuality: PlaybackQuality)
 }
 
 // Make delegate methods optional by providing default implementations
 public extension YouTubePlayerDelegate {
     
     func playerReady(_ videoPlayer: YouTubePlayerView) {}
-    func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {}
-    func playerQualityChanged(_ videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality) {}
+    func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: PlayerState) {}
+    func playerQualityChanged(_ videoPlayer: YouTubePlayerView, playbackQuality: PlaybackQuality) {}
     
 }
 
@@ -93,10 +93,10 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
     fileprivate(set) open var ready = false
     
     /** The current state of the video player */
-    fileprivate(set) open var playerState = YouTubePlayerState.Unstarted
+    fileprivate(set) open var playerState = PlayerState.unstarted
     
     /** The current playback quality of the video player */
-    fileprivate(set) open var playbackQuality = YouTubePlaybackQuality.Small
+    fileprivate(set) open var playbackQuality = PlaybackQuality.small
     
     /** Used to configure the player */
     open var playerVars = YouTubePlayerParameters()
@@ -306,29 +306,29 @@ open class YouTubePlayerView: UIView, UIWebViewDelegate {
         // Grab the last component of the queryString as string
         let data: String? = eventURL.queryStringComponents()["data"] as? String
         
-        if let host = eventURL.host, let event = YouTubePlayerEvents(rawValue: host) {
+        if let host = eventURL.host, let event = PlayerEvents(rawValue: host) {
             
             // Check event type and handle accordingly
             switch event {
-            case .YouTubeIframeAPIReady:
+            case .iframeAPIReady:
                 ready = true
                 break
                 
-            case .Ready:
+            case .ready:
                 delegate?.playerReady(self)
                 
                 break
                 
-            case .StateChange:
-                if let newState = YouTubePlayerState(rawValue: data!) {
+            case .stateChange:
+                if let newState = PlayerState(rawValue: data!) {
                     playerState = newState
                     delegate?.playerStateChanged(self, playerState: newState)
                 }
                 
                 break
                 
-            case .PlaybackQualityChange:
-                if let newQuality = YouTubePlaybackQuality(rawValue: data!) {
+            case .playbackQualityChange:
+                if let newQuality = PlaybackQuality(rawValue: data!) {
                     playbackQuality = newQuality
                     delegate?.playerQualityChanged(self, playbackQuality: newQuality)
                 }
