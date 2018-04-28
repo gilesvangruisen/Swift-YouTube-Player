@@ -23,7 +23,7 @@ class ViewController: UIViewController {
 
     @IBAction func play(sender: UIButton) {
         if playerView.ready {
-            if playerView.playerState != YouTubePlayerState.Playing {
+            if playerView.playerState != .playing {
                 playerView.play()
                 playButton.setTitle("Pause", for: .normal)
             } else {
