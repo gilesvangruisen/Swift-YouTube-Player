@@ -321,38 +321,27 @@ open class YouTubePlayerView: UIView {
     // MARK: JS Event Handling
     
     fileprivate func handleJSEvent(_ eventURL: URL) {
+        guard let host = eventURL.host, let event = PlayerEvents(rawValue: host) else {
+            return
+        }
         
-        // Grab the last component of the queryString as string
-        let data = eventURL.queryParams["data"]
-        
-        if let host = eventURL.host, let event = PlayerEvents(rawValue: host) {
+        switch event {
+        case .iframeAPIReady:
+            ready = true
             
-            // Check event type and handle accordingly
-            switch event {
-            case .iframeAPIReady:
-                ready = true
-                break
-                
-            case .ready:
-                delegate?.playerReady(self)
-                
-                break
-                
-            case .stateChange:
-                if let newState = PlayerState(rawValue: data!) {
-                    playerState = newState
-                    delegate?.playerStateChanged(self, playerState: newState)
-                }
-                
-                break
-                
-            case .playbackQualityChange:
-                if let newQuality = PlaybackQuality(rawValue: data!) {
-                    playbackQuality = newQuality
-                    delegate?.playerQualityChanged(self, playbackQuality: newQuality)
-                }
-                
-                break
+        case .ready:
+            delegate?.playerReady(self)
+            
+        case .stateChange:
+            if let data = eventURL.queryParams["data"], let newState = PlayerState(rawValue: data) {
+                playerState = newState
+                delegate?.playerStateChanged(self, playerState: newState)
+            }
+            
+        case .playbackQualityChange:
+            if let data = eventURL.queryParams["data"], let newQuality = PlaybackQuality(rawValue: data) {
+                playbackQuality = newQuality
+                delegate?.playerQualityChanged(self, playbackQuality: newQuality)
             }
         }
     }
