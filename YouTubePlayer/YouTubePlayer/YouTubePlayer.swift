@@ -50,14 +50,14 @@ public extension YouTubePlayerDelegate {
 }
 
 private extension URL {
-    var queryParams: [String: AnyObject] {
+    var queryParams: [String: String] {
         
         // Check for query string
         guard let query = self.query else {
             return [:]
         }
         
-        var dict = [String: AnyObject]()
+        var dict = [String: String]()
         
         // Loop through pairings (separated by &)
         for pair in query.components(separatedBy: "&") {
@@ -65,7 +65,7 @@ private extension URL {
             // Pull key, val from from pair parts (separated by =) and set dict[key] = value
             let components = pair.components(separatedBy: "=")
             if (components.count > 1) {
-                dict[components[0]] = components[1] as AnyObject?
+                dict[components[0]] = components[1]
             }
         }
         
@@ -79,7 +79,7 @@ public func videoIDFromYouTubeURL(_ videoURL: URL) -> String? {
     } else if videoURL.pathComponents.contains("embed") {
         return videoURL.pathComponents.last
     }
-    return videoURL.queryParams["v"] as? String
+    return videoURL.queryParams["v"]
 }
 
 /** Embed and control YouTube videos */
@@ -323,7 +323,7 @@ open class YouTubePlayerView: UIView {
     fileprivate func handleJSEvent(_ eventURL: URL) {
         
         // Grab the last component of the queryString as string
-        let data: String? = eventURL.queryParams["data"] as? String
+        let data = eventURL.queryParams["data"]
         
         if let host = eventURL.host, let event = PlayerEvents(rawValue: host) {
             
