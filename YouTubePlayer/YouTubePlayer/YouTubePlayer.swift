@@ -50,23 +50,23 @@ public extension YouTubePlayerDelegate {
 }
 
 private extension URL {
-    func queryStringComponents() -> [String: AnyObject] {
+    var queryParams: [String: AnyObject] {
+        
+        // Check for query string
+        guard let query = self.query else {
+            return [:]
+        }
         
         var dict = [String: AnyObject]()
         
-        // Check for query string
-        if let query = self.query {
+        // Loop through pairings (separated by &)
+        for pair in query.components(separatedBy: "&") {
             
-            // Loop through pairings (separated by &)
-            for pair in query.components(separatedBy: "&") {
-                
-                // Pull key, val from from pair parts (separated by =) and set dict[key] = value
-                let components = pair.components(separatedBy: "=")
-                if (components.count > 1) {
-                    dict[components[0]] = components[1] as AnyObject?
-                }
+            // Pull key, val from from pair parts (separated by =) and set dict[key] = value
+            let components = pair.components(separatedBy: "=")
+            if (components.count > 1) {
+                dict[components[0]] = components[1] as AnyObject?
             }
-            
         }
         
         return dict
@@ -79,7 +79,7 @@ public func videoIDFromYouTubeURL(_ videoURL: URL) -> String? {
     } else if videoURL.pathComponents.contains("embed") {
         return videoURL.pathComponents.last
     }
-    return videoURL.queryStringComponents()["v"] as? String
+    return videoURL.queryParams["v"] as? String
 }
 
 /** Embed and control YouTube videos */
@@ -323,7 +323,7 @@ open class YouTubePlayerView: UIView {
     fileprivate func handleJSEvent(_ eventURL: URL) {
         
         // Grab the last component of the queryString as string
-        let data: String? = eventURL.queryStringComponents()["data"] as? String
+        let data: String? = eventURL.queryParams["data"] as? String
         
         if let host = eventURL.host, let event = PlayerEvents(rawValue: host) {
             
