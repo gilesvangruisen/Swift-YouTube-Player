@@ -123,10 +123,18 @@ open class YouTubePlayerView: UIView {
     fileprivate(set) open var ready = false
     
     /** The current state of the video player */
-    fileprivate(set) open var playerState = PlayerState.unstarted
+    fileprivate(set) open var playerState = PlayerState.unstarted {
+        didSet {
+            delegate?.playerStateChanged(self, playerState: playerState)
+        }
+    }
     
     /** The current playback quality of the video player */
-    fileprivate(set) open var playbackQuality = PlaybackQuality.small
+    fileprivate(set) open var playbackQuality = PlaybackQuality.small {
+        didSet {
+            delegate?.playerQualityChanged(self, playbackQuality: playbackQuality)
+        }
+    }
     
     /** Used to configure the player */
     open var playerVars = YouTubePlayerParameters()
@@ -335,13 +343,11 @@ open class YouTubePlayerView: UIView {
         case .stateChange:
             if let data = eventURL.queryParams["data"], let newState = PlayerState(rawValue: data) {
                 playerState = newState
-                delegate?.playerStateChanged(self, playerState: newState)
             }
             
         case .playbackQualityChange:
             if let data = eventURL.queryParams["data"], let newQuality = PlaybackQuality(rawValue: data) {
                 playbackQuality = newQuality
-                delegate?.playerQualityChanged(self, playbackQuality: newQuality)
             }
         }
     }
