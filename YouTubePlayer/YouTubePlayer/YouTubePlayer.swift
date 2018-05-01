@@ -86,7 +86,6 @@ private extension URL {
 /** Embed and control YouTube videos */
 open class YouTubePlayerView: UIView {
     
-    public typealias YouTubePlayerParameters = [String: AnyObject]
     public var baseURL = "about:blank"
     
     lazy private var webView: WKWebView = {
@@ -138,7 +137,7 @@ open class YouTubePlayerView: UIView {
     }
     
     /** Used to configure the player */
-    open var playerVars = YouTubePlayerParameters()
+    open var playerParams = PlayerParameters()
     
     /** Used to respond to player events */
     open weak var delegate: YouTubePlayerDelegate?
@@ -175,18 +174,13 @@ open class YouTubePlayerView: UIView {
     }
     
     open func loadVideoID(_ videoID: String) {
-        var playerParams = playerParameters()
-        playerParams["videoId"] = videoID as AnyObject?
-        
+        playerParams.videoId = videoID
         loadWebViewWithParameters(playerParams)
     }
     
     open func loadPlaylistID(_ playlistID: String) {
-        // No videoId necessary when listType = playlist, list = [playlist Id]
-        playerVars["listType"] = "playlist" as AnyObject?
-        playerVars["list"] = playlistID as AnyObject?
-        
-        loadWebViewWithParameters(playerParameters())
+        playerParams.list = playlistID
+        loadWebViewWithParameters(playerParams)
     }
     
     
@@ -248,13 +242,17 @@ open class YouTubePlayerView: UIView {
     
     // MARK: Player setup
     
-    fileprivate func loadWebViewWithParameters(_ parameters: YouTubePlayerParameters) {
+    fileprivate func loadWebViewWithParameters(_ parameters: PlayerParameters) {
         
-        // Get HTML from player file in bundle
-        let rawHTMLString = htmlStringWithFilePath(playerHTMLPath())!
-        
-        // Get JSON serialized parameters string
-        let jsonParameters = serializedJSON(parameters as AnyObject)!
+        // Get JSON / HTML strings
+        guard
+            let encoded = try? JSONEncoder().encode(parameters),
+            let jsonParameters = String(data: encoded, encoding: .utf8),
+            let rawHTMLString = htmlStringWithFilePath(playerHTMLPath())
+            else {
+                assertionFailure("Can't encode parameters")
+                return
+        }
         
         // Replace %@ in rawHTMLString with jsonParameters string
         let htmlString = rawHTMLString.replacingOccurrences(of: "%@", with: jsonParameters)
@@ -280,47 +278,6 @@ open class YouTubePlayerView: UIView {
             
             // Error fetching HTML
             printLog("Lookup error: no HTML file found for path")
-            
-            return nil
-        }
-    }
-    
-    
-    // MARK: Player parameters and defaults
-    
-    fileprivate func playerParameters() -> YouTubePlayerParameters {
-        
-        return [
-            "height": "100%" as AnyObject,
-            "width": "100%" as AnyObject,
-            "events": playerCallbacks() as AnyObject,
-            "playerVars": playerVars as AnyObject
-        ]
-    }
-    
-    fileprivate func playerCallbacks() -> YouTubePlayerParameters {
-        return [
-            "onReady": "onReady" as AnyObject,
-            "onStateChange": "onStateChange" as AnyObject,
-            "onPlaybackQualityChange": "onPlaybackQualityChange" as AnyObject,
-            "onError": "onPlayerError" as AnyObject
-        ]
-    }
-    
-    fileprivate func serializedJSON(_ object: AnyObject) -> String? {
-        
-        do {
-            // Serialize to JSON string
-            let jsonData = try JSONSerialization.data(withJSONObject: object, options: JSONSerialization.WritingOptions.prettyPrinted)
-            
-            // Succeeded
-            return NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) as String?
-            
-        } catch let jsonError {
-            
-            // JSON serialization failed
-            print(jsonError)
-            printLog("Error parsing JSON")
             
             return nil
         }
