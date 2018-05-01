@@ -176,62 +176,6 @@ open class YouTubePlayerView: UIView {
     }
     
     
-    // MARK: Player controls
-    
-    open func mute() {
-        evaluatePlayerCommand("mute()")
-    }
-    
-    open func unMute() {
-        evaluatePlayerCommand("unMute()")
-    }
-    
-    open func play() {
-        evaluatePlayerCommand("playVideo()")
-    }
-    
-    open func pause() {
-        evaluatePlayerCommand("pauseVideo()")
-    }
-    
-    open func stop() {
-        evaluatePlayerCommand("stopVideo()")
-    }
-    
-    open func clear() {
-        evaluatePlayerCommand("clearVideo()")
-    }
-    
-    open func seekTo(_ seconds: Float, seekAhead: Bool) {
-        evaluatePlayerCommand("seekTo(\(seconds), \(seekAhead))")
-    }
-    
-    open func getDuration(completion: @escaping ((String?) -> Void)) {
-        evaluatePlayerCommand("getDuration()", completion: completion)
-    }
-    
-    open func getCurrentTime(completion: @escaping ((String?) -> Void)) {
-        evaluatePlayerCommand("getCurrentTime()", completion: completion)
-    }
-    
-    // MARK: Playlist controls
-    
-    open func previousVideo() {
-        evaluatePlayerCommand("previousVideo()")
-    }
-    
-    open func nextVideo() {
-        evaluatePlayerCommand("nextVideo()")
-    }
-    
-    fileprivate func evaluatePlayerCommand(_ command: String, completion: ((String?) -> Void)? = nil) {
-        let fullCommand = "player." + command + ";"
-        webView.evaluateJavaScript(fullCommand) { response, _ in
-            completion?(response as? String)
-        }
-    }
-    
-    
     // MARK: Player setup
     
     fileprivate func loadWebViewWithParameters(_ parameters: PlayerParameters) {
@@ -286,6 +230,66 @@ open class YouTubePlayerView: UIView {
             if let data = eventURL.queryParams["data"], let newQuality = PlaybackQuality(rawValue: data) {
                 playbackQuality = newQuality
             }
+        }
+    }
+}
+
+// MARK: - Controls
+
+extension YouTubePlayerView {
+    
+    // MARK: Player controls
+    
+    open func mute() {
+        evaluatePlayerCommand("mute()")
+    }
+    
+    open func unMute() {
+        evaluatePlayerCommand("unMute()")
+    }
+    
+    open func play() {
+        evaluatePlayerCommand("playVideo()")
+    }
+    
+    open func pause() {
+        evaluatePlayerCommand("pauseVideo()")
+    }
+    
+    open func stop() {
+        evaluatePlayerCommand("stopVideo()")
+    }
+    
+    open func clear() {
+        evaluatePlayerCommand("clearVideo()")
+    }
+    
+    open func seekTo(_ seconds: Float, seekAhead: Bool) {
+        evaluatePlayerCommand("seekTo(\(seconds), \(seekAhead))")
+    }
+    
+    open func getDuration(completion: @escaping ((String?) -> Void)) {
+        evaluatePlayerCommand("getDuration()", completion: completion)
+    }
+    
+    open func getCurrentTime(completion: @escaping ((String?) -> Void)) {
+        evaluatePlayerCommand("getCurrentTime()", completion: completion)
+    }
+    
+    // MARK: Playlist controls
+    
+    open func previousVideo() {
+        evaluatePlayerCommand("previousVideo()")
+    }
+    
+    open func nextVideo() {
+        evaluatePlayerCommand("nextVideo()")
+    }
+    
+    fileprivate func evaluatePlayerCommand(_ command: String, completion: ((String?) -> Void)? = nil) {
+        let fullCommand = "player." + command + ";"
+        webView.evaluateJavaScript(fullCommand) { response, _ in
+            completion?(response as? String)
         }
     }
 }
