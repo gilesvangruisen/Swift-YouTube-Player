@@ -18,13 +18,6 @@ public enum PlayerState: String {
     case queued = "4"
 }
 
-public enum PlayerEvents: String {
-    case iframeAPIReady = "onYouTubeIframeAPIReady"
-    case ready = "onReady"
-    case stateChange = "onStateChange"
-    case playbackQualityChange = "onPlaybackQualityChange"
-}
-
 public enum PlaybackQuality: String {
     case small
     case medium
@@ -32,6 +25,13 @@ public enum PlaybackQuality: String {
     case hd720
     case hd1080
     case highres
+}
+
+private enum PlayerEvents: String {
+    case iframeAPIReady = "onYouTubeIframeAPIReady"
+    case ready = "onReady"
+    case stateChange = "onStateChange"
+    case playbackQualityChange = "onPlaybackQualityChange"
 }
 
 public protocol YouTubePlayerDelegate: class {
