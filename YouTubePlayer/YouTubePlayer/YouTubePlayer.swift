@@ -50,6 +50,16 @@ public extension YouTubePlayerDelegate {
 }
 
 private extension URL {
+    var youtubeID: String? {
+        let rule = "((?<=(v|V)/)|(?<=be/)|(?<=(\\?|\\&)v=)|(?<=embed/))([\\w-]++)"
+        
+        let regex = try? NSRegularExpression(pattern: rule, options: .caseInsensitive)
+        let range = NSRange(location: 0, length: absoluteString.count)
+        guard let checkingResult = regex?.firstMatch(in: absoluteString, options: [], range: range) else { return nil }
+        
+        return (absoluteString as NSString).substring(with: checkingResult.range)
+    }
+    
     var queryParams: [String: String] {
         
         // Check for query string
@@ -71,15 +81,6 @@ private extension URL {
         
         return dict
     }
-}
-
-public func videoIDFromYouTubeURL(_ videoURL: URL) -> String? {
-    if videoURL.pathComponents.count > 1 && (videoURL.host?.hasSuffix("youtu.be"))! {
-        return videoURL.pathComponents[1]
-    } else if videoURL.pathComponents.contains("embed") {
-        return videoURL.pathComponents.last
-    }
-    return videoURL.queryParams["v"]
 }
 
 /** Embed and control YouTube videos */
@@ -168,7 +169,7 @@ open class YouTubePlayerView: UIView {
     // MARK: Load player
     
     open func loadVideoURL(_ videoURL: URL) {
-        if let videoID = videoIDFromYouTubeURL(videoURL) {
+        if let videoID = videoURL.youtubeID {
             loadVideoID(videoID)
         }
     }
