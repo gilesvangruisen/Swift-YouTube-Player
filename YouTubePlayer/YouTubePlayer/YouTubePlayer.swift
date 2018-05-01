@@ -26,12 +26,12 @@ public enum PlayerEvents: String {
 }
 
 public enum PlaybackQuality: String {
-    case small = "small"
-    case medium = "medium"
-    case large = "large"
-    case hD720 = "hd720"
-    case hD1080 = "hd1080"
-    case highResolution = "highres"
+    case small
+    case medium
+    case large
+    case hd720
+    case hd1080
+    case highres
 }
 
 public protocol YouTubePlayerDelegate: class {
@@ -42,11 +42,9 @@ public protocol YouTubePlayerDelegate: class {
 
 // Make delegate methods optional by providing default implementations
 public extension YouTubePlayerDelegate {
-    
     func playerReady(_ videoPlayer: YouTubePlayerView) {}
     func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: PlayerState) {}
     func playerQualityChanged(_ videoPlayer: YouTubePlayerView, playbackQuality: PlaybackQuality) {}
-    
 }
 
 private extension URL {
@@ -61,11 +59,7 @@ private extension URL {
     }
     
     var queryParams: [String: String] {
-        
-        // Check for query string
-        guard let query = self.query else {
-            return [:]
-        }
+        guard let query = self.query else { return [:] }
         
         var dict = [String: String]()
         
@@ -85,8 +79,6 @@ private extension URL {
 
 /** Embed and control YouTube videos */
 open class YouTubePlayerView: UIView {
-    
-    public var baseURL = "about:blank"
     
     lazy private var webView: WKWebView = {
         let webView = WKWebView(frame: self.bounds, configuration: self.wkConfigs)
@@ -243,7 +235,6 @@ open class YouTubePlayerView: UIView {
     // MARK: Player setup
     
     fileprivate func loadWebViewWithParameters(_ parameters: PlayerParameters) {
-        
         // Get JSON / HTML strings
         guard
             let encoded = try? JSONEncoder().encode(parameters),
@@ -254,11 +245,8 @@ open class YouTubePlayerView: UIView {
                 return
         }
         
-        // Replace %@ in rawHTMLString with jsonParameters string
         let htmlString = rawHTMLString.replacingOccurrences(of: "%@", with: jsonParameters)
-        
-        // Load HTML in web view
-        webView.loadHTMLString(htmlString, baseURL: URL(string: baseURL))
+        webView.loadHTMLString(htmlString, baseURL: nil)
     }
     
     fileprivate func playerHTMLPath() -> String {
@@ -266,19 +254,12 @@ open class YouTubePlayerView: UIView {
     }
     
     fileprivate func htmlStringWithFilePath(_ path: String) -> String? {
-        
         do {
-            
             // Get HTML string from path
             let htmlString = try NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue)
-            
             return htmlString as String
-            
         } catch _ {
-            
-            // Error fetching HTML
             printLog("Lookup error: no HTML file found for path")
-            
             return nil
         }
     }
@@ -287,9 +268,7 @@ open class YouTubePlayerView: UIView {
     // MARK: JS Event Handling
     
     fileprivate func handleJSEvent(_ eventURL: URL) {
-        guard let host = eventURL.host, let event = PlayerEvents(rawValue: host) else {
-            return
-        }
+        guard let host = eventURL.host, let event = PlayerEvents(rawValue: host) else { return }
         
         switch event {
         case .iframeAPIReady:
@@ -312,7 +291,10 @@ open class YouTubePlayerView: UIView {
 }
 
 extension YouTubePlayerView: WKNavigationDelegate {
-    public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+    public func webView(_ webView: WKWebView,
+                        decidePolicyFor navigationAction: WKNavigationAction,
+                        decisionHandler: @escaping (WKNavigationActionPolicy) -> Void)
+    {
         if let url = navigationAction.request.url, url.scheme == "ytplayer" {
             handleJSEvent(url)
             decisionHandler(.cancel)
