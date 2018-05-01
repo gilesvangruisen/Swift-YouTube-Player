@@ -186,7 +186,7 @@ open class YouTubePlayerView: UIView {
             let path = Bundle(for: YouTubePlayerView.self).path(forResource: "YTPlayer", ofType: "html"),
             let rawHTMLString = try? String(contentsOfFile: path)
             else {
-                assertionFailure("Can't load HTML file or encode parameters")
+                printLog("Can't load HTML file or encode parameters")
                 return
         }
         
@@ -299,4 +299,5 @@ extension YouTubePlayerView: WKNavigationDelegate {
 private func printLog(_ strings: CustomStringConvertible...) {
     let toPrint = ["[YouTubePlayer]"] + strings
     print(toPrint, separator: " ", terminator: "\n")
+    assertionFailure()
 }
