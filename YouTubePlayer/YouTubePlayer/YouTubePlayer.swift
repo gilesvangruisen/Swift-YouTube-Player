@@ -145,18 +145,18 @@ open class YouTubePlayerView: UIView {
     
     open func loadVideoID(_ videoID: String) {
         playerParams.videoId = videoID
-        loadWebViewWithParameters(playerParams)
+        loadWebView(with: playerParams)
     }
     
     open func loadPlaylistID(_ playlistID: String) {
         playerParams.list = playlistID
-        loadWebViewWithParameters(playerParams)
+        loadWebView(with: playerParams)
     }
     
     
     // MARK: Player setup
     
-    private func loadWebViewWithParameters(_ parameters: PlayerParameters) {
+    private func loadWebView(with parameters: PlayerParameters) {
         // Get JSON / HTML strings
         guard
             let encoded = try? JSONEncoder().encode(parameters),
