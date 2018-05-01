@@ -10,6 +10,7 @@
 		3BAF18732098531F00C6FEDB /* PlayerParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF18712098531F00C6FEDB /* PlayerParameters.swift */; };
 		3BAF18742098531F00C6FEDB /* PlayerVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF18722098531F00C6FEDB /* PlayerVars.swift */; };
 		3BAF187A2098E40300C6FEDB /* PlayerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF18792098E40300C6FEDB /* PlayerError.swift */; };
+		3BAF187C2098E84D00C6FEDB /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF187B2098E84D00C6FEDB /* URL+Extension.swift */; };
 		50E5B9C91A4CAA050099BF69 /* YTPlayer.html in Resources */ = {isa = PBXBuildFile; fileRef = 50E5B9C81A4CAA050099BF69 /* YTPlayer.html */; };
 		50E5B9CB1A4CAA150099BF69 /* YouTubePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E5B9CA1A4CAA150099BF69 /* YouTubePlayer.swift */; };
 /* End PBXBuildFile section */
@@ -18,6 +19,7 @@
 		3BAF18712098531F00C6FEDB /* PlayerParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerParameters.swift; path = YouTubePlayer/PlayerParameters.swift; sourceTree = SOURCE_ROOT; };
 		3BAF18722098531F00C6FEDB /* PlayerVars.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerVars.swift; path = YouTubePlayer/PlayerVars.swift; sourceTree = SOURCE_ROOT; };
 		3BAF18792098E40300C6FEDB /* PlayerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerError.swift; path = YouTubePlayer/PlayerError.swift; sourceTree = SOURCE_ROOT; };
+		3BAF187B2098E84D00C6FEDB /* URL+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "URL+Extension.swift"; path = "YouTubePlayer/URL+Extension.swift"; sourceTree = SOURCE_ROOT; };
 		502AE85F1A475FD500306AD1 /* YouTubePlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YouTubePlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		502AE8631A475FD500306AD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = YouTubePlayer/Info.plist; sourceTree = "<group>"; };
 		50E5B9C81A4CAA050099BF69 /* YTPlayer.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = YTPlayer.html; path = YouTubePlayer/YTPlayer.html; sourceTree = SOURCE_ROOT; };
@@ -58,6 +60,7 @@
 				3BAF18712098531F00C6FEDB /* PlayerParameters.swift */,
 				3BAF18722098531F00C6FEDB /* PlayerVars.swift */,
 				3BAF18792098E40300C6FEDB /* PlayerError.swift */,
+				3BAF187B2098E84D00C6FEDB /* URL+Extension.swift */,
 				50E5B9C81A4CAA050099BF69 /* YTPlayer.html */,
 				502AE8621A475FD500306AD1 /* Supporting Files */,
 			);
@@ -156,6 +159,7 @@
 				3BAF18732098531F00C6FEDB /* PlayerParameters.swift in Sources */,
 				3BAF18742098531F00C6FEDB /* PlayerVars.swift in Sources */,
 				50E5B9CB1A4CAA150099BF69 /* YouTubePlayer.swift in Sources */,
+				3BAF187C2098E84D00C6FEDB /* URL+Extension.swift in Sources */,
 				3BAF187A2098E40300C6FEDB /* PlayerError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
