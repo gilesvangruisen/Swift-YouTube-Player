@@ -183,7 +183,8 @@ open class YouTubePlayerView: UIView {
         guard
             let encoded = try? JSONEncoder().encode(parameters),
             let jsonParameters = String(data: encoded, encoding: .utf8),
-            let rawHTMLString = htmlStringWithFilePath(playerHTMLPath())
+            let path = Bundle(for: YouTubePlayerView.self).path(forResource: "YTPlayer", ofType: "html"),
+            let rawHTMLString = htmlStringWithFilePath(path)
             else {
                 assertionFailure("Can't encode parameters")
                 return
@@ -191,10 +192,6 @@ open class YouTubePlayerView: UIView {
         
         let htmlString = rawHTMLString.replacingOccurrences(of: "%@", with: jsonParameters)
         webView.loadHTMLString(htmlString, baseURL: nil)
-    }
-    
-    fileprivate func playerHTMLPath() -> String {
-        return Bundle(for: YouTubePlayerView.self).path(forResource: "YTPlayer", ofType: "html")!
     }
     
     fileprivate func htmlStringWithFilePath(_ path: String) -> String? {
