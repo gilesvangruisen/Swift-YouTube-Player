@@ -29,12 +29,14 @@ public enum PlaybackQuality: String {
 
 private enum PlayerEvents: String {
     case ready = "onReady"
+    case error = "onError"
     case stateChange = "onStateChange"
     case playbackQualityChange = "onPlaybackQualityChange"
 }
 
 public protocol YouTubePlayerDelegate: class {
     func playerReady(_ videoPlayer: YouTubePlayerView)
+    func playerDidEndError(_ videoPlayer: YouTubePlayerView, error: PlayerError)
     func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: PlayerState)
     func playerQualityChanged(_ videoPlayer: YouTubePlayerView, playbackQuality: PlaybackQuality)
 }
@@ -42,6 +44,7 @@ public protocol YouTubePlayerDelegate: class {
 // Make delegate methods optional by providing default implementations
 public extension YouTubePlayerDelegate {
     func playerReady(_ videoPlayer: YouTubePlayerView) {}
+    func playerDidEndError(_ videoPlayer: YouTubePlayerView, error: PlayerError) {}
     func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: PlayerState) {}
     func playerQualityChanged(_ videoPlayer: YouTubePlayerView, playbackQuality: PlaybackQuality) {}
 }
@@ -209,6 +212,13 @@ open class YouTubePlayerView: UIView {
         case .ready:
             ready = true
             
+        case .error:
+            if let data = eventURL.queryParams["data"], let error = PlayerError(rawValue: data) {
+                delegate?.playerDidEndError(self, error: error)
+            } else {
+                delegate?.playerDidEndError(self, error: .unexpected)
+            }
+
         case .stateChange:
             if let data = eventURL.queryParams["data"], let newState = PlayerState(rawValue: data) {
                 playerState = newState
