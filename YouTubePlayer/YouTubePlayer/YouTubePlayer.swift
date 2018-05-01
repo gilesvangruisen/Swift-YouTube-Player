@@ -28,7 +28,6 @@ public enum PlaybackQuality: String {
 }
 
 private enum PlayerEvents: String {
-    case iframeAPIReady = "onYouTubeIframeAPIReady"
     case ready = "onReady"
     case stateChange = "onStateChange"
     case playbackQualityChange = "onPlaybackQualityChange"
@@ -112,7 +111,13 @@ open class YouTubePlayerView: UIView {
     }()
     
     /** The readiness of the player */
-    private(set) open var ready = false
+    private(set) open var ready = false {
+        didSet {
+            if ready {
+                delegate?.playerReady(self)
+            }
+        }
+    }
     
     /** The current state of the video player */
     private(set) open var playerState = PlayerState.unstarted {
@@ -201,11 +206,8 @@ open class YouTubePlayerView: UIView {
         guard let host = eventURL.host, let event = PlayerEvents(rawValue: host) else { return }
         
         switch event {
-        case .iframeAPIReady:
-            ready = true
-            
         case .ready:
-            delegate?.playerReady(self)
+            ready = true
             
         case .stateChange:
             if let data = eventURL.queryParams["data"], let newState = PlayerState(rawValue: data) {
