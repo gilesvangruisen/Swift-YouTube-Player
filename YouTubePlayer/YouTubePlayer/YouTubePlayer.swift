@@ -112,17 +112,17 @@ open class YouTubePlayerView: UIView {
     }()
     
     /** The readiness of the player */
-    fileprivate(set) open var ready = false
+    private(set) open var ready = false
     
     /** The current state of the video player */
-    fileprivate(set) open var playerState = PlayerState.unstarted {
+    private(set) open var playerState = PlayerState.unstarted {
         didSet {
             delegate?.playerStateChanged(self, playerState: playerState)
         }
     }
     
     /** The current playback quality of the video player */
-    fileprivate(set) open var playbackQuality = PlaybackQuality.small {
+    private(set) open var playbackQuality = PlaybackQuality.small {
         didSet {
             delegate?.playerQualityChanged(self, playbackQuality: playbackQuality)
         }
@@ -178,7 +178,7 @@ open class YouTubePlayerView: UIView {
     
     // MARK: Player setup
     
-    fileprivate func loadWebViewWithParameters(_ parameters: PlayerParameters) {
+    private func loadWebViewWithParameters(_ parameters: PlayerParameters) {
         // Get JSON / HTML strings
         guard
             let encoded = try? JSONEncoder().encode(parameters),
@@ -197,7 +197,7 @@ open class YouTubePlayerView: UIView {
     
     // MARK: JS Event Handling
     
-    fileprivate func handleJSEvent(_ eventURL: URL) {
+    private func handleJSEvent(_ eventURL: URL) {
         guard let host = eventURL.host, let event = PlayerEvents(rawValue: host) else { return }
         
         switch event {
@@ -274,7 +274,7 @@ extension YouTubePlayerView {
     
     // MARK: Helper
     
-    fileprivate func evaluatePlayerCommand(_ command: String, completion: ((String?) -> Void)? = nil) {
+    private func evaluatePlayerCommand(_ command: String, completion: ((String?) -> Void)? = nil) {
         let fullCommand = "player." + command + ";"
         webView.evaluateJavaScript(fullCommand) { response, _ in
             completion?(response as? String)
