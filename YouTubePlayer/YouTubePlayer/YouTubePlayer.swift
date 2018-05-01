@@ -241,27 +241,27 @@ extension YouTubePlayerView {
     // MARK: Player controls
     
     open func mute() {
-        evaluatePlayerCommand("mute()")
+        evaluatePlayerCommand(#function)
     }
     
     open func unMute() {
-        evaluatePlayerCommand("unMute()")
+        evaluatePlayerCommand(#function)
     }
     
-    open func play() {
-        evaluatePlayerCommand("playVideo()")
+    open func playVideo() {
+        evaluatePlayerCommand(#function)
     }
     
-    open func pause() {
-        evaluatePlayerCommand("pauseVideo()")
+    open func pauseVideo() {
+        evaluatePlayerCommand(#function)
     }
     
-    open func stop() {
-        evaluatePlayerCommand("stopVideo()")
+    open func stopVideo() {
+        evaluatePlayerCommand(#function)
     }
     
-    open func clear() {
-        evaluatePlayerCommand("clearVideo()")
+    open func clearVideo() {
+        evaluatePlayerCommand(#function)
     }
     
     open func seekTo(_ seconds: Float, seekAhead: Bool) {
@@ -279,12 +279,14 @@ extension YouTubePlayerView {
     // MARK: Playlist controls
     
     open func previousVideo() {
-        evaluatePlayerCommand("previousVideo()")
+        evaluatePlayerCommand(#function)
     }
     
     open func nextVideo() {
-        evaluatePlayerCommand("nextVideo()")
+        evaluatePlayerCommand(#function)
     }
+    
+    // MARK: Helper
     
     fileprivate func evaluatePlayerCommand(_ command: String, completion: ((String?) -> Void)? = nil) {
         let fullCommand = "player." + command + ";"
