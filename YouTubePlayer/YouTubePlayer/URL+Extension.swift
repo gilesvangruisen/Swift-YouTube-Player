@@ -19,18 +19,17 @@ extension URL {
     }
     
     var queryParams: [String: String] {
-        guard let query = self.query else { return [:] }
+        guard
+            let components = URLComponents(url: self, resolvingAgainstBaseURL: true),
+            let queryItems = components.queryItems
+            else {
+                return [:]
+        }
         
         var dict = [String: String]()
         
-        // Loop through pairings (separated by &)
-        for pair in query.components(separatedBy: "&") {
-            
-            // Pull key, val from from pair parts (separated by =) and set dict[key] = value
-            let components = pair.components(separatedBy: "=")
-            if (components.count > 1) {
-                dict[components[0]] = components[1]
-            }
+        for item in queryItems {
+            dict[item.name] = item.value
         }
         
         return dict
