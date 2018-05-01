@@ -199,10 +199,8 @@ open class YouTubePlayerView: UIView {
     
     fileprivate func htmlStringWithFilePath(_ path: String) -> String? {
         do {
-            // Get HTML string from path
-            let htmlString = try NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue)
-            return htmlString as String
-        } catch _ {
+            return try String(contentsOfFile: path)
+        } catch {
             printLog("Lookup error: no HTML file found for path")
             return nil
         }
