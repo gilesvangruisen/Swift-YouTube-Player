@@ -114,6 +114,8 @@ open class YouTubePlayerView: UIView {
     open func loadVideoURL(_ videoURL: URL) {
         if let videoID = videoURL.youtubeID {
             loadVideoID(videoID)
+        } else {
+            printLog("Incorrect URL passed: \(videoURL)")
         }
     }
     
