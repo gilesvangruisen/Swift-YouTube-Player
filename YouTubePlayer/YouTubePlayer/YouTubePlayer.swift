@@ -64,15 +64,6 @@ open class YouTubePlayerView: UIView {
         return webView
     }()
     
-    /** The readiness of the player */
-    private(set) open var ready = false {
-        didSet {
-            if ready {
-                delegate?.playerReady(self)
-            }
-        }
-    }
-    
     /** The current state of the video player */
     private(set) open var playerState = PlayerState.unstarted {
         didSet {
@@ -163,8 +154,8 @@ open class YouTubePlayerView: UIView {
         
         switch event {
         case .ready:
-            ready = true
-            
+            delegate?.playerReady(self)
+
         case .error:
             if let data = eventURL.queryParams["data"], let error = PlayerError(rawValue: data) {
                 delegate?.playerDidEndError(self, error: error)
