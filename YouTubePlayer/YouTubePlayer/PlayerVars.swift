@@ -23,6 +23,16 @@ struct PlayerVars: Encodable {
         set { controls = newValue.stringValue }
     }
     
+    var showRelatedVideosWhenFinished: Bool {
+        get { return rel.boolValue }
+        set { rel = newValue.stringValue }
+    }
+    
+    var startAt: Int {
+        get { return start.intValue }
+        set { start = String(newValue) }
+    }
+    
     var list: String? = nil {
         didSet { listType = "playlist" }
     }
@@ -31,6 +41,9 @@ struct PlayerVars: Encodable {
     private var playsinline = false.stringValue
     private var showinfo = false.stringValue
     private var controls = false.stringValue
+    private var rel = false.stringValue
+    private var start = String(0)
+    
     private var listType: String? = nil
 }
 
@@ -38,10 +51,19 @@ private extension String {
     var boolValue: Bool {
         return self == "1"
     }
+    var intValue: Int {
+        return Int(self) ?? 0
+    }
 }
 
 private extension Bool {
     var stringValue: String {
         return self ? "1" : "0"
+    }
+}
+
+private extension Int {
+    var stringValue: String {
+        return String(self)
     }
 }

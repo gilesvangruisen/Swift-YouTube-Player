@@ -48,4 +48,14 @@ extension PlayerParameters {
         set { playerVars.showControls = newValue }
     }
     
+    public var showRelatedVideoWhenFinished: Bool {
+        get { return playerVars.showRelatedVideosWhenFinished }
+        set { playerVars.showRelatedVideosWhenFinished = newValue }
+    }
+    
+    public var startAt: Int {
+        get { return playerVars.startAt }
+        set { playerVars.startAt = newValue }
+    }
+    
 }
