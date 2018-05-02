@@ -53,34 +53,15 @@ public extension YouTubePlayerDelegate {
 open class YouTubePlayerView: UIView {
     
     lazy private var webView: WKWebView = {
-        let webView = WKWebView(frame: self.bounds, configuration: self.wkConfigs)
+        let configs = wkConfigs
+        configs.allowsInlineMediaPlayback = true
+        
+        let webView = WKWebView(frame: bounds, configuration: configs)
         webView.isOpaque = false
         webView.backgroundColor = .clear
         webView.navigationDelegate = self
         webView.scrollView.isScrollEnabled = false
         return webView
-    }()
-    
-    lazy private var wkConfigs: WKWebViewConfiguration = {
-        let configs = WKWebViewConfiguration()
-        configs.userContentController = self.wkUController
-        configs.allowsInlineMediaPlayback = true
-        return configs
-    }()
-    
-    /// WKWebView equivalent for UIWebView's scalesPageToFit
-    lazy private var wkUController: WKUserContentController = {
-        // http://stackoverflow.com/questions/26295277/wkwebview-equivalent-for-uiwebviews-scalespagetofit
-        var jscript = "var meta = document.createElement('meta');"
-        jscript += "meta.name='viewport';"
-        jscript += "meta.content='width=device-width';"
-        jscript += "document.getElementsByTagName('head')[0].appendChild(meta);"
-        
-        let userScript = WKUserScript(source: jscript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-        let wkUController = WKUserContentController()
-        wkUController.addUserScript(userScript)
-        
-        return wkUController
     }()
     
     /** The readiness of the player */
@@ -201,6 +182,31 @@ open class YouTubePlayerView: UIView {
                 playbackQuality = newQuality
             }
         }
+    }
+}
+
+// MARK: - Web View Helpers
+
+private extension YouTubePlayerView {
+    private var wkConfigs: WKWebViewConfiguration {
+        let configs = WKWebViewConfiguration()
+        configs.userContentController = self.wkUController
+        return configs
+    }
+    
+    /// WKWebView equivalent for UIWebView's scalesPageToFit
+    private var wkUController: WKUserContentController {
+        // http://stackoverflow.com/questions/26295277/wkwebview-equivalent-for-uiwebviews-scalespagetofit
+        var jscript = "var meta = document.createElement('meta');"
+        jscript += "meta.name='viewport';"
+        jscript += "meta.content='width=device-width';"
+        jscript += "document.getElementsByTagName('head')[0].appendChild(meta);"
+        
+        let userScript = WKUserScript(source: jscript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+        let wkUController = WKUserContentController()
+        wkUController.addUserScript(userScript)
+        
+        return wkUController
     }
 }
 
