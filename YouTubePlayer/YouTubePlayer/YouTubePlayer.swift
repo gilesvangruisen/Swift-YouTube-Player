@@ -117,21 +117,23 @@ open class YouTubePlayerView: UIView {
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(webView)
+        addWebViewAndAnchorToEdges(webView)
     }
     
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        addSubview(webView)
+        addWebViewAndAnchorToEdges(webView)
     }
     
-    override open func layoutSubviews() {
-        super.layoutSubviews()
-        
-        // Remove web view in case it's within view hierarchy, reset frame, add as subview
-        webView.removeFromSuperview()
-        webView.frame = bounds
+    private func addWebViewAndAnchorToEdges(_ webView: WKWebView) {
         addSubview(webView)
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Connect/"anchor" all edges
+        leadingAnchor.constraint(equalTo: webView.leadingAnchor).isActive = true
+        trailingAnchor.constraint(equalTo: webView.trailingAnchor).isActive = true
+        topAnchor.constraint(equalTo: webView.topAnchor).isActive = true
+        bottomAnchor.constraint(equalTo: webView.bottomAnchor).isActive = true
     }
     
     
