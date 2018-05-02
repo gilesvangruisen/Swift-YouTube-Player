@@ -176,31 +176,6 @@ open class YouTubePlayerView: UIView {
     }
 }
 
-// MARK: - Web View Helpers
-
-private extension YouTubePlayerView {
-    private var wkConfigs: WKWebViewConfiguration {
-        let configs = WKWebViewConfiguration()
-        configs.userContentController = self.wkUController
-        return configs
-    }
-    
-    /// WKWebView equivalent for UIWebView's scalesPageToFit
-    private var wkUController: WKUserContentController {
-        // http://stackoverflow.com/questions/26295277/wkwebview-equivalent-for-uiwebviews-scalespagetofit
-        var jscript = "var meta = document.createElement('meta');"
-        jscript += "meta.name='viewport';"
-        jscript += "meta.content='width=device-width';"
-        jscript += "document.getElementsByTagName('head')[0].appendChild(meta);"
-        
-        let userScript = WKUserScript(source: jscript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-        let wkUController = WKUserContentController()
-        wkUController.addUserScript(userScript)
-        
-        return wkUController
-    }
-}
-
 // MARK: - Controls
 
 extension YouTubePlayerView {
@@ -263,6 +238,8 @@ extension YouTubePlayerView {
     }
 }
 
+// MARK: - WebKit Navigation Delegate
+
 extension YouTubePlayerView: WKNavigationDelegate {
     public func webView(_ webView: WKWebView,
                         decidePolicyFor navigationAction: WKNavigationAction,
@@ -274,6 +251,31 @@ extension YouTubePlayerView: WKNavigationDelegate {
             return
         }
         decisionHandler(.allow)
+    }
+}
+
+// MARK: - Web View Helpers
+
+private extension YouTubePlayerView {
+    private var wkConfigs: WKWebViewConfiguration {
+        let configs = WKWebViewConfiguration()
+        configs.userContentController = self.wkUController
+        return configs
+    }
+    
+    /// WKWebView equivalent for UIWebView's scalesPageToFit
+    private var wkUController: WKUserContentController {
+        // http://stackoverflow.com/questions/26295277/wkwebview-equivalent-for-uiwebviews-scalespagetofit
+        var jscript = "var meta = document.createElement('meta');"
+        jscript += "meta.name='viewport';"
+        jscript += "meta.content='width=device-width';"
+        jscript += "document.getElementsByTagName('head')[0].appendChild(meta);"
+        
+        let userScript = WKUserScript(source: jscript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+        let wkUController = WKUserContentController()
+        wkUController.addUserScript(userScript)
+        
+        return wkUController
     }
 }
 
