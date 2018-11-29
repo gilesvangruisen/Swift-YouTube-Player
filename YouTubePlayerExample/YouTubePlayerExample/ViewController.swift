@@ -47,7 +47,7 @@ class ViewController: UIViewController {
             "controls": "0",
             "showinfo": "0"
             ] as YouTubePlayerView.YouTubePlayerParameters
-        playerView.loadVideoID("wQg3bXrVLtg")
+        playerView.loadVideoID("qDS4iCpMiTE")
     }
 
     @IBAction func loadPlaylist(sender: UIButton) {
@@ -55,13 +55,17 @@ class ViewController: UIViewController {
     }
     
     @IBAction func currentTime(sender: UIButton) {
-        let title = String(format: "Current Time %@", playerView.getCurrentTime() ?? "0")
-        currentTimeButton.setTitle(title, for: .normal)
+        playerView.getCurrentTime(completion: { (time) in
+            let title = String(format: "Current Time %.2f", time ?? 0)
+            self.currentTimeButton.setTitle(title, for: .normal)
+        })
     }
     
     @IBAction func duration(sender: UIButton) {
-        let title = String(format: "Duration %@", playerView.getDuration() ?? "0")
-        durationButton.setTitle(title, for: .normal)
+        playerView.getDuration { (duration) in
+            let title = String(format: "Duration %.2f", duration ?? 0)
+            self.durationButton.setTitle(title, for: .normal)
+        }
     }
 
     func showAlert(message: String) {
