@@ -20,10 +20,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
-
-    @IBAction func play(sender: UIButton) {
+    
+    @IBAction func play(_ sender: UIButton) {
         if playerView.ready {
-            if playerView.playerState != YouTubePlayerState.Playing {
+            if playerView.playerState != YouTubePlayerState.playing {
                 playerView.play()
                 playButton.setTitle("Pause", for: .normal)
             } else {
@@ -32,36 +32,45 @@ class ViewController: UIViewController {
             }
         }
     }
+  
 
-    @IBAction func prev(sender: UIButton) {
+    @IBAction func prev(_ sender: UIButton) {
         playerView.previousVideo()
     }
 
-    @IBAction func next(sender: UIButton) {
+    @IBAction func next(_ sender: UIButton) {
         playerView.nextVideo()
     }
 
-    @IBAction func loadVideo(sender: UIButton) {
+    @IBAction func loadVideo(_ sender: UIButton) {
         playerView.playerVars = [
             "playsinline": "1",
             "controls": "0",
             "showinfo": "0"
             ] as YouTubePlayerView.YouTubePlayerParameters
-        playerView.loadVideoID("wQg3bXrVLtg")
+        playerView.loadVideoID("s4thQcgLCqk")
     }
 
-    @IBAction func loadPlaylist(sender: UIButton) {
-        playerView.loadPlaylistID("RDe-ORhEE9VVg")
+    @IBAction func loadPlaylist(_ sender: UIButton) {
+        playerView.loadPlaylistID("PL70DEC2B0568B5469")
     }
     
-    @IBAction func currentTime(sender: UIButton) {
-        let title = String(format: "Current Time %@", playerView.getCurrentTime() ?? "0")
-        currentTimeButton.setTitle(title, for: .normal)
+    @IBAction func currentTime(_ sender: UIButton) {
+        playerView.getCurrentTime { (val) in
+            DispatchQueue.main.async {
+                let title = String(format: "Current Time %@", val ?? "0")
+                self.currentTimeButton.setTitle(title, for: .normal)
+            }
+        }
     }
     
-    @IBAction func duration(sender: UIButton) {
-        let title = String(format: "Duration %@", playerView.getDuration() ?? "0")
-        durationButton.setTitle(title, for: .normal)
+    @IBAction func duration(_ sender: UIButton) {
+        playerView.getDuration { (val) in
+            DispatchQueue.main.async {
+                let title = String(format: "Duration %@", val ?? "0")
+                self.durationButton.setTitle(title, for: .normal)
+            }
+        }
     }
 
     func showAlert(message: String) {
