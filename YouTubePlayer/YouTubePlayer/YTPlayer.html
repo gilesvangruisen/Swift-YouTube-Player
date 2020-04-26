@@ -19,30 +19,60 @@
         <style>
             * { margin: 0; padding: 0; }
             html, body { width: 100%; height: 100%; }
-        </style>
+            </style>
     </head>
     <body>
+        <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
         <div id="player"></div>
-        <script src="https://www.youtube.com/iframe_api"></script>
-        <script>
-            var player;
-            YT.ready(function() {
-                     player = new YT.Player('player', %@);
-                     window.location.href = 'ytplayer://onYouTubeIframeAPIReady';
-                     });
-                     function onReady(event) {
-                         window.location.href = 'ytplayer://onReady?data=' + event.data;
-                     }
 
-        function onStateChange(event) {
-            window.location.href = 'ytplayer://onStateChange?data=' + event.data;
+        <script>
+            // 2. This code loads the IFrame Player API code asynchronously.
+            var tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            // 3. This function creates an <iframe> (and YouTube player)
+            // after the API code downloads.
+            var player;
+            function onYouTubeIframeAPIReady() {
+                player = new YT.Player('player', %@);
+            }
+
+        // 4. The API will call this function when the video player is ready.
+        function onPlayerReady(event) {
+            var root = new Object();
+            root.command = "onReady";
+            root.data = event.data;
+            window.webkit.messageHandlers.callback.postMessage(JSON.stringify(root));
+        }
+
+        // 5. The API calls this function when the player's state changes.
+        function onPlayerStateChange(event) {
+            var root = new Object();
+            root.command = "onPlayerStateChange";
+            var data = new Object();
+            data.state = event.data;
+            root.data = data;
+            window.webkit.messageHandlers.callback.postMessage(JSON.stringify(root));
         }
 
         function onPlaybackQualityChange(event) {
-            window.location.href = 'ytplayer://onPlaybackQualityChange?data=' + event.data;
+            var root = new Object();
+            root.command = "onPlaybackQualityChange";
+            var data = new Object();
+            data.quality = event.data;
+            root.data = data;
+            window.webkit.messageHandlers.callback.postMessage(JSON.stringify(root));
         }
+
         function onPlayerError(event) {
-            window.location.href = 'ytplayer://onError?data=' + event.data;
+            var root = new Object();
+            root.command = "onPlayerError";
+            var data = new Object();
+            data.exception = event.data;
+            root.data = data;
+            window.webkit.messageHandlers.callback.postMessage(JSON.stringify(root));
         }
         </script>
     </body>

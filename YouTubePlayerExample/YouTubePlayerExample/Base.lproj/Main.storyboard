@@ -1,126 +1,132 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <deployment version="4352" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="ViewController" customModule="YouTubePlayerExample" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
-                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iXa-Fg-dWt" customClass="YouTubePlayerView" customModule="YouTubePlayer">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pUn-qc-MTA" customClass="YouTubePlayerView" customModule="YouTubePlayer">
+                                <rect key="frame" x="20" y="44" width="374" height="245"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="iXa-Fg-dWt" secondAttribute="height" multiplier="16:9" id="f1f-xq-3qO"/>
+                                    <constraint firstAttribute="height" constant="245" id="lcC-9E-8pg"/>
                                 </constraints>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uef-LY-dac">
-                                <rect key="frame" x="141" y="234" width="93" height="47"/>
-                                <color key="backgroundColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Play">
-                                    <color key="titleColor" red="0.18343256413936615" green="0.18342706561088562" blue="0.18343016505241394" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="play:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="jjz-fP-RBO"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5QV-Tq-ZoO">
-                                <rect key="frame" x="16" y="310" width="154" height="47"/>
-                                <color key="backgroundColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Load Video">
-                                    <color key="titleColor" red="0.1834325641" green="0.18342706559999999" blue="0.18343016509999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="loadVideo:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Q1w-Zq-LzW"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gnM-c4-FYF">
-                                <rect key="frame" x="205" y="310" width="154" height="47"/>
-                                <color key="backgroundColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Load Playlist">
-                                    <color key="titleColor" red="0.1834325641" green="0.18342706559999999" blue="0.18343016509999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="loadPlaylist:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="YPf-qB-rXe"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iUs-Bm-Uj9" userLabel="Get Current Time">
-                                <rect key="frame" x="16" y="385" width="343" height="47"/>
-                                <color key="backgroundColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Current Time">
-                                    <color key="titleColor" red="0.1834325641" green="0.18342706559999999" blue="0.18343016509999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="currentTime:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="uVw-kM-Ose"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aKk-Z7-HPL">
-                                <rect key="frame" x="266" y="234" width="93" height="47"/>
-                                <color key="backgroundColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Next">
-                                    <color key="titleColor" red="0.1834325641" green="0.18342706559999999" blue="0.18343016509999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="next:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Fsh-G8-rB7"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="odQ-YH-WSP">
-                                <rect key="frame" x="16" y="234" width="93" height="47"/>
-                                <color key="backgroundColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Prev">
-                                    <color key="titleColor" red="0.1834325641" green="0.18342706559999999" blue="0.18343016509999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="prev:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="25U-86-RBJ"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UaE-Ko-A0w" userLabel="Get Duration">
-                                <rect key="frame" x="16" y="451" width="343" height="47"/>
-                                <color key="backgroundColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Duration">
-                                    <color key="titleColor" red="0.1834325641" green="0.18342706559999999" blue="0.18343016509999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="duration:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="h2d-4S-BgQ"/>
-                                </connections>
-                            </button>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="37" translatesAutoresizingMaskIntoConstraints="NO" id="Tab-7E-G6I" userLabel="Primary Stack View">
+                                <rect key="frame" x="20" y="297" width="374" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I8k-vY-MvC">
+                                        <rect key="frame" x="0.0" y="0.0" width="113" height="30"/>
+                                        <state key="normal" title="Previous"/>
+                                        <connections>
+                                            <action selector="prevWithSender:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="JCo-Ah-3BW"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbD-Tp-Kcg">
+                                        <rect key="frame" x="150" y="0.0" width="57.5" height="30"/>
+                                        <state key="normal" title="Play"/>
+                                        <connections>
+                                            <action selector="playWithSender:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ydV-Na-Q9f"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MQy-BT-tRa">
+                                        <rect key="frame" x="244.5" y="0.0" width="129.5" height="30"/>
+                                        <state key="normal" title="Next"/>
+                                        <connections>
+                                            <action selector="nextWithSender:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="siD-Tv-btc"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="XQ0-2f-5xK"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="74" translatesAutoresizingMaskIntoConstraints="NO" id="afL-3T-Gvp" userLabel="Secondary Stack View">
+                                <rect key="frame" x="20" y="335" width="374" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jgl-HY-g2E">
+                                        <rect key="frame" x="0.0" y="0.0" width="121.5" height="30"/>
+                                        <state key="normal" title="Load Video"/>
+                                        <connections>
+                                            <action selector="loadVideoWithSender:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="g8E-XS-5BP"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vj7-o6-ylh">
+                                        <rect key="frame" x="195.5" y="0.0" width="178.5" height="30"/>
+                                        <state key="normal" title="Load Playlist"/>
+                                        <connections>
+                                            <action selector="loadPlaylistWithSender:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="COq-M9-GPK"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="79U-fC-Pxy"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="d30-XD-ahh">
+                                <rect key="frame" x="20" y="373" width="374" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VJR-ab-eeS">
+                                        <rect key="frame" x="0.0" y="0.0" width="135" height="30"/>
+                                        <state key="normal" title="Current Time"/>
+                                        <connections>
+                                            <action selector="currentTimeWithSender:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="MvK-Hq-YAY"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kTU-Hy-jb6">
+                                        <rect key="frame" x="235" y="0.0" width="139" height="30"/>
+                                        <state key="normal" title="Duration"/>
+                                        <connections>
+                                            <action selector="durationWithSender:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="21k-RJ-kTy"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="0.092636585235595703" green="0.092633813619613647" blue="0.092635378241539001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.092636585235595703" green="0.092633813619613647" blue="0.092635378241539001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="iXa-Fg-dWt" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="4nf-y9-g3F"/>
-                            <constraint firstAttribute="trailing" secondItem="iXa-Fg-dWt" secondAttribute="trailing" id="Bk0-zD-ERI"/>
-                            <constraint firstItem="iXa-Fg-dWt" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="bKS-Az-Vgv"/>
+                            <constraint firstItem="afL-3T-Gvp" firstAttribute="leading" secondItem="v4y-tL-OcE" secondAttribute="leading" constant="20" id="20Y-yJ-UGx"/>
+                            <constraint firstItem="Tab-7E-G6I" firstAttribute="top" secondItem="pUn-qc-MTA" secondAttribute="bottom" constant="8" id="2Im-PT-obC"/>
+                            <constraint firstItem="v4y-tL-OcE" firstAttribute="trailing" secondItem="pUn-qc-MTA" secondAttribute="trailing" constant="20" id="67V-XY-KoF"/>
+                            <constraint firstItem="afL-3T-Gvp" firstAttribute="top" secondItem="Tab-7E-G6I" secondAttribute="bottom" constant="8" id="6dG-IM-OZM"/>
+                            <constraint firstItem="Tab-7E-G6I" firstAttribute="leading" secondItem="v4y-tL-OcE" secondAttribute="leading" constant="20" id="M1F-9d-LAr"/>
+                            <constraint firstItem="afL-3T-Gvp" firstAttribute="top" secondItem="Tab-7E-G6I" secondAttribute="bottom" constant="8" id="Q2V-3J-l7J"/>
+                            <constraint firstItem="v4y-tL-OcE" firstAttribute="trailing" secondItem="Tab-7E-G6I" secondAttribute="trailing" constant="20" id="f4L-6m-jVp"/>
+                            <constraint firstItem="Tab-7E-G6I" firstAttribute="top" secondItem="pUn-qc-MTA" secondAttribute="bottom" constant="8" id="fR8-Z1-Qrw"/>
+                            <constraint firstItem="pUn-qc-MTA" firstAttribute="top" secondItem="v4y-tL-OcE" secondAttribute="top" id="hh3-tF-GSt"/>
+                            <constraint firstItem="v4y-tL-OcE" firstAttribute="trailing" secondItem="d30-XD-ahh" secondAttribute="trailing" constant="20" id="lhG-Le-v2Q"/>
+                            <constraint firstItem="d30-XD-ahh" firstAttribute="top" secondItem="afL-3T-Gvp" secondAttribute="bottom" constant="8" id="nFA-LB-Ulv"/>
+                            <constraint firstItem="pUn-qc-MTA" firstAttribute="leading" secondItem="v4y-tL-OcE" secondAttribute="leading" constant="20" id="qdN-9P-tfL"/>
+                            <constraint firstItem="v4y-tL-OcE" firstAttribute="trailing" secondItem="afL-3T-Gvp" secondAttribute="trailing" constant="20" id="qos-8R-d1K"/>
+                            <constraint firstItem="d30-XD-ahh" firstAttribute="leading" secondItem="v4y-tL-OcE" secondAttribute="leading" constant="20" id="ui2-sp-Haa"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="v4y-tL-OcE"/>
                     </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="currentTimeButton" destination="iUs-Bm-Uj9" id="bY2-X8-9Mo"/>
-                        <outlet property="durationButton" destination="UaE-Ko-A0w" id="b5x-PB-1vg"/>
-                        <outlet property="playButton" destination="uef-LY-dac" id="gyA-sR-DUu"/>
-                        <outlet property="playerView" destination="iXa-Fg-dWt" id="Fsl-zB-twA"/>
+                        <outlet property="currentTimeButton" destination="VJR-ab-eeS" id="HSJ-Q1-Hw9"/>
+                        <outlet property="durationButton" destination="kTU-Hy-jb6" id="tCL-cd-URf"/>
+                        <outlet property="playButton" destination="pbD-Tp-Kcg" id="KRd-Xs-Rwu"/>
+                        <outlet property="playerView" destination="pUn-qc-MTA" id="mqU-JL-xmi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="315.5" y="46.5"/>
+            <point key="canvasLocation" x="163.768115942029" y="63.616071428571423"/>
         </scene>
     </scenes>
 </document>

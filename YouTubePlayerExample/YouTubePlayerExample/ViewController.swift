@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Giles Van Gruisen. All rights reserved.
 //
 
-import UIKit
+import WebKit
 import YouTubePlayer
 
 class ViewController: UIViewController {
@@ -22,50 +22,54 @@ class ViewController: UIViewController {
     }
 
     @IBAction func play(sender: UIButton) {
-        if playerView.ready {
-            if playerView.playerState != YouTubePlayerState.Playing {
-                playerView.play()
-                playButton.setTitle("Pause", for: .normal)
+        if self.playerView.ready {
+            if self.playerView.playerState != YouTubePlayerState.Playing {
+                self.playerView.play()
+                self.playButton.setTitle("Pause", for: .normal)
             } else {
-                playerView.pause()
-                playButton.setTitle("Play", for: .normal)
+                self.playerView.pause()
+                self.playButton.setTitle("Play", for: .normal)
             }
         }
     }
 
     @IBAction func prev(sender: UIButton) {
-        playerView.previousVideo()
+        self.playerView.previousVideo()
     }
 
     @IBAction func next(sender: UIButton) {
-        playerView.nextVideo()
+        self.playerView.nextVideo()
     }
 
     @IBAction func loadVideo(sender: UIButton) {
-        playerView.playerVars = [
+        self.playerView.playerVars = [
             "playsinline": "1",
             "controls": "0",
             "showinfo": "0"
             ] as YouTubePlayerView.YouTubePlayerParameters
-        playerView.loadVideoID("wQg3bXrVLtg")
+        self.playerView.loadVideoId("qIcTM8WXFjk")
     }
 
     @IBAction func loadPlaylist(sender: UIButton) {
-        playerView.loadPlaylistID("RDe-ORhEE9VVg")
+        self.playerView.loadPlaylistId("PL4dX1IHww9p0K8IlTvPnwmBpgdh0rl_Io")
     }
     
     @IBAction func currentTime(sender: UIButton) {
-        let title = String(format: "Current Time %@", playerView.getCurrentTime() ?? "0")
-        currentTimeButton.setTitle(title, for: .normal)
+        self.playerView.getCurrentTime(completion: { time in
+            let title = String(format: "Current Time %.2f", time)
+            self.currentTimeButton.setTitle(title, for: .normal)
+        })
     }
     
     @IBAction func duration(sender: UIButton) {
-        let title = String(format: "Duration %@", playerView.getDuration() ?? "0")
-        durationButton.setTitle(title, for: .normal)
+        self.playerView.getDuration(completion: { time in
+            let title = String(format: "Duration %.2f", time)
+            self.durationButton.setTitle(title, for: .normal)
+        })
     }
 
     func showAlert(message: String) {
-        self.present(alertWithMessage(message: message), animated: true, completion: nil)
+        self.present(self.alertWithMessage(message: message), animated: true, completion: nil)
     }
 
     func alertWithMessage(message: String) -> UIAlertController {
