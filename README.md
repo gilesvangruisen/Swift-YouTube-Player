@@ -2,6 +2,8 @@
 
 Embed and control YouTube videos in your iOS applications! Neato, right? Let's see how it works.
 
+**0.7.0 Update:** [`WKWebView` breaking changes](#breaking-changes)
+
 ## Installation
 
 ### Carthage
@@ -72,8 +74,8 @@ Each `YouTubePlayerView` has methods for controlling the player (play, pause, se
 * `func seekTo(seconds: Float, seekAhead: Bool)`
 * `func previousVideo()`
 * `func nextVideo()`
-* `func getCurrentTime()`
-* `func getDuration()`
+* `func getCurrentTime(completion: ((Double?) -> Void)?)`
+* `func getDuration(completion: ((Double?) -> Void)?))`
 
 Please note that calls to all but the first two methods will result in a JavaScript runtime error if they are called before the player is ready. The player will not be ready until shortly after a call to either `loadVideoURL(videoURL: NSURL)` or `loadVideoID(videoID: String)`. You can check the readiness of the player at any time by checking its `ready: Bool` property. These functions run asynchronously, so it is not guaranteed that a call to a play function will be safe if it immediately follows a call to a load function. I plan to update the library soon to add completion handlers to be called when the player is ready.
 
@@ -88,3 +90,13 @@ In the meantime, you can also the `YouTubePlayerDelegate` method `playerReady(vi
 * `func playerQualityChanged(videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality)`
 
 *Side note:* All these delegate methods are optional which means that you can implement none, all, or some of them in your delegate class.
+
+## Breaking Changes 
+
+**0.7.0**
+Transitioning from `UIWebView` (deprecated) to `WKWebView` required changing
+player calls which return values to be asynchronous. If you upgrade to 0.7.0,
+you will need to replace any call to either `getCurrentTime()` and
+`getDuration()` with its asynchronous equivalent, [documented
+above](#controlling-youtubeplayerview).
+
