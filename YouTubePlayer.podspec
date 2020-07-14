@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "YouTubePlayer"
-  s.version      = "0.7.1"
+  s.version      = "0.7.2"
   s.summary      = "Swift library for embedding and controlling YouTube videos in your iOS applications"
   s.homepage     = "https://github.com/gilesvangruisen/Swift-YouTube-Player"
   s.license      = { :type => "MIT", :file => "LICENSE" }
