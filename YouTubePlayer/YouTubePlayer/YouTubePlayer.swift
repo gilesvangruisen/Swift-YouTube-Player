@@ -219,6 +219,10 @@ open class YouTubePlayerView: UIView, WKNavigationDelegate {
     open func nextVideo() {
         evaluatePlayerCommand("nextVideo()")
     }
+    
+    open func cuePlaylist(videoID: String, index: Int, startSeconds: Float, suggestedQuality: YouTubePlaybackQuality) {
+        evaluatePlayerCommand("cuePlaylist(\(videoID), \(index), \(startSeconds), \(suggestedQuality.rawValue))")
+    }
 
     fileprivate func evaluatePlayerCommand(_ command: String, completion: ((Any?) -> Void)? = nil) {
         let fullCommand = "player." + command + ";"
