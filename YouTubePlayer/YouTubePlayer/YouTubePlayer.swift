@@ -220,7 +220,11 @@ open class YouTubePlayerView: UIView, WKNavigationDelegate {
         evaluatePlayerCommand("nextVideo()")
     }
     
-    open func cuePlaylist(videoID: String, index: Int, startSeconds: Float, suggestedQuality: YouTubePlaybackQuality) {
+    open func cueVideo(videoID: String, startSeconds: Float, suggestedQuality: YouTubePlaybackQuality) {
+        evaluatePlayerCommand("cueVideoById(\(videoID), \(startSeconds), \(suggestedQuality.rawValue))")
+    }
+    
+    open func cuePlaylist(playlistID: String, index: Int, startSeconds: Float, suggestedQuality: YouTubePlaybackQuality) {
         evaluatePlayerCommand("cuePlaylist(\(videoID), \(index), \(startSeconds), \(suggestedQuality.rawValue))")
     }
 
