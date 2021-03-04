@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Giles Van Gruisen. All rights reserved.
 //
 
+#if canImport(UIKit)
 import UIKit
 import WebKit
 
@@ -376,3 +377,4 @@ private func printLog(_ strings: CustomStringConvertible...) {
     let toPrint = ["[YouTubePlayer]"] + strings
     print(toPrint, separator: " ", terminator: "\n")
 }
+#endif
