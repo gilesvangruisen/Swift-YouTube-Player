@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Giles Van Gruisen. All rights reserved.
 //
 
+#if canImport(UIKit)
 import UIKit
 import WebKit
 
@@ -252,7 +253,7 @@ open class YouTubePlayerView: UIView, WKNavigationDelegate {
     }
 
     fileprivate func playerHTMLPath() -> String {
-        return Bundle(for: YouTubePlayerView.self).path(forResource: "YTPlayer", ofType: "html")!
+        return Bundle.module.path(forResource: "YTPlayer", ofType: "html")!
     }
 
     fileprivate func htmlStringWithFilePath(_ path: String) -> String? {
@@ -376,3 +377,4 @@ private func printLog(_ strings: CustomStringConvertible...) {
     let toPrint = ["[YouTubePlayer]"] + strings
     print(toPrint, separator: " ", terminator: "\n")
 }
+#endif

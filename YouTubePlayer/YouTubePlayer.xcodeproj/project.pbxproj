@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		50E5B9C91A4CAA050099BF69 /* YTPlayer.html in Resources */ = {isa = PBXBuildFile; fileRef = 50E5B9C81A4CAA050099BF69 /* YTPlayer.html */; };
 		50E5B9CB1A4CAA150099BF69 /* YouTubePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E5B9CA1A4CAA150099BF69 /* YouTubePlayer.swift */; };
+		E616AC7A25F0BBC200AAE4E2 /* YouTubePlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616AC7925F0BBC200AAE4E2 /* YouTubePlayerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -16,6 +17,7 @@
 		502AE8631A475FD500306AD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = YouTubePlayer/Info.plist; sourceTree = "<group>"; };
 		50E5B9C81A4CAA050099BF69 /* YTPlayer.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = YTPlayer.html; path = YouTubePlayer/YTPlayer.html; sourceTree = SOURCE_ROOT; };
 		50E5B9CA1A4CAA150099BF69 /* YouTubePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YouTubePlayer.swift; path = YouTubePlayer/YouTubePlayer.swift; sourceTree = SOURCE_ROOT; };
+		E616AC7925F0BBC200AAE4E2 /* YouTubePlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubePlayerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +34,7 @@
 		502AE8551A475FD500306AD1 = {
 			isa = PBXGroup;
 			children = (
+				E616AC7725F0BB8800AAE4E2 /* Tests */,
 				502AE8611A475FD500306AD1 /* YouTubePlayer */,
 				502AE8601A475FD500306AD1 /* Products */,
 			);
@@ -62,6 +65,22 @@
 				502AE8631A475FD500306AD1 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E616AC7725F0BB8800AAE4E2 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				E616AC7825F0BB9600AAE4E2 /* YouTubePlayerTests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		E616AC7825F0BB9600AAE4E2 /* YouTubePlayerTests */ = {
+			isa = PBXGroup;
+			children = (
+				E616AC7925F0BBC200AAE4E2 /* YouTubePlayerTests.swift */,
+			);
+			path = YouTubePlayerTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,6 +164,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E616AC7A25F0BBC200AAE4E2 /* YouTubePlayerTests.swift in Sources */,
 				50E5B9CB1A4CAA150099BF69 /* YouTubePlayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
