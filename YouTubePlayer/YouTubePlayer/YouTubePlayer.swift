@@ -132,7 +132,7 @@ open class YouTubePlayerView: UIView, WKNavigationDelegate {
 
     fileprivate func buildWebView(_ parameters: [String: AnyObject]) {
         let configuration = WKWebViewConfiguration()
-        configuration.allowsInlineMediaPlayback = true
+        configuration.allowsInlineMediaPlayback = false
         configuration.mediaPlaybackRequiresUserAction = false
         configuration.preferences.javaScriptEnabled = true
 
