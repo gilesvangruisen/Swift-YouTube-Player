@@ -132,7 +132,11 @@ open class YouTubePlayerView: UIView, WKNavigationDelegate {
 
     fileprivate func buildWebView(_ parameters: [String: AnyObject]) {
         let configuration = WKWebViewConfiguration()
-        configuration.allowsInlineMediaPlayback = true
+        
+        if let fullscreen = parameters["fullscreen"] as? Bool {
+            configuration.allowsInlineMediaPlayback = fullscreen ? false : true
+        }
+        
         configuration.mediaPlaybackRequiresUserAction = false
         configuration.preferences.javaScriptEnabled = true
 
@@ -281,6 +285,7 @@ open class YouTubePlayerView: UIView, WKNavigationDelegate {
         return [
             "height": "100%" as AnyObject,
             "width": "100%" as AnyObject,
+            "fullscreen": false as AnyObject,
             "events": playerCallbacks() as AnyObject,
             "playerVars": playerVars as AnyObject
         ]
