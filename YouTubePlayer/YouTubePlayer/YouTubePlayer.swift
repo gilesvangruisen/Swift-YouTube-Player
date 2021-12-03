@@ -147,13 +147,13 @@ open class YouTubePlayerView: UIView, WKNavigationDelegate {
 
     // MARK: Load player
 
-    open func loadVideoURL(_ videoURL: URL, _ playerVars: AnyObject?) {
+    open func loadVideoURL(_ videoURL: URL, _ playerVars: AnyObject? = nil) {
         if let videoID = videoIDFromYouTubeURL(videoURL) {
             loadVideoID(videoID, playerVars)
         }
     }
 
-    open func loadVideoID(_ videoID: String, _ playerVars: AnyObject?) {
+    open func loadVideoID(_ videoID: String, _ playerVars: AnyObject? = nil) {
         var playerParams = playerParameters()
         playerParams["videoId"] = videoID as AnyObject?
         
