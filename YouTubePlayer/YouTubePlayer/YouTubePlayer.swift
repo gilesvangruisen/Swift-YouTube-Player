@@ -147,18 +147,18 @@ open class YouTubePlayerView: UIView, WKNavigationDelegate {
 
     // MARK: Load player
 
-    open func loadVideoURL(_ videoURL: URL, _ fullscreen: Bool) {
+    open func loadVideoURL(_ videoURL: URL, _ playerVars: AnyObject?) {
         if let videoID = videoIDFromYouTubeURL(videoURL) {
-            loadVideoID(videoID, fullscreen)
+            loadVideoID(videoID, playerVars)
         }
     }
 
-    open func loadVideoID(_ videoID: String, _ fullscreen: Bool) {
+    open func loadVideoID(_ videoID: String, _ playerVars: AnyObject?) {
         var playerParams = playerParameters()
         playerParams["videoId"] = videoID as AnyObject?
         
-        if (fullscreen) {
-            playerParams["playerVars"] = ["playsinline" : 0] as AnyObject?
+        if (playerVars != nil) {
+            playerParams["playerVars"] = playerVars
         }
 
         loadWebViewWithParameters(playerParams)
