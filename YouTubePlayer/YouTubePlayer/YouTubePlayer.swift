@@ -132,6 +132,7 @@ open class YouTubePlayerView: UIView, WKNavigationDelegate {
 
     fileprivate func buildWebView(_ parameters: [String: AnyObject]) {
         let configuration = WKWebViewConfiguration()
+        
         configuration.allowsInlineMediaPlayback = true
         configuration.mediaPlaybackRequiresUserAction = false
         configuration.preferences.javaScriptEnabled = true
@@ -146,15 +147,19 @@ open class YouTubePlayerView: UIView, WKNavigationDelegate {
 
     // MARK: Load player
 
-    open func loadVideoURL(_ videoURL: URL) {
+    open func loadVideoURL(_ videoURL: URL, _ playerVars: AnyObject? = nil) {
         if let videoID = videoIDFromYouTubeURL(videoURL) {
-            loadVideoID(videoID)
+            loadVideoID(videoID, playerVars)
         }
     }
 
-    open func loadVideoID(_ videoID: String) {
+    open func loadVideoID(_ videoID: String, _ playerVars: AnyObject? = nil) {
         var playerParams = playerParameters()
         playerParams["videoId"] = videoID as AnyObject?
+        
+        if (playerVars != nil) {
+            playerParams["playerVars"] = playerVars
+        }
 
         loadWebViewWithParameters(playerParams)
     }
