@@ -34,7 +34,7 @@ public enum YouTubePlaybackQuality: String {
     case HighResolution = "highres"
 }
 
-public protocol YouTubePlayerDelegate: class {
+public protocol YouTubePlayerDelegate: AnyObject {
     func playerReady(_ videoPlayer: YouTubePlayerView)
     func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState)
     func playerQualityChanged(_ videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality)
@@ -86,7 +86,7 @@ public func videoIDFromYouTubeURL(_ videoURL: URL) -> String? {
 open class YouTubePlayerView: UIView, WKNavigationDelegate {
 
     public typealias YouTubePlayerParameters = [String: AnyObject]
-    public var baseURL = "about:blank"
+    public var baseURL = "https://www.youtube.com"
 
     fileprivate var webView: WKWebView!
 
