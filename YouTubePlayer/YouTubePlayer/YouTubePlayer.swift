@@ -74,12 +74,15 @@ private extension URL {
 }
 
 public func videoIDFromYouTubeURL(_ videoURL: URL) -> String? {
-    if videoURL.pathComponents.count > 1 && (videoURL.host?.hasSuffix("youtu.be"))! {
-        return videoURL.pathComponents[1]
-    } else if videoURL.pathComponents.contains("embed") {
-        return videoURL.pathComponents.last
+    let pattern = #"(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=|shorts\/)|youtu\.be\/|m\.youtube.com\/watch\?v=)([a-zA-Z0-9_-]{11})"#
+    let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+    let range = NSRange(location: 0, length: count)
+    guard let result = regex?.firstMatch(in: self, range: range) else {
+        return nil
     }
-    return videoURL.queryStringComponents()["v"] as? String
+    let idRange = result.range(at: 1)
+    let id = (self as NSString).substring(with: idRange)
+    return id
 }
 
 /** Embed and control YouTube videos */
