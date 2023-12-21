@@ -100,3 +100,7 @@ you will need to replace any call to either `getCurrentTime()` and
 `getDuration()` with its asynchronous equivalent, [documented
 above](#controlling-youtubeplayerview).
 
+**0.7.3**
+Now, We can change `WKWebView`'s userAgent.
+(Some video can't played in iOS WebView, so change userAgent to Desktop)
+
