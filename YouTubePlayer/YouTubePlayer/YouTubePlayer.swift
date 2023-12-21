@@ -143,6 +143,9 @@ open class YouTubePlayerView: UIView, WKNavigationDelegate {
         webView.scrollView.isScrollEnabled = false
     }
 
+    open func changeUserAgent(_ userAgent: String) {
+        webView.customUserAgent = userAgent
+    }
 
     // MARK: Load player
 
