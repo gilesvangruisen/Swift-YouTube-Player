@@ -23,6 +23,8 @@ public enum YouTubePlayerEvents: String {
     case Ready = "onReady"
     case StateChange = "onStateChange"
     case PlaybackQualityChange = "onPlaybackQualityChange"
+    case Error = "onError"
+
 }
 
 public enum YouTubePlaybackQuality: String {
@@ -38,6 +40,7 @@ public protocol YouTubePlayerDelegate: class {
     func playerReady(_ videoPlayer: YouTubePlayerView)
     func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState)
     func playerQualityChanged(_ videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality)
+    func playerEncounteredError(_ videoPlayer: YouTubePlayerView, errorMessage: String)
 }
 
 // Make delegate methods optional by providing default implementations
@@ -46,7 +49,7 @@ public extension YouTubePlayerDelegate {
     func playerReady(_ videoPlayer: YouTubePlayerView) {}
     func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {}
     func playerQualityChanged(_ videoPlayer: YouTubePlayerView, playbackQuality: YouTubePlaybackQuality) {}
-
+    func playerEncounteredError(_ videoPlayer: YouTubePlayerView, errorMessage: String) {}
 }
 
 private extension URL {
@@ -348,7 +351,10 @@ open class YouTubePlayerView: UIView, WKNavigationDelegate {
                     playbackQuality = newQuality
                     delegate?.playerQualityChanged(self, playbackQuality: newQuality)
                 }
-
+                
+            case .Error:
+                delegate?.playerEncounteredError(self, errorMessage: data ?? "Unknown error")
+                
                 break
             }
         }
